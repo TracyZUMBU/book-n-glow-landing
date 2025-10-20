@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroPhone from "@/assets/hero-phone.jpg";
 
 const Hero = () => {
@@ -40,12 +41,14 @@ const Hero = () => {
                 Rejoindre la liste d'attente
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-              >
-                Découvrir le concept
-              </Button>
+              <Link to="/tarifs">
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                >
+                  Voir les tarifs
+                </Button>
+              </Link>
             </div>
             
             <div className="flex items-center gap-8 justify-center lg:justify-start text-sm">
