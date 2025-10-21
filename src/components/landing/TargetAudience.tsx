@@ -17,18 +17,20 @@ const TargetAudience = () => {
               <Sparkles className="w-4 h-4" />
               <span>Pour les prestataires beauté d'Instagram</span>
             </div>
-            
+
             <h2 className="text-4xl md:text-5xl font-bold leading-tight">
               Book N' Glow s'adresse à{" "}
-              <span className="text-gradient">tous les artistes</span> de la beauté
+              <span className="text-gradient">tous les artistes</span> de la
+              beauté
             </h2>
-            
+
             <p className="text-lg text-muted-foreground">
-              Que vous soyez coiffeuse, maquilleuse, nail artist ou esthéticienne, 
-              Book N' Glow vous permet de créer une expérience de réservation unique 
-              qui reflète votre style et votre professionnalisme.
+              Que vous soyez coiffeuse, maquilleuse, nail artist ou
+              esthéticienne, Book N' Glow vous permet de gérer vos rendez-vous
+              comme une pro et d’offrir à vos clientes une expérience sans
+              accroc.
             </p>
-            
+
             <div className="grid grid-cols-2 gap-4">
               {audiences.map((audience, index) => {
                 const Icon = audience.icon;
@@ -45,14 +47,14 @@ const TargetAudience = () => {
                 );
               })}
             </div>
-            
+
             <div className="bg-card p-6 rounded-xl border-l-4 border-primary shadow-sm">
               <p className="text-muted-foreground italic">
-                "Plus de DM, plus de stress. Juste des rendez-vous qui brillent ✨"
+                "Plus de DM, plus de stress. Juste votre talent qui rayonne✨"
               </p>
             </div>
           </div>
-          
+
           <div className="relative animate-fade-in-up">
             <div className="aspect-square max-w-md mx-auto relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl blur-2xl" />
@@ -67,7 +69,10 @@ const TargetAudience = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     {[1, 2, 3].map((i) => (
-                      <div key={i} className="aspect-square bg-primary/10 rounded-lg" />
+                      <div
+                        key={i}
+                        className="aspect-square bg-primary/10 rounded-lg"
+                      />
                     ))}
                   </div>
                 </div>

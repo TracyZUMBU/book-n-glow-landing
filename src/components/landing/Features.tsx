@@ -1,25 +1,49 @@
-import { Zap, Palette, Clock, Shield } from "lucide-react";
+import {
+  BarChart,
+  BellRing,
+  Calendar,
+  Clock,
+  CreditCard,
+  Zap,
+} from "lucide-react";
 
 const features = [
   {
     icon: Zap,
     title: "Créez votre page en quelques minutes",
-    description: "Configuration simple et rapide. Personnalisez votre page à votre image en quelques clics.",
+    description:
+      "Configuration simple et rapide. Personnalisez votre page à votre image en quelques clics.",
   },
   {
     icon: Clock,
     title: "Automatisez vos prises de rendez-vous",
-    description: "Plus besoin de gérer les DM. Vos clients réservent directement en ligne, 24/7.",
+    description:
+      "Plus besoin de gérer les DM. Vos clients réservent directement en ligne, 24/7.",
+  },
+
+  {
+    icon: Calendar,
+    title: "Visibilité en temps réel",
+    description:
+      "Ta page montre les créneaux disponibles en temps réel — finis le stories manuelles.",
   },
   {
-    icon: Palette,
-    title: "Mettez votre image en valeur",
-    description: "Une page de réservation aussi belle que votre feed Instagram. Personnalisable à 100%.",
+    icon: BellRing,
+    title: "Notifications automatiques",
+    description:
+      "Recevoir des notifications pour chaque prise et annulation de RDV.",
   },
   {
-    icon: Shield,
-    title: "Gagnez du temps et évitez les messages privés",
-    description: "Libérez-vous de la gestion administrative. Concentrez-vous sur votre art.",
+    icon: BarChart,
+    title: "Dashboard complet",
+    description:
+      "Gère tes prix, prestations et règles d'annulation depuis un seul endroit — tout est intuitif.",
+  },
+  {
+    icon: CreditCard,
+    title: "Vérification des acomptes PayPalMe",
+    description:
+      "Notre système vérifie automatiquement les paiements d'acompte via PayPalMe.",
   },
 ];
 
@@ -31,12 +55,21 @@ const Features = () => {
           <h2 className="text-4xl md:text-5xl font-bold">
             Pourquoi <span className="text-gradient">Book N' Glow</span> ?
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Votre image mérite mieux qu'un calendrier classique. Découvrez une solution pensée pour les prestataires beauté.
+          <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
+            Si tu gères tes rendez-vous sur Instagram, tu sais que ça peut vite
+            devenir un casse-tête : stories à mettre à jour, DM qui
+            s'accumulent, annulations de dernière minute.{" "}
+          </p>
+
+          <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
+            <span className="text-gradient">Book N' Glow</span> centralise tout
+            : page de réservation personnalisée, gestion des prestations et
+            tarifs, règles d'annulation et notifications automatisées — visibles
+            en temps réel par tes clientes.
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
