@@ -54,9 +54,21 @@ All colors MUST be HSL.
     --radius: 1rem;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(340, 100%, 64%), hsl(291, 64%, 42%));
-    --gradient-soft: linear-gradient(180deg, hsl(340, 100%, 95%), hsl(291, 47%, 95%));
-    --gradient-glow: radial-gradient(circle, hsl(340, 100%, 64% / 0.15), transparent);
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(340, 100%, 64%),
+      hsl(291, 64%, 42%)
+    );
+    --gradient-soft: linear-gradient(
+      180deg,
+      hsl(340, 100%, 95%),
+      hsl(291, 47%, 95%)
+    );
+    --gradient-glow: radial-gradient(
+      circle,
+      hsl(340, 100%, 64% / 0.15),
+      transparent
+    );
 
     /* Shadows */
     --shadow-glow: 0 0 30px hsl(340, 100%, 64% / 0.3);
@@ -75,11 +87,16 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Playfair Display", serif;
   }
 }
 
@@ -99,5 +116,61 @@ All colors MUST be HSL.
   .glow-effect:hover {
     box-shadow: 0 0 40px hsl(340, 100%, 64% / 0.5);
     transform: translateY(-2px);
+  }
+
+  /* Container utilities for mobile optimization */
+  .container-mobile {
+    @apply container mx-auto;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-mobile {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-mobile {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container-mobile {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Alternative container with minimal mobile margins */
+  .container-minimal {
+    @apply container mx-auto;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-minimal {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-minimal {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .container-minimal {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
   }
 }

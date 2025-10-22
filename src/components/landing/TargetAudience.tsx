@@ -1,16 +1,33 @@
-import { Scissors, Sparkles, Hand, Heart, Calendar } from "lucide-react";
+import { Calendar, Hand, Heart, Scissors, Sparkles } from "lucide-react";
 
 const audiences = [
-  { icon: Scissors, label: "Coiffeuses" },
-  { icon: Sparkles, label: "Maquilleuses" },
-  { icon: Hand, label: "Nail Artists" },
-  { icon: Heart, label: "Esthéticiennes" },
+  { icon: Scissors, label: "Coiffeuses", iconName: "Scissors" },
+  { icon: Sparkles, label: "Maquilleuses", iconName: "Sparkles" },
+  { icon: Hand, label: "Nail Artists", iconName: "Hand" },
+  { icon: Heart, label: "Esthéticiennes", iconName: "Heart" },
 ];
 
 const TargetAudience = () => {
+  const renderMobileIndicator = (type: string) => {
+    switch (type) {
+      case "Scissors":
+        return <Scissors className="w-3 h-3 text-primary" />;
+      case "Sparkles":
+        return <Sparkles className="w-3 h-3 text-primary" />;
+      case "Heart":
+        return <Heart className="w-3 h-3 text-primary" />;
+      case "Hand":
+        return <Hand className="w-3 h-3 text-primary" />;
+      default:
+        return (
+          <span className="w-3 h-3 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+        );
+    }
+  };
+
   return (
     <section className="py-24 px-4 bg-gradient-to-br from-primary-light/10 via-background-light to-secondary-light/10">
-      <div className="container mx-auto max-w-7xl">
+      <div className="container-mobile max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">
             <div className="inline-flex items-center gap-2 bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-medium">
@@ -39,10 +56,17 @@ const TargetAudience = () => {
                     key={index}
                     className="flex items-center gap-3 p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-all duration-300 hover:scale-105"
                   >
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                    {/* Desktop/Tablet: Show icon */}
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center hidden sm:flex">
                       <Icon className="w-6 h-6 text-primary-foreground" />
                     </div>
-                    <span className="font-medium">{audience.label}</span>
+                    {/* Mobile: Show specific indicator */}
+                    <div className="sm:hidden">
+                      {renderMobileIndicator(audience.iconName)}
+                    </div>
+                    <span className="font-medium text-sm sm:text-base">
+                      {audience.label}
+                    </span>
                   </div>
                 );
               })}

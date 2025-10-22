@@ -55,8 +55,8 @@ const Waitlist = () => {
       id="waitlist"
       className="py-24 px-4 bg-gradient-to-br from-primary/5 via-background to-secondary/5"
     >
-      <div className="container mx-auto max-w-4xl">
-        <div className="bg-card rounded-3xl shadow-xl border border-border p-8 md:p-12 animate-fade-in">
+      <div className="container-mobile max-w-4xl">
+        <div className="bg-card rounded-3xl shadow-xl border border-border p-4 md:p-12 animate-fade-in">
           <div className="text-center mb-10 space-y-4">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
               <Sparkles className="w-4 h-4" />

@@ -1,0 +1,100 @@
+# Règles Cursor pour Book N' Glow Landing
+
+## Optimisation Mobile - Conteneurs
+
+### Classes de conteneurs disponibles :
+
+- `container-mobile` : Marges optimisées pour mobile (0.75rem sur mobile, 1rem sur tablet, 1.5rem sur desktop, 2rem sur large)
+- `container-minimal` : Marges minimales pour mobile (0.5rem sur mobile, 1rem sur tablet, 1.5rem sur desktop, 2rem sur large)
+- `container` : Classe Tailwind standard avec padding adaptatif (1rem sur mobile, 1.5rem sur tablet, 2rem sur desktop)
+
+### Règles d'utilisation :
+
+1. **TOUJOURS** utiliser `container-mobile` ou `container-minimal` au lieu de `container mx-auto` pour les nouveaux composants
+2. **Préférer** `container-mobile` pour la plupart des cas d'usage
+3. **Utiliser** `container-minimal` uniquement quand vous avez besoin de marges encore plus petites
+4. **Éviter** les classes `px-4` ou `px-6` sur les conteneurs principaux - utiliser les classes de conteneur optimisées à la place
+
+### Exemples d'utilisation :
+
+```tsx
+// ✅ CORRECT - Utiliser container-mobile
+<div className="container-mobile max-w-6xl">
+  <h1>Mon titre</h1>
+</div>
+
+// ✅ CORRECT - Utiliser container-minimal pour des marges très petites
+<div className="container-minimal max-w-4xl">
+  <p>Contenu avec marges minimales</p>
+</div>
+
+// ❌ INCORRECT - Ne pas utiliser container mx-auto
+<div className="container mx-auto max-w-6xl">
+  <h1>Mon titre</h1>
+</div>
+
+// ❌ INCORRECT - Ne pas ajouter px-4 sur un conteneur principal
+<div className="container-mobile max-w-6xl px-4">
+  <h1>Mon titre</h1>
+</div>
+```
+
+### Structure recommandée pour les sections :
+
+```tsx
+<section className="py-20">
+  <div className="container-mobile max-w-6xl">
+    {/* Contenu de la section */}
+  </div>
+</section>
+```
+
+## Design System
+
+### Couleurs principales :
+
+- Primary: `#ff4081` (Pink)
+- Secondary: `#9c27b0` (Purple)
+- Accent: `#03a9f4` (Blue)
+- Highlight: `#ffc107` (Gold)
+
+### Classes utilitaires :
+
+- `text-gradient` : Pour les textes avec dégradé
+- `glow-effect` : Pour les effets de lueur
+- `animate-fade-in` : Animation d'apparition
+- `animate-fade-in-up` : Animation d'apparition vers le haut
+
+### Typographie :
+
+- Titres : `font-serif` (Playfair Display)
+- Corps de texte : `font-sans` (Poppins)
+
+## Composants UI
+
+### Utiliser les composants shadcn/ui disponibles :
+
+- Button, Card, Input, etc. dans `src/components/ui/`
+- Toujours importer depuis `@/components/ui/`
+
+### Structure des pages :
+
+- Hero section avec `container-mobile`
+- Sections de contenu avec `container-mobile`
+- Footer avec `container-mobile`
+
+## Responsive Design
+
+### Breakpoints Tailwind :
+
+- `sm:` : 640px+
+- `md:` : 768px+
+- `lg:` : 1024px+
+- `xl:` : 1280px+
+- `2xl:` : 1536px+
+
+### Approche mobile-first :
+
+- Commencer par le design mobile
+- Utiliser les classes responsive pour les écrans plus grands
+- Tester sur mobile en priorité

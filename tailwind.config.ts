@@ -2,20 +2,29 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: {
+        DEFAULT: "1rem",
+        sm: "1.5rem",
+        lg: "2rem",
+      },
       screens: {
         "2xl": "1400px",
       },
     },
     extend: {
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        serif: ['Playfair Display', 'serif'],
+        sans: ["Poppins", "sans-serif"],
+        serif: ["Playfair Display", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -111,7 +120,7 @@ export default {
             boxShadow: "0 0 40px hsl(340, 100%, 64% / 0.6)",
           },
         },
-        "float": {
+        float: {
           "0%, 100%": {
             transform: "translateY(0px)",
           },
@@ -126,7 +135,7 @@ export default {
         "fade-in": "fade-in 0.6s ease-out",
         "fade-in-up": "fade-in-up 0.8s ease-out",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
-        "float": "float 3s ease-in-out infinite",
+        float: "float 3s ease-in-out infinite",
       },
     },
   },

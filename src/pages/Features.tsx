@@ -10,13 +10,14 @@ import {
   Smartphone,
   Users,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Features = () => {
   return (
     <>
       {/* Hero Section */}
       <section className="pt-20 pb-16 px-4 text-center">
-        <div className="container mx-auto max-w-6xl animate-fade-in">
+        <div className="container-mobile max-w-6xl animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             Des fonctionnalités pensées pour les{" "}
             <span className="text-gradient">pros d'Instagram</span>
@@ -44,7 +45,7 @@ const Features = () => {
 
       {/* Instagram-Specific Features */}
       <section className="py-20 px-4 bg-background-light">
-        <div className="container mx-auto max-w-8xl">
+        <div className="container-mobile max-w-8xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-serif font-bold mb-6">
@@ -118,7 +119,7 @@ const Features = () => {
 
       {/* Automation Features */}
       <section className="py-20 px-4">
-        <div className="container mx-auto max-w-8xl">
+        <div className="container-mobile max-w-8xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
               <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl p-8 aspect-square flex items-center justify-center">
@@ -205,7 +206,7 @@ const Features = () => {
 
       {/* Protection & Management */}
       <section className="py-20 px-4 bg-background-light">
-        <div className="container mx-auto max-w-8xl">
+        <div className="container-mobile max-w-8xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-serif font-bold mb-6">
@@ -288,7 +289,7 @@ const Features = () => {
 
       {/* CTA Section */}
       <section className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl text-center">
+        <div className="container-mobile max-w-6xl text-center">
           <h2 className="text-4xl font-serif font-bold mb-6">
             Prêt à transformer votre activité Instagram ?
           </h2>
@@ -298,10 +299,15 @@ const Features = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="text-lg px-8">
-              Commencer gratuitement
+              <Link
+                to="https://book-n-glow.fr/sign-in/prestataire"
+                target="_blank"
+              >
+                Commencer gratuitement
+              </Link>
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8">
-              Découvrir les tarifs
+              <Link to="/tarifs">Découvrir les tarifs</Link>
             </Button>
           </div>
         </div>

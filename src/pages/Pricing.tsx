@@ -1,4 +1,5 @@
 import Footer from "@/components/landing/Footer";
+import Waitlist from "@/components/landing/Waitlist";
 import { Button } from "@/components/ui/button";
 import { Check, Crown, Sparkles } from "lucide-react";
 
@@ -17,7 +18,7 @@ const plans = [
       "Pas de réservation en ligne",
       "Lien bio Instagram",
     ],
-    cta: "Commencer gratuitement",
+    cta: "Rejoindre la liste d'attente",
     popular: false,
     free: true,
   },
@@ -36,31 +37,47 @@ const plans = [
       "Gestion des rendez-vous",
       "Notifications clients",
     ],
-    cta: "Choisir Complet",
+    cta: "Rejoindre la liste d'attente",
     popular: true,
     free: false,
   },
 ];
 
 const Pricing = () => {
+  const scrollToWaitlist = () => {
+    const waitlistSection = document.getElementById("waitlist");
+    if (waitlistSection) {
+      waitlistSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 text-center">
-        <div className="container mx-auto max-w-4xl animate-fade-in">
+      <section className="pt-20  px-4 text-center">
+        <div className="container-mobile max-w-4xl animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             <span className="text-gradient">Tarifs</span>
           </h1>
+          <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <span>
+              En raison d’un grand engouement, les inscriptions sont fermées
+              pour le moment. <br /> Restez à l’affût, la réouverture arrive
+              bientôt
+            </span>
+          </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Commencez gratuitement ou optez pour la solution complète. Le plan
-            payant inclut 14 jours d'essai gratuit.
+            Rejoignez notre liste d'attente pour être parmi les premières à
+            accéder à Book N' Glow dès sa réouverture.
+            {/* Commencez gratuitement ou optez pour la solution complète. Le plan
+            payant inclut 14 jours d'essai gratuit. */}
           </p>
         </div>
       </section>
 
       {/* Pricing Plans */}
       <section className="py-20 px-4">
-        <div className="container mx-auto max-w-7xl">
+        <div className="container-mobile max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-serif font-bold mb-4">
               Choisissez votre plan
@@ -127,6 +144,7 @@ const Pricing = () => {
                     }
                     size="lg"
                     className="w-full"
+                    onClick={scrollToWaitlist}
                   >
                     {plan.cta}
                   </Button>
@@ -147,6 +165,7 @@ const Pricing = () => {
         </div>
       </section>
 
+      <Waitlist />
       <Footer />
     </>
   );
