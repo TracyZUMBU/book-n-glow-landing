@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
+import Booking from "./pages/Booking";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => (
             }
           />
           <Route path="/profil/:id" element={<ProviderProfile />} />
+          <Route path="/reserver/:serviceId" element={<Booking />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

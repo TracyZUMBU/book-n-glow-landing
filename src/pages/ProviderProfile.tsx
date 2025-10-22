@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { MapPin, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -59,6 +60,7 @@ const categories = [
 ];
 
 const ProviderProfile = () => {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("tous");
   const [showDetails, setShowDetails] = useState<number | null>(null);
 
@@ -172,6 +174,7 @@ const ProviderProfile = () => {
                           variant="hero"
                           size="lg"
                           className="w-full sm:w-auto"
+                          onClick={() => navigate(`/reserver/${service.id}`)}
                         >
                           Choisir
                         </Button>
