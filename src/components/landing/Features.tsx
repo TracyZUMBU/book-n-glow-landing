@@ -49,7 +49,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-24 px-4 bg-background-light">
+    <section className="pt-10 pb-16 md:pt-20 md:pb-32 px-4 bg-background-light">
       <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-16 space-y-4 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold">

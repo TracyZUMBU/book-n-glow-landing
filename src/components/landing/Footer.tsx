@@ -79,12 +79,12 @@ const Footer = () => {
                 <Instagram className="w-5 h-5" />
               </a>
 
-              <a
-                href="mailto:contact@booknglow.com"
+              <Link
+                to="/contact"
                 className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-primary-foreground hover:scale-110 transition-transform"
               >
                 <Mail className="w-5 h-5" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

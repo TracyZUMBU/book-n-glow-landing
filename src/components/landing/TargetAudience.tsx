@@ -26,7 +26,7 @@ const TargetAudience = () => {
   };
 
   return (
-    <section className="py-24 px-4 bg-gradient-to-br from-primary-light/10 via-background-light to-secondary-light/10">
+    <section className="py-12 md:py-24 px-4 bg-gradient-to-br from-primary-light/10 via-background-light to-secondary-light/10">
       <div className="container-mobile max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">

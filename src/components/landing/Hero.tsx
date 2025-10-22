@@ -16,7 +16,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-light/10 via-background to-secondary-light/10 pt-20 pb-32 px-4">
+    <section className="relative overflow-hidden bg-gradient-to-br from-primary-light/10 via-background to-secondary-light/10 pt-10 pb-16 md:pt-20 md:pb-32 px-4">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(340,100%,64%,0.08),transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,hsl(291,64%,42%,0.08),transparent_50%)]" />
 

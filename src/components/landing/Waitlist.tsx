@@ -53,7 +53,7 @@ const Waitlist = () => {
   return (
     <section
       id="waitlist"
-      className="py-24 px-4 bg-gradient-to-br from-primary/5 via-background to-secondary/5"
+      className="py-12 md:py-24 px-4 bg-gradient-to-br from-primary/5 via-background to-secondary/5"
     >
       <div className="container-mobile max-w-4xl">
         <div className="bg-card rounded-3xl shadow-xl border border-border p-4 md:p-12 animate-fade-in">

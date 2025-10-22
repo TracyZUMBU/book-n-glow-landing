@@ -2,6 +2,7 @@ import Footer from "@/components/landing/Footer";
 import Waitlist from "@/components/landing/Waitlist";
 import { Button } from "@/components/ui/button";
 import { Check, Crown, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const plans = [
   {
@@ -54,7 +55,7 @@ const Pricing = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-20  px-4 text-center">
+      <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 text-center">
         <div className="container-mobile max-w-4xl animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             <span className="text-gradient">Tarifs</span>
@@ -76,7 +77,7 @@ const Pricing = () => {
       </section>
 
       {/* Pricing Plans */}
-      <section className="py-20 px-4">
+      <section className="py-10 md:py-20 px-4">
         <div className="container-mobile max-w-7xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-serif font-bold mb-4">
@@ -103,7 +104,8 @@ const Pricing = () => {
                 >
                   {plan.popular && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-secondary text-primary-foreground px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                      Le plus populaire ✨
+                      Le plus populaire{" "}
+                      <span className="hidden sm:inline">✨</span>
                     </div>
                   )}
 
@@ -159,7 +161,7 @@ const Pricing = () => {
               aider.
             </p>
             <Button variant="ghost" size="lg">
-              Contactez notre support
+              <Link to="/contact">Contactez notre support</Link>
             </Button>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navigation from "./components/landing/Navigation";
+import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Features from "./pages/Features";
 import Index from "./pages/Index";
@@ -44,6 +45,15 @@ const App = () => (
               <div className="min-h-screen">
                 <Navigation />
                 <Features />
+              </div>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <div className="min-h-screen">
+                <Navigation />
+                <Contact />
               </div>
             }
           />

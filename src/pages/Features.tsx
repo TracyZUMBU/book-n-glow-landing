@@ -16,7 +16,7 @@ const Features = () => {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 text-center">
+      <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 text-center">
         <div className="container-mobile max-w-6xl animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             Des fonctionnalités pensées pour les{" "}
@@ -44,7 +44,7 @@ const Features = () => {
       </section>
 
       {/* Instagram-Specific Features */}
-      <section className="py-20 px-4 bg-background-light">
+      <section className="py-10 md:py-20 px-4 bg-background-light">
         <div className="container-mobile max-w-8xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -118,7 +118,7 @@ const Features = () => {
       </section>
 
       {/* Automation Features */}
-      <section className="py-20 px-4">
+      <section className="py-10 md:py-20 px-4">
         <div className="container-mobile max-w-8xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -205,7 +205,7 @@ const Features = () => {
       </section>
 
       {/* Protection & Management */}
-      <section className="py-20 px-4 bg-background-light">
+      <section className="py-10 md:py-20 px-4 bg-background-light">
         <div className="container-mobile max-w-8xl">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -288,7 +288,7 @@ const Features = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
+      <section className="py-10 md:py-20 px-4">
         <div className="container-mobile max-w-6xl text-center">
           <h2 className="text-4xl font-serif font-bold mb-6">
             Prêt à transformer votre activité Instagram ?

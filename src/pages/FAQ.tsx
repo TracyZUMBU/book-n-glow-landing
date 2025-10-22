@@ -4,7 +4,7 @@ export default function FAQ() {
   return (
     <>
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 text-center">
+      <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 text-center">
         <div className="container mx-auto max-w-4xl animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             Questions <span className="text-gradient">Fréquentes</span>
@@ -17,7 +17,7 @@ export default function FAQ() {
       </section>
 
       {/* FAQ Content */}
-      <section className="py-16 px-4 bg-background-light">
+      <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 bg-background-light">
         <div className="container mx-auto max-w-3xl">
           <div className="space-y-6">
             <div className="bg-card p-6 rounded-2xl border border-border">
