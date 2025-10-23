@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
-  ChevronDown,
-  Clock,
-  Euro,
-  Instagram,
-  MapPin,
+  Calendar,
+  EyeClosed,
+  Heart,
+  Scissors,
   Sparkles,
 } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -84,188 +83,91 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 blur-3xl" />
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl" />
 
-            {/* Booking page mockup */}
-            <div className="relative w-72 h-[600px] mx-auto">
-              {/* Phone frame */}
-              <div className="absolute inset-0 bg-gradient-to-b from-gray-100 to-gray-200 rounded-[2.5rem] p-1.5 shadow-2xl">
-                <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden relative">
-                  {/* Screen content */}
-                  <div className="w-full h-full bg-white flex flex-col">
-                    {/* Status bar */}
-                    <div className="flex justify-between items-center text-gray-800 text-xs px-4 py-2 bg-gray-100">
-                      <span>12:12</span>
-                      <div className="flex gap-1">
-                        <div className="w-3 h-1.5 bg-gray-600 rounded-sm"></div>
-                        <div className="w-3 h-1.5 bg-gray-600 rounded-sm"></div>
-                        <div className="w-3 h-1.5 bg-gray-400 rounded-sm"></div>
-                      </div>
-                    </div>
+            {/* Geometric composition */}
+            <div className="relative w-80 h-80 mx-auto">
+              {/* Main geometric shapes */}
 
-                    {/* App header */}
-                    <div className="flex items-center justify-between px-4 py-3 border-b">
-                      <div className="w-6 h-6 bg-gray-300 rounded"></div>
-                      <h3 className="text-gray-800 font-bold text-lg">
-                        Book N' Glow
-                      </h3>
-                      <div className="w-6 h-6"></div>
-                    </div>
+              {/* Large central circle */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-br from-primary/30 to-secondary/30 rounded-full blur-sm animate-pulse" />
 
-                    {/* Navigation tabs */}
-                    <div className="flex border-b">
-                      <div className="flex-1 text-center py-3 border-b-2 border-primary">
-                        <span className="text-primary font-medium text-sm">
-                          Prendre RDV
-                        </span>
-                      </div>
-                      <div className="flex-1 text-center py-3">
-                        <span className="text-gray-500 text-sm">À-propos</span>
-                      </div>
-                    </div>
-
-                    {/* Hero image placeholder */}
-                    <div className="h-32 bg-gradient-to-br from-pink-100 to-rose-200 mx-4 mt-4 rounded-xl flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="w-12 h-12 bg-pink-300 rounded-full mx-auto mb-2"></div>
-                        <div className="text-xs text-gray-600">
-                          Image du salon
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Business info */}
-                    <div className="px-4 py-3">
-                      <h4 className="text-gray-800 font-bold text-lg mb-1">
-                        Nail's Ange
-                      </h4>
-                      <div className="flex items-center gap-1 mb-1">
-                        <MapPin className="w-3 h-3 text-gray-500" />
-                        <span className="text-gray-600 text-sm">
-                          14 rue de lion, Paris, 75002
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Instagram className="w-3 h-3 text-gray-500" />
-                        <span className="text-gray-600 text-sm">
-                          @nails_ange
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Services section */}
-                    <div className="px-4 mb-3">
-                      <h5 className="text-gray-800 font-bold text-sm mb-2">
-                        Services proposés
-                      </h5>
-
-                      {/* Category tabs */}
-                      <div className="flex gap-2 mb-3">
-                        <div className="px-3 py-1 bg-primary text-white rounded-full text-xs">
-                          Tous
-                        </div>
-                        <div className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-                          Cils
-                        </div>
-                        <div className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-                          Ongles
-                        </div>
-                        <div className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs">
-                          Épilation
-                        </div>
-                      </div>
-
-                      {/* Service list */}
-                      <div className="space-y-3">
-                        {/* Service 1 */}
-                        <div className="bg-gray-50 rounded-xl p-3">
-                          <h6 className="text-gray-800 font-medium text-sm mb-1">
-                            Extension cils - Volume Mixte
-                          </h6>
-                          <p className="text-gray-600 text-xs mb-2 line-clamp-2">
-                            Non dolores ex at fugiat a doloremque. Iste error
-                            officia porro maxime in...
-                          </p>
-                          <div className="flex items-center gap-1 mb-2">
-                            <span className="text-xs text-primary">
-                              Plus de détails
-                            </span>
-                            <ChevronDown className="w-3 h-3 text-primary" />
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-1">
-                                <Euro className="w-3 h-3 text-gray-600" />
-                                <span className="text-gray-800 font-medium text-sm">
-                                  80
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-3 h-3 text-gray-600" />
-                                <span className="text-gray-600 text-xs">
-                                  90min
-                                </span>
-                              </div>
-                            </div>
-                            <button className="bg-primary text-white px-4 py-1 rounded-lg text-xs">
-                              Choisir
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Service 2 */}
-                        <div className="bg-gray-50 rounded-xl p-3">
-                          <h6 className="text-gray-800 font-medium text-sm mb-1">
-                            Nail art
-                          </h6>
-                          <p className="text-gray-600 text-xs mb-2 line-clamp-2">
-                            Recusandae amet sapiente officia. Repudiandae totam
-                            et. Voluptatem quas...
-                          </p>
-                          <div className="flex items-center gap-1 mb-2">
-                            <span className="text-xs text-primary">
-                              Plus de détails
-                            </span>
-                            <ChevronDown className="w-3 h-3 text-primary" />
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="flex items-center gap-1">
-                                <Euro className="w-3 h-3 text-gray-600" />
-                                <span className="text-gray-800 font-medium text-sm">
-                                  100
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <Clock className="w-3 h-3 text-gray-600" />
-                                <span className="text-gray-600 text-xs">
-                                  60min
-                                </span>
-                              </div>
-                            </div>
-                            <button className="bg-primary text-white px-4 py-1 rounded-lg text-xs">
-                              Choisir
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              {/* Floating geometric elements */}
+              <div className="absolute top-8 left-8 w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl rotate-12 animate-float">
+                <div className="w-full h-full flex items-center justify-center">
+                  <Calendar className="w-8 h-8 text-white" />
                 </div>
               </div>
+
+              <div
+                className="absolute top-16 right-12 w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-xl -rotate-12 animate-float"
+                style={{ animationDelay: "0.5s" }}
+              >
+                <div className="w-full h-full flex items-center justify-center">
+                  <EyeClosed className="w-6 h-6 text-white" />
+                </div>
+              </div>
+
+              <div
+                className="absolute bottom-20 left-12 w-14 h-14 bg-gradient-to-br from-accent to-primary rounded-full animate-float"
+                style={{ animationDelay: "1s" }}
+              >
+                <div className="w-full h-full flex items-center justify-center">
+                  <Heart className="w-7 h-7 text-white" />
+                </div>
+              </div>
+
+              <div
+                className="absolute bottom-8 right-8 w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg rotate-45 animate-float"
+                style={{ animationDelay: "1.5s" }}
+              >
+                <div className="w-full h-full flex items-center justify-center">
+                  <Scissors className="w-5 h-5 text-white" />
+                </div>
+              </div>
+
+              {/* Decorative lines and curves */}
+              <div className="absolute top-1/4 left-1/4 w-32 h-1 bg-gradient-to-r from-primary/50 to-transparent rounded-full rotate-45" />
+              <div className="absolute bottom-1/4 right-1/4 w-24 h-1 bg-gradient-to-r from-secondary/50 to-transparent rounded-full -rotate-45" />
+
+              {/* Small floating dots */}
+              <div
+                className="absolute top-1/3 right-1/3 w-3 h-3 bg-primary/60 rounded-full animate-pulse"
+                style={{ animationDelay: "0.3s" }}
+              />
+              <div
+                className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-secondary/60 rounded-full animate-pulse"
+                style={{ animationDelay: "0.8s" }}
+              />
+              <div
+                className="absolute top-2/3 left-1/2 w-2.5 h-2.5 bg-accent/60 rounded-full animate-pulse"
+                style={{ animationDelay: "1.2s" }}
+              />
+
+              {/* Central glow effect */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-xl animate-pulse" />
             </div>
 
-            {/* Minimal floating elements */}
-            <div className="absolute top-8 -right-6 animate-float">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-xl flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-primary" />
+            {/* Additional floating elements around the composition */}
+            <div className="absolute top-4 -right-8 animate-float">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                <Sparkles className="w-6 h-6 text-primary" />
               </div>
             </div>
 
             <div
-              className="absolute bottom-12 -left-4 animate-float"
-              style={{ animationDelay: "1s" }}
+              className="absolute bottom-8 -left-6 animate-float"
+              style={{ animationDelay: "1.2s" }}
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-secondary" />
+              <div className="w-10 h-10 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                <Sparkles className="w-5 h-5 text-secondary" />
+              </div>
+            </div>
+
+            <div
+              className="absolute top-1/2 -right-12 animate-float"
+              style={{ animationDelay: "0.7s" }}
+            >
+              <div className="w-8 h-8 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                <Sparkles className="w-4 h-4 text-accent" />
               </div>
             </div>
           </div>

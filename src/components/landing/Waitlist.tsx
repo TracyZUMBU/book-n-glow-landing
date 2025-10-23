@@ -1,6 +1,13 @@
 import { submitToWaitlist } from "@/api/waitlist";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
@@ -96,16 +103,33 @@ const Waitlist = () => {
                 <label htmlFor="activity" className="text-sm font-medium">
                   Activité
                 </label>
-                <Input
-                  id="activity"
-                  type="text"
-                  placeholder="Ex: Coiffeuse, Maquilleuse..."
+                <Select
                   value={formData.activity}
-                  onChange={(e) =>
-                    setFormData({ ...formData, activity: e.target.value })
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, activity: value })
                   }
-                  className="h-12"
-                />
+                >
+                  <SelectTrigger className="h-12">
+                    <SelectValue placeholder="Sélectionnez votre activité" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="coiffeuse">Coiffeuse</SelectItem>
+                    <SelectItem value="maquilleuse">Maquilleuse</SelectItem>
+                    <SelectItem value="nail-artist">Nail Artist</SelectItem>
+                    <SelectItem value="esthéticienne">Esthéticienne</SelectItem>
+                    <SelectItem value="massage">Massage</SelectItem>
+                    <SelectItem value="microblading">
+                      {" "}
+                      Sourcils / Microblading
+                    </SelectItem>
+
+                    <SelectItem value="extension-cils">
+                      Extension cils / Permanente cils
+                    </SelectItem>
+                    <SelectItem value="epilation">Épilation</SelectItem>
+                    <SelectItem value="autre">Autre</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
