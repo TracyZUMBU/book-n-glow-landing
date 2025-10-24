@@ -28,7 +28,7 @@ const Booking = () => {
   const [selectedTime, setSelectedTime] = useState<string>("10:00");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-  const [step, setStep] = useState<"service" | "slot" | "info" | "summary" | "payment" | "confirmation">("service");
+  const [step, setStep] = useState<"service" | "slot" | "info" | "summary" | "payment-info" | "payment" | "confirmation">("service");
 
   // Mock service data
   const service = {
@@ -73,7 +73,8 @@ const Booking = () => {
     if (step === "service") setStep("slot");
     else if (step === "slot") setStep("info");
     else if (step === "info" && isAuthenticated) setStep("summary");
-    else if (step === "summary") setStep("payment");
+    else if (step === "summary") setStep("payment-info");
+    else if (step === "payment-info") setStep("payment");
     else if (step === "payment") setStep("confirmation");
   };
 
@@ -327,6 +328,35 @@ const Booking = () => {
     </Card>
   );
 
+  const renderPaymentInfo = () => (
+    <Card className="p-6 border-2 border-border bg-card">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+          <CreditCard className="w-6 h-6 text-primary-foreground" />
+        </div>
+        <h2 className="text-2xl font-display font-semibold text-foreground">Paiement</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-xl font-semibold text-foreground mb-4">Paiement sur place</h3>
+          <p className="text-muted-foreground">
+            Un montant de <span className="text-primary font-bold text-lg">{calculateTotal()}€</span> sera à régler le jour du rendez-vous{" "}
+            <span className="font-semibold text-foreground">uniquement en espèces</span>.
+          </p>
+        </div>
+
+        <div className="border-l-4 border-primary bg-primary/5 p-4 rounded-r-lg">
+          <h4 className="text-lg font-semibold text-foreground mb-3">Politique d'annulation</h4>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Ce rendez-vous ne peut pas être annulé. Assurez-vous d'être en mesure de vous présenter le jour du rendez-vous. 
+            Si vous ne vous présentez pas, vous risquez la suspension, voire la suppression définitive de votre compte.
+          </p>
+        </div>
+      </div>
+    </Card>
+  );
+
   const renderPayment = () => (
     <Card className="p-6 border-2 border-border bg-card">
       <div className="flex items-center gap-3 mb-6">
@@ -411,7 +441,8 @@ const Booking = () => {
                       if (step === "slot") setStep("service");
                       else if (step === "info") setStep("slot");
                       else if (step === "summary") setStep("info");
-                      else if (step === "payment") setStep("summary");
+                      else if (step === "payment-info") setStep("summary");
+                      else if (step === "payment") setStep("payment-info");
                     }}
                   >
                     <ChevronLeft className="w-4 h-4 mr-2" />
@@ -427,6 +458,7 @@ const Booking = () => {
             {step === "slot" && renderTimeSlots()}
             {step === "info" && renderClientInfo()}
             {step === "summary" && renderSummary()}
+            {step === "payment-info" && renderPaymentInfo()}
             {step === "payment" && renderPayment()}
             {step === "confirmation" && renderConfirmation()}
 
@@ -438,7 +470,7 @@ const Booking = () => {
                 onClick={handleContinue}
                 disabled={step === "info" && !isAuthenticated}
               >
-                {step === "payment" ? "Confirmer et payer" : "Continuer"}
+                {step === "payment-info" ? "Confirmer la réservation" : step === "payment" ? "Confirmer et payer" : "Continuer"}
               </Button>
             )}
           </div>
