@@ -1,5 +1,5 @@
+import TopBar from "@/components/TopBar";
 import Hero from "@/components/landing/Hero";
-import AuthTabs from "@/components/landing/AuthTabs";
 import Features from "@/components/landing/Features";
 import HowItWorks from "@/components/landing/HowItWorks";
 import TargetAudience from "@/components/landing/TargetAudience";
@@ -10,8 +10,8 @@ import Footer from "@/components/landing/Footer";
 const Index = () => {
   return (
     <div className="min-h-screen">
+      <TopBar />
       <Hero />
-      <AuthTabs />
       <Features />
       <HowItWorks />
       <TargetAudience />
