@@ -32,7 +32,7 @@ const TargetAudience = () => {
           <div className="space-y-8 animate-fade-in">
             <div className="inline-flex items-center gap-2 bg-secondary/10 text-secondary px-4 py-2 rounded-full text-sm font-medium">
               <Sparkles className="w-4 h-4" />
-              <span>Pour les prestataires beauté d'Instagram</span>
+              <span>Rejoignez les prestataires beauté qui brillent</span>
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold leading-tight">

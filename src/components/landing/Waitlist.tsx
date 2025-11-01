@@ -41,7 +41,7 @@ const Waitlist = () => {
 
       toast({
         title: "Bienvenue dans la communauté ! ✨",
-        description: "Vous recevrez bientôt un email de confirmation.",
+        description: "On vous tiens au jus ! 💅",
       });
 
       setFormData({ firstName: "", email: "", activity: "" });

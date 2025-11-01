@@ -1,3 +1,9 @@
+import {
+  getWaitlistNotificationTemplate,
+  sendEmail,
+} from "@/services/sendEmail";
+import { createClient } from "@supabase/supabase-js";
+
 interface WaitlistData {
   firstName: string;
   email: string;
@@ -6,24 +12,34 @@ interface WaitlistData {
 
 export const submitToWaitlist = async (data: WaitlistData) => {
   try {
-    // En développement, utiliser le serveur Express sur le port 3001
-    const apiUrl = import.meta.env.DEV
-      ? "http://localhost:3001/api/waitlist"
-      : "/api/waitlist";
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-    const response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error("Erreur lors de l'envoi");
+    if (!supabaseUrl || !supabaseAnonKey) {
+      throw new Error("Supabase URL and Anon Key must be configured");
     }
 
-    return await response.json();
+    createClient(supabaseUrl, supabaseAnonKey);
+
+    const notificationHtml = getWaitlistNotificationTemplate({
+      name: data.firstName,
+      email: data.email,
+      activity: data.activity,
+    });
+
+    const contactEmail =
+      import.meta.env.VITE_CONTACT_EMAIL || "contact@book-n-glow.fr";
+
+    await sendEmail(
+      contactEmail,
+      `Nouvelle inscription à la waitlist - ${data.firstName}`,
+      notificationHtml
+    );
+
+    return {
+      success: true,
+      message: "Inscription réussie",
+    };
   } catch (error) {
     console.error("Erreur:", error);
     throw error;
