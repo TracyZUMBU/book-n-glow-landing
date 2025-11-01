@@ -298,9 +298,9 @@ const Features = () => {
             automatiser leurs réservations
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8">
+            <Button size="lg" className="text-lg px-8" disabled={true}>
               <Link
-                to="https://book-n-glow.fr/sign-in/prestataire"
+                to="https://app.book-n-glow.fr/sign-in/prestataire"
                 target="_blank"
               >
                 Commencer gratuitement
