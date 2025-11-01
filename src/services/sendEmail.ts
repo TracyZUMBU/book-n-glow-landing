@@ -42,8 +42,8 @@ export function getWaitlistNotificationTemplate(data: WaitlistData): string {
  * Envoie un email en utilisant Supabase Functions
  */
 export async function sendEmail(to: string, subject: string, html: string) {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const supabaseUrl = import.meta.env.VITE_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error(
