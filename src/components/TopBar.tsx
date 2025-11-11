@@ -1,28 +1,9 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const TopBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
-  const [userType, setUserType] = useState<"client" | "provider">("client");
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-
-  const openAuthDialog = (type: "client" | "provider") => {
-    setUserType(type);
-    setIsAuthDialogOpen(true);
-  };
 
   const navItems = [
     { path: "/fonctionnalites", label: "Fonctionnalités" },
@@ -58,18 +39,22 @@ const TopBar = () => {
           {/* <div className="hidden md:flex items-center gap-3">
             <Button
               variant="outline"
-              onClick={() => openAuthDialog("provider")}
+              asChild
               className="flex items-center gap-2"
             >
-              <Briefcase className="w-4 h-4" />
-              Je suis prestataire
+              <a href="https://app.book-n-glow.fr/sign-in/prestataire" target="_blank" rel="noopener noreferrer">
+                <Briefcase className="w-4 h-4" />
+                Je suis prestataire
+              </a>
             </Button>
             <Button
-              onClick={() => openAuthDialog("client")}
+              asChild
               className="flex items-center gap-2"
             >
-              <User className="w-4 h-4" />
-              Mon compte
+              <a href="https://app.book-n-glow.fr/sign-in/customer" target="_blank" rel="noopener noreferrer">
+                <User className="w-4 h-4" />
+                Mon compte
+              </a>
             </Button>
           </div> */}
           {/* Mobile Menu Button */}
@@ -105,160 +90,28 @@ const TopBar = () => {
               {/* <div className="flex flex-col gap-2 pt-4 border-t">
                 <Button
                   variant="outline"
-                  onClick={() => {
-                    openAuthDialog("provider");
-                    setIsMenuOpen(false);
-                  }}
+                  asChild
                   className="flex items-center gap-2 justify-center"
                 >
-                  <Briefcase className="w-4 h-4" />
-                  Je suis prestataire
+                  <a href="https://app.book-n-glow.fr/sign-in/prestataire" target="_blank" rel="noopener noreferrer">
+                    <Briefcase className="w-4 h-4" />
+                    Je suis prestataire
+                  </a>
                 </Button>
                 <Button
-                  onClick={() => {
-                    openAuthDialog("client");
-                    setIsMenuOpen(false);
-                  }}
+                  asChild
                   className="flex items-center gap-2 justify-center"
                 >
-                  <User className="w-4 h-4" />
-                  Mon compte
+                  <a href="https://app.book-n-glow.fr/sign-in/customer" target="_blank" rel="noopener noreferrer">
+                    <User className="w-4 h-4" />
+                    Mon compte
+                  </a>
                 </Button>
               </div> */}
             </div>
           </div>
         )}
       </header>
-
-      {/* Auth Dialog */}
-      <Dialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              {userType === "client" ? "Compte Client" : "Espace Prestataire"}
-            </DialogTitle>
-            <DialogDescription>
-              {userType === "client"
-                ? "Connectez-vous pour gérer vos réservations"
-                : "Accédez à votre espace professionnel"}
-            </DialogDescription>
-          </DialogHeader>
-
-          <Tabs
-            value={authMode}
-            onValueChange={(v) => setAuthMode(v as "login" | "signup")}
-            className="w-full"
-          >
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="login">Connexion</TabsTrigger>
-              <TabsTrigger value="signup">Inscription</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="login" className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="login-email">Email</Label>
-                <Input
-                  id="login-email"
-                  type="email"
-                  placeholder="votre@email.com"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="login-password">Mot de passe</Label>
-                <Input
-                  id="login-password"
-                  type="password"
-                  placeholder="••••••••"
-                />
-              </div>
-
-              <Button className="w-full" size="lg">
-                Se connecter
-              </Button>
-
-              <p className="text-sm text-center text-muted-foreground">
-                <button className="text-primary hover:underline">
-                  Mot de passe oublié ?
-                </button>
-              </p>
-            </TabsContent>
-
-            <TabsContent value="signup" className="space-y-4">
-              {userType === "provider" && (
-                <div className="space-y-2">
-                  <Label htmlFor="signup-business">Nom de l'entreprise</Label>
-                  <Input
-                    id="signup-business"
-                    type="text"
-                    placeholder="Mon Institut"
-                  />
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <Label htmlFor="signup-name">
-                  {userType === "client" ? "Nom complet" : "Nom du responsable"}
-                </Label>
-                <Input
-                  id="signup-name"
-                  type="text"
-                  placeholder="Marie Dupont"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="signup-email">Email</Label>
-                <Input
-                  id="signup-email"
-                  type="email"
-                  placeholder="votre@email.com"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="signup-phone">Téléphone</Label>
-                <Input
-                  id="signup-phone"
-                  type="tel"
-                  placeholder="06 12 34 56 78"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="signup-password">Mot de passe</Label>
-                <Input
-                  id="signup-password"
-                  type="password"
-                  placeholder="••••••••"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="signup-confirm-password">
-                  Confirmer le mot de passe
-                </Label>
-                <Input
-                  id="signup-confirm-password"
-                  type="password"
-                  placeholder="••••••••"
-                />
-              </div>
-
-              <Button className="w-full" size="lg">
-                Créer mon compte
-              </Button>
-
-              <p className="text-xs text-center text-muted-foreground">
-                En vous inscrivant, vous acceptez nos{" "}
-                <button className="text-primary hover:underline">
-                  conditions d'utilisation
-                </button>
-              </p>
-            </TabsContent>
-          </Tabs>
-        </DialogContent>
-      </Dialog>
     </>
   );
 };
