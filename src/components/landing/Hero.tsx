@@ -23,7 +23,7 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left space-y-8 animate-fade-in">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 hidden md:block" />
               <span>Pour les prestataires beauté d'Instagram</span>
             </div>
 

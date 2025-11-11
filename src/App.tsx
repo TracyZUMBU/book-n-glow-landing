@@ -6,11 +6,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navigation from "./components/landing/Navigation";
 import ScrollToTop from "./components/ScrollToTop";
 import Booking from "./pages/Booking";
+import CGU from "./pages/CGU";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Features from "./pages/Features";
 import Index from "./pages/Index";
+import MentionsLegales from "./pages/MentionsLegales";
 import NotFound from "./pages/NotFound";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
 
@@ -58,6 +61,30 @@ const App = () => (
               <div className="min-h-screen">
                 <Navigation />
                 <Contact />
+              </div>
+            }
+          />
+          <Route
+            path="/mentions-legales"
+            element={
+              <div className="min-h-screen">
+                <MentionsLegales />
+              </div>
+            }
+          />
+          <Route
+            path="/politique-de-confidentialite"
+            element={
+              <div className="min-h-screen">
+                <PolitiqueConfidentialite />
+              </div>
+            }
+          />
+          <Route
+            path="/cgu"
+            element={
+              <div className="min-h-screen">
+                <CGU />
               </div>
             }
           />

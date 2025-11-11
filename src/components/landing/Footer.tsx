@@ -92,15 +92,21 @@ const Footer = () => {
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <p>© 2025 Book N' Glow. Tous droits réservés.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors">
+            <Link
+              to="/mentions-legales"
+              className="hover:text-primary transition-colors"
+            >
               Mentions légales
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
+            </Link>
+            <Link
+              to="/politique-de-confidentialite"
+              className="hover:text-primary transition-colors"
+            >
               Politique de confidentialité
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
+            </Link>
+            <Link to="/cgu" className="hover:text-primary transition-colors">
               CGU
-            </a>
+            </Link>
           </div>
         </div>
       </div>

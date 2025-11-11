@@ -1,7 +1,4 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { User, Briefcase, Menu, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,9 +6,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const TopBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,7 +41,6 @@ const TopBar = () => {
               Book N' Glow
             </span>
           </Link>
-
           {/* Navigation Desktop */}
           <nav className="hidden md:flex items-center gap-6">
             {navItems.map((item) => (
@@ -54,9 +53,9 @@ const TopBar = () => {
               </Link>
             ))}
           </nav>
-
           {/* Auth Buttons Desktop */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* TODO: Add auth buttons back in */}
+          {/* <div className="hidden md:flex items-center gap-3">
             <Button
               variant="outline"
               onClick={() => openAuthDialog("provider")}
@@ -72,8 +71,7 @@ const TopBar = () => {
               <User className="w-4 h-4" />
               Mon compte
             </Button>
-          </div>
-
+          </div> */}
           {/* Mobile Menu Button */}
           <button
             className="md:hidden"
@@ -103,7 +101,8 @@ const TopBar = () => {
                   </Link>
                 ))}
               </nav>
-              <div className="flex flex-col gap-2 pt-4 border-t">
+              {/* TODO: Add auth buttons back in */}
+              {/* <div className="flex flex-col gap-2 pt-4 border-t">
                 <Button
                   variant="outline"
                   onClick={() => {
@@ -125,7 +124,7 @@ const TopBar = () => {
                   <User className="w-4 h-4" />
                   Mon compte
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         )}
@@ -199,9 +198,7 @@ const TopBar = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="signup-name">
-                  {userType === "client"
-                    ? "Nom complet"
-                    : "Nom du responsable"}
+                  {userType === "client" ? "Nom complet" : "Nom du responsable"}
                 </Label>
                 <Input
                   id="signup-name"
