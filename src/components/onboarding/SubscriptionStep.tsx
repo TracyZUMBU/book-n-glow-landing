@@ -30,6 +30,7 @@ const plans = [
     period: "/mois",
     description: "Solution complète pour gérer votre activité",
     features: [
+      "Tout du plan gratuit",
       "Réservations illimitées",
       "Rappels email automatiques",
       "Dashboard",
