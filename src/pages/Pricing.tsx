@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const plans = [
   {
-    name: "Gratuit",
+    name: "Basic",
     icon: Sparkles,
     price: "0€",
     period: "/mois",
@@ -16,27 +16,27 @@ const plans = [
       "Affichage de vos services",
       "Informations de contact",
       "Design professionnel",
-      "Pas de réservation en ligne",
       "Lien bio Instagram",
     ],
-    cta: "Rejoindre la liste d'attente",
+    cta: "Commencer gratuitement",
     popular: false,
     free: true,
   },
   {
-    name: "Complet",
+    name: "Premium",
     icon: Crown,
     price: "29.99€",
     period: "/mois",
     description: "Solution complète pour gérer votre activité",
     features: [
-      "Tout du plan Gratuit",
+      "Tout du plan gratuit",
       "Réservations illimitées",
       "Rappels email automatiques",
-      "Calendrier multi-vues",
+      "Dashboard",
       "Support prioritaire",
       "Gestion des rendez-vous",
-      "Notifications clients",
+      "Notifications de réservations",
+      "Différents types de paiement (dont PayPal.Me)",
     ],
     cta: "Rejoindre la liste d'attente",
     popular: true,
@@ -45,10 +45,17 @@ const plans = [
 ];
 
 const Pricing = () => {
-  const scrollToWaitlist = () => {
-    const waitlistSection = document.getElementById("waitlist");
-    if (waitlistSection) {
-      waitlistSection.scrollIntoView({ behavior: "smooth" });
+  const handlePlanSelection = (plan: "Basic" | "Premium") => {
+    console.log("plan", plan);
+    if (plan === "Basic") {
+      ///redirect to https://app.book-n-glow.fr/inscription-prestataire
+      window.location.href =
+        "https://app.book-n-glow.fr/inscription-prestataire";
+    } else {
+      const waitlistSection = document.getElementById("waitlist");
+      if (waitlistSection) {
+        waitlistSection.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -62,16 +69,22 @@ const Pricing = () => {
           </h1>
           <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
             <span>
-              En raison d’un grand engouement, les inscriptions sont fermées
+              {/* En raison d’un grand engouement, les inscriptions sont fermées
               pour le moment. <br /> Restez à l’affût, la réouverture arrive
-              bientôt
+              bientôt */}
+              Afin de garantir une expérience irréprochable à nos prestataires,
+              l’ouverture de Book N’ Glow se fait progressivement. Quelques
+              places supplémentaires seront bientôt disponibles.
             </span>
           </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Rejoignez notre liste d'attente pour être parmi les premières à
-            accéder à Book N' Glow dès sa réouverture.
+            {/* Rejoignez notre liste d'attente pour être parmi les premières à
+            accéder à Book N' Glow dès sa réouverture. */}
             {/* Commencez gratuitement ou optez pour la solution complète. Le plan
             payant inclut 14 jours d'essai gratuit. */}
+            Rejoignez la liste d’attente pour faire partie des premières à
+            profiter de la plateforme dès que la prochaine vague d’accès sera
+            ouverte.
           </p>
         </div>
       </section>
@@ -146,7 +159,9 @@ const Pricing = () => {
                     }
                     size="lg"
                     className="w-full"
-                    onClick={scrollToWaitlist}
+                    onClick={() =>
+                      handlePlanSelection(plan.name as "Basic" | "Premium")
+                    }
                   >
                     {plan.cta}
                   </Button>
