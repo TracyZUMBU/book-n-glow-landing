@@ -29,20 +29,24 @@ export default function MentionsLegales() {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  <strong className="text-foreground">Nom de l'entreprise :</strong>{" "}
+                  <strong className="text-foreground">
+                    Nom de l'entreprise :
+                  </strong>{" "}
                   Book n Glow
                 </p>
                 <p>
                   <strong className="text-foreground">Forme juridique :</strong>{" "}
-                  Auto-entrepreneur
+                  Micro-entreprise
                 </p>
                 <p>
-                  <strong className="text-foreground">Siège social :</strong>{" "}
-                  [À compléter]
+                  <strong className="text-foreground">Siège social :</strong> 1
+                  allée du furet, 77186 Noisiel
                 </p>
                 <p>
-                  <strong className="text-foreground">Numéro SIREN/SIRET :</strong>{" "}
-                  [À compléter]
+                  <strong className="text-foreground">
+                    Numéro SIREN/SIRET :
+                  </strong>{" "}
+                  83307726600025
                 </p>
                 <p>
                   <strong className="text-foreground">
@@ -51,7 +55,9 @@ export default function MentionsLegales() {
                   Non applicable
                 </p>
                 <p>
-                  <strong className="text-foreground">Email de contact :</strong>{" "}
+                  <strong className="text-foreground">
+                    Email de contact :
+                  </strong>{" "}
                   <a
                     href="mailto:contact@book-n-glow"
                     className="text-primary hover:underline"
@@ -73,12 +79,15 @@ export default function MentionsLegales() {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  <strong className="text-foreground">Nom de l'hébergeur :</strong>{" "}
+                  <strong className="text-foreground">
+                    Nom de l'hébergeur :
+                  </strong>{" "}
                   Netlify, Inc.
                 </p>
                 <p>
-                  <strong className="text-foreground">Adresse :</strong> 44 Montgomery
-                  Street, Suite 300, San Francisco, California 94104, États-Unis
+                  <strong className="text-foreground">Adresse :</strong> 44
+                  Montgomery Street, Suite 300, San Francisco, California 94104,
+                  États-Unis
                 </p>
                 <p>
                   <strong className="text-foreground">Site web :</strong>{" "}
@@ -101,8 +110,8 @@ export default function MentionsLegales() {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  <strong className="text-foreground">Nom et prénom :</strong> Tracy
-                  Garcia
+                  <strong className="text-foreground">Nom et prénom :</strong>{" "}
+                  Tracy Z. Garcia
                 </p>
               </div>
             </div>
@@ -171,10 +180,10 @@ export default function MentionsLegales() {
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Les présentes mentions légales sont régies par le droit français.
-                  En cas de litige et à défaut d'accord amiable, le litige sera
-                  porté devant les tribunaux français conformément aux règles de
-                  compétence en vigueur.
+                  Les présentes mentions légales sont régies par le droit
+                  français. En cas de litige et à défaut d'accord amiable, le
+                  litige sera porté devant les tribunaux français conformément
+                  aux règles de compétence en vigueur.
                 </p>
               </div>
             </div>

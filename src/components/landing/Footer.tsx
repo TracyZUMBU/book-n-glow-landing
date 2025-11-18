@@ -71,7 +71,7 @@ const Footer = () => {
             <h4 className="font-semibold">Suivez-nous</h4>
             <div className="flex gap-4">
               <a
-                href="https://instagram.com/book.n.glow"
+                href="https://instagram.com/bookn_glow"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-primary-foreground hover:scale-110 transition-transform"
