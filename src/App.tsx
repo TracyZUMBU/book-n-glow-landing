@@ -17,6 +17,7 @@ import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentDeposit from "./pages/PaymentDeposit";
 import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
@@ -93,6 +94,7 @@ const App = () => (
           <Route path="/profil/:id" element={<ProviderProfile />} />
           <Route path="/reserver/:serviceId" element={<Booking />} />
           <Route path="/paiement-reussi" element={<PaymentSuccess />} />
+          <Route path="/acompte-paiement" element={<PaymentDeposit />} />
           <Route path="/auth" element={<Auth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
