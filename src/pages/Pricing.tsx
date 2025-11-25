@@ -38,7 +38,7 @@ const plans = [
       "Notifications de réservations",
       "Différents types de paiement (dont PayPal.Me)",
     ],
-    cta: "Rejoindre la liste d'attente",
+    cta: "Choisir Premium",
     popular: true,
     free: false,
   },
@@ -46,17 +46,9 @@ const plans = [
 
 const Pricing = () => {
   const handlePlanSelection = (plan: "Basic" | "Premium") => {
-    console.log("plan", plan);
-    if (plan === "Basic") {
-      ///redirect to https://app.book-n-glow.fr/inscription-prestataire
-      window.location.href =
-        "https://app.book-n-glow.fr/inscription-prestataire";
-    } else {
-      const waitlistSection = document.getElementById("waitlist");
-      if (waitlistSection) {
-        waitlistSection.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+    const baseUrl = "https://app.book-n-glow.fr/inscription-prestataire";
+    const planParam = plan === "Basic" ? "?plan=free" : "?plan=premium";
+    window.location.href = `${baseUrl}${planParam}`;
   };
 
   return (
@@ -67,24 +59,9 @@ const Pricing = () => {
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
             <span className="text-gradient">Tarifs</span>
           </h1>
-          <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
-            <span>
-              {/* En raison d’un grand engouement, les inscriptions sont fermées
-              pour le moment. <br /> Restez à l’affût, la réouverture arrive
-              bientôt */}
-              Afin de garantir une expérience irréprochable à nos prestataires,
-              l’ouverture de Book N’ Glow se fait progressivement. Quelques
-              places supplémentaires seront bientôt disponibles.
-            </span>
-          </div>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {/* Rejoignez notre liste d'attente pour être parmi les premières à
-            accéder à Book N' Glow dès sa réouverture. */}
-            {/* Commencez gratuitement ou optez pour la solution complète. Le plan
-            payant inclut 14 jours d'essai gratuit. */}
-            Rejoignez la liste d’attente pour faire partie des premières à
-            profiter de la plateforme dès que la prochaine vague d’accès sera
-            ouverte.
+            Commencez gratuitement ou optez pour la solution complète. Le plan
+            payant inclut 14 jours d'essai gratuit.
           </p>
         </div>
       </section>

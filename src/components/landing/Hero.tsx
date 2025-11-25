@@ -10,8 +10,10 @@ import {
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-  const scrollToWaitlist = () => {
-    document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" });
+  const scrollToSubscription = () => {
+    document
+      .getElementById("subscription")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -43,10 +45,10 @@ const Hero = () => {
               <Button
                 variant="hero"
                 size="lg"
-                onClick={scrollToWaitlist}
+                onClick={scrollToSubscription}
                 className="group w-full sm:w-auto"
               >
-                Rejoindre la liste d'attente
+                Choisir mon abonnement
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Link to="/tarifs" className="w-full sm:w-auto">

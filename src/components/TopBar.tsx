@@ -1,6 +1,7 @@
-import { Menu, X } from "lucide-react";
+import { Briefcase, Menu, User, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
 
 const TopBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,28 +36,32 @@ const TopBar = () => {
             ))}
           </nav>
           {/* Auth Buttons Desktop */}
-          {/* TODO: Add auth buttons back in */}
-          {/* <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3">
             <Button
               variant="outline"
               asChild
               className="flex items-center gap-2"
             >
-              <a href="https://app.book-n-glow.fr/sign-in/prestataire" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://app.book-n-glow.fr/sign-in/prestataire"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Briefcase className="w-4 h-4" />
                 Je suis prestataire
               </a>
             </Button>
-            <Button
-              asChild
-              className="flex items-center gap-2"
-            >
-              <a href="https://app.book-n-glow.fr/sign-in/customer" target="_blank" rel="noopener noreferrer">
+            <Button asChild className="flex items-center gap-2">
+              <a
+                href="https://app.book-n-glow.fr/sign-in/customer"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <User className="w-4 h-4" />
                 Mon compte
               </a>
             </Button>
-          </div> */}
+          </div>
           {/* Mobile Menu Button */}
           <button
             className="md:hidden"
@@ -86,14 +91,18 @@ const TopBar = () => {
                   </Link>
                 ))}
               </nav>
-              {/* TODO: Add auth buttons back in */}
-              {/* <div className="flex flex-col gap-2 pt-4 border-t">
+              {/* Auth Buttons Mobile */}
+              <div className="flex flex-col gap-2 pt-4 border-t">
                 <Button
                   variant="outline"
                   asChild
                   className="flex items-center gap-2 justify-center"
                 >
-                  <a href="https://app.book-n-glow.fr/sign-in/prestataire" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://app.book-n-glow.fr/sign-in/prestataire"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <Briefcase className="w-4 h-4" />
                     Je suis prestataire
                   </a>
@@ -102,12 +111,16 @@ const TopBar = () => {
                   asChild
                   className="flex items-center gap-2 justify-center"
                 >
-                  <a href="https://app.book-n-glow.fr/sign-in/customer" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://app.book-n-glow.fr/sign-in/customer"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <User className="w-4 h-4" />
                     Mon compte
                   </a>
                 </Button>
-              </div> */}
+              </div>
             </div>
           </div>
         )}
