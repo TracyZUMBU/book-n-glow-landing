@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle, ExternalLink, ArrowRight } from "lucide-react";
+import { CheckCircle, ExternalLink, ArrowRight, Mail, Clock, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -102,7 +102,7 @@ const PaymentDeposit = () => {
 
         {/* Success Message */}
         <Card className="shadow-lg animate-fade-in">
-          <CardContent className="pt-8 pb-6">
+          <CardContent className="pt-8 pb-6 space-y-6">
             <div className="flex items-start gap-4">
               <div className="rounded-full bg-primary/10 p-3 shrink-0">
                 <CheckCircle className="w-6 h-6 text-primary" />
@@ -114,6 +114,34 @@ const PaymentDeposit = () => {
                 <p className="text-muted-foreground">
                   Votre réservation a été enregistrée. Pour la confirmer définitivement, 
                   veuillez effectuer le paiement de l'acompte.
+                </p>
+              </div>
+            </div>
+
+            {/* Email notification */}
+            <div className="flex items-start gap-3 bg-accent/5 border border-accent/20 rounded-lg p-4">
+              <Mail className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground">
+                  Email de pré-confirmation envoyé
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Vous trouverez également le lien PayPal.me et le formulaire de saisie dans cet email.
+                </p>
+              </div>
+            </div>
+
+            {/* Timer warning */}
+            <div className="flex items-start gap-3 bg-destructive/5 border border-destructive/20 rounded-lg p-4">
+              <AlertTriangle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  Délai de 15 minutes
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Vous avez 15 minutes pour effectuer le paiement et saisir le numéro de transaction. 
+                  Passé ce délai, votre rendez-vous sera automatiquement annulé.
                 </p>
               </div>
             </div>
@@ -184,9 +212,12 @@ const PaymentDeposit = () => {
         </Card>
 
         {/* Info Note */}
-        <div className="bg-accent/5 border border-accent/20 rounded-lg p-4 text-sm text-center">
-          <p className="text-accent-foreground/80">
+        <div className="bg-accent/5 border border-accent/20 rounded-lg p-4 text-sm">
+          <p className="text-accent-foreground/80 text-center mb-3">
             💡 Votre rendez-vous sera confirmé après vérification du paiement de l'acompte
+          </p>
+          <p className="text-xs text-muted-foreground text-center">
+            Vous pouvez également retrouver le lien de paiement et effectuer cette action depuis votre onglet <span className="font-medium">Mes réservations</span>
           </p>
         </div>
       </div>
