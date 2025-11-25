@@ -1,5 +1,4 @@
 import Footer from "@/components/landing/Footer";
-import Waitlist from "@/components/landing/Waitlist";
 import { Button } from "@/components/ui/button";
 import { Check, Crown, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -159,7 +158,6 @@ const Pricing = () => {
         </div>
       </section>
 
-      <Waitlist />
       <Footer />
     </>
   );
