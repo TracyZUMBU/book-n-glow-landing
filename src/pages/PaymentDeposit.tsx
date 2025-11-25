@@ -23,8 +23,8 @@ const PaymentDeposit = () => {
 
   if (isConfirmed) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-background flex items-center justify-center p-4">
-        <Card className="max-w-2xl w-full shadow-xl animate-fade-in">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="max-w-2xl w-full border-2 border-border animate-fade-in">
           <CardContent className="pt-12 pb-8 text-center space-y-6">
             <div className="flex justify-center">
               <div className="rounded-full bg-primary/10 p-6">
@@ -41,8 +41,8 @@ const PaymentDeposit = () => {
               </p>
             </div>
 
-            <div className="bg-accent/5 border border-accent/20 rounded-lg p-4 max-w-md mx-auto">
-              <p className="text-sm text-accent-foreground/80">
+            <div className="bg-background-light border border-border rounded-lg p-4 max-w-md mx-auto">
+              <p className="text-sm text-foreground">
                 📧 Un email de confirmation vient d'être envoyé avec tous les détails de votre réservation.
               </p>
             </div>
@@ -51,6 +51,7 @@ const PaymentDeposit = () => {
               <Button
                 onClick={() => navigate("/mes-reservations")}
                 size="lg"
+                variant="hero"
                 className="gap-2"
               >
                 Voir mes réservations
@@ -64,7 +65,7 @@ const PaymentDeposit = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-secondary/5 to-background py-12 px-4">
+    <div className="min-h-screen bg-background py-12 px-4">
       <div className="max-w-3xl mx-auto space-y-8">
         {/* Stepper */}
         <div className="flex items-center justify-center gap-2 mb-8">
@@ -101,7 +102,7 @@ const PaymentDeposit = () => {
         </div>
 
         {/* Success Message */}
-        <Card className="shadow-lg animate-fade-in">
+        <Card className="border-2 border-border animate-fade-in">
           <CardContent className="pt-8 pb-6 space-y-6">
             <div className="flex items-start gap-4">
               <div className="rounded-full bg-primary/10 p-3 shrink-0">
@@ -119,8 +120,8 @@ const PaymentDeposit = () => {
             </div>
 
             {/* Email notification */}
-            <div className="flex items-start gap-3 bg-accent/5 border border-accent/20 rounded-lg p-4">
-              <Mail className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 bg-background-light border border-border rounded-lg p-4">
+              <Mail className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <p className="text-sm font-medium text-foreground">
                   Email de pré-confirmation envoyé
@@ -132,8 +133,8 @@ const PaymentDeposit = () => {
             </div>
 
             {/* Timer warning */}
-            <div className="flex items-start gap-3 bg-destructive/5 border border-destructive/20 rounded-lg p-4">
-              <AlertTriangle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 bg-background-light border border-border rounded-lg p-4">
+              <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <p className="text-sm font-medium text-foreground flex items-center gap-2">
                   <Clock className="w-4 h-4" />
@@ -149,7 +150,7 @@ const PaymentDeposit = () => {
         </Card>
 
         {/* Payment Section */}
-        <Card className="shadow-lg animate-fade-in-up">
+        <Card className="border-2 border-border animate-fade-in-up">
           <CardHeader>
             <CardTitle className="text-xl font-serif">
               Paiement de l'acompte
@@ -157,9 +158,9 @@ const PaymentDeposit = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Amount */}
-            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg p-6 text-center">
+            <div className="bg-background-light border border-border rounded-lg p-6 text-center">
               <p className="text-sm text-muted-foreground mb-2">Montant de l'acompte</p>
-              <p className="text-4xl font-bold text-foreground font-serif">
+              <p className="text-4xl font-bold text-primary font-serif">
                 {depositAmount}€
               </p>
             </div>
@@ -212,8 +213,8 @@ const PaymentDeposit = () => {
         </Card>
 
         {/* Info Note */}
-        <div className="bg-accent/5 border border-accent/20 rounded-lg p-4 text-sm">
-          <p className="text-accent-foreground/80 text-center mb-3">
+        <div className="bg-background-light border border-border rounded-lg p-4 text-sm">
+          <p className="text-foreground text-center mb-3">
             💡 Votre rendez-vous sera confirmé après vérification du paiement de l'acompte
           </p>
           <p className="text-xs text-muted-foreground text-center">
