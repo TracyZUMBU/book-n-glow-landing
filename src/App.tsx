@@ -19,6 +19,7 @@ import ProviderProfile from "./pages/ProviderProfile";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentDeposit from "./pages/PaymentDeposit";
 import Auth from "./pages/Auth";
+import ModalPreview from "./pages/ModalPreview";
 
 const queryClient = new QueryClient();
 
@@ -96,6 +97,7 @@ const App = () => (
           <Route path="/paiement-reussi" element={<PaymentSuccess />} />
           <Route path="/acompte-paiement" element={<PaymentDeposit />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/modal-preview" element={<ModalPreview />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
