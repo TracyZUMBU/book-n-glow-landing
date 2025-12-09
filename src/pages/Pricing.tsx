@@ -60,7 +60,7 @@ const Pricing = () => {
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Commencez gratuitement ou optez pour la solution complète. Le plan
-            payant inclut 14 jours d'essai gratuit.
+            payant inclut 14 jours d'essai gratuit + 1 mois gratuit avec le code FREEMONTH.
           </p>
         </div>
       </section>
@@ -74,7 +74,7 @@ const Pricing = () => {
             </h2>
             <p className="text-lg text-muted-foreground">
               Sans engagement • Annulation à tout moment • 14 jours d'essai
-              gratuit sur le plan payant
+              gratuit + 1 mois gratuit avec le code FREEMONTH sur le plan payant
             </p>
           </div>
 
@@ -124,6 +124,23 @@ const Pricing = () => {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Code promo pour le plan Premium */}
+                  {plan.name === "Premium" && (
+                    <div className="mb-6 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
+                      <div className="text-center">
+                        <p className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
+                          🎁 Offre spéciale
+                        </p>
+                        <p className="text-sm text-foreground mb-3">
+                          Code promo : <span className="font-bold text-lg text-primary">FREEMONTH</span>
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          1 mois gratuit + 14 jours d'essai gratuit
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   <Button
                     variant={

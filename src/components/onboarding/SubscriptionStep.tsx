@@ -130,6 +130,23 @@ export const SubscriptionStep = () => {
                         </div>
                       ))}
                     </div>
+
+                    {/* Code promo pour le plan Premium */}
+                    {plan.id === "complete" && (
+                      <div className="mt-4 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
+                        <div className="text-center">
+                          <p className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
+                            🎁 Offre spéciale
+                          </p>
+                          <p className="text-sm text-foreground mb-3">
+                            Code promo : <span className="font-bold text-lg text-primary">FREEMONTH</span>
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            1 mois gratuit + 14 jours d'essai gratuit
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </Card>
                 </Label>
               </div>
@@ -141,7 +158,7 @@ export const SubscriptionStep = () => {
       {/* Info message */}
       <div className="mt-6 text-center">
         <p className="text-sm text-muted-foreground">
-          Le plan payant inclut <strong>14 jours d'essai gratuit</strong>
+          Le plan payant inclut <strong>14 jours d'essai gratuit</strong> + <strong>1 mois gratuit</strong> avec le code <strong className="text-primary">FREEMONTH</strong>
         </p>
       </div>
     </div>

@@ -10,9 +10,9 @@ import {
 import { Link } from "react-router-dom";
 
 const Hero = () => {
-  const scrollToSubscription = () => {
+  const scrollToFeatures = () => {
     document
-      .getElementById("subscription")
+      .getElementById("pourquoi-book-n-glow")
       ?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -45,10 +45,10 @@ const Hero = () => {
               <Button
                 variant="hero"
                 size="lg"
-                onClick={scrollToSubscription}
+                onClick={scrollToFeatures}
                 className="group w-full sm:w-auto"
               >
-                Choisir mon abonnement
+                Découvrir Book N' Glow
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Link to="/tarifs" className="w-full sm:w-auto">
