@@ -1,5 +1,6 @@
 import Footer from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
+import { trackClick } from "@/lib/analytics";
 import {
   Calendar,
   Check,
@@ -306,7 +307,14 @@ const Features = () => {
                 Commencer gratuitement
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8">
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-lg px-8"
+              onClick={() =>
+                trackClick("decouvrir_les_tarifs", "features_section")
+              }
+            >
               <Link to="/tarifs">Découvrir les tarifs</Link>
             </Button>
           </div>

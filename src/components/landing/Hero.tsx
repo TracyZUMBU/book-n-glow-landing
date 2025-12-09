@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { trackClick } from "@/lib/analytics";
 import {
   ArrowRight,
   Calendar,
@@ -56,6 +57,7 @@ const Hero = () => {
                   variant="outline"
                   size="lg"
                   className="w-full sm:w-auto"
+                  onClick={() => trackClick("voir_les_tarifs", "hero_section")}
                 >
                   Voir les tarifs
                 </Button>

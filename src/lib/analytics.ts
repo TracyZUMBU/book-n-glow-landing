@@ -5,7 +5,7 @@ declare global {
     gtag: (
       command: "config" | "event" | "js" | "set",
       targetId: string | Date,
-      config?: Record<string, any>
+      config?: Record<string, unknown>
     ) => void;
     dataLayer: any[];
   }
@@ -52,10 +52,8 @@ export const trackPageView = (path: string, title?: string) => {
  */
 export const trackEvent = (
   eventName: string,
-  eventParams?: Record<string, any>
+  eventParams?: Record<string, unknown>
 ) => {
-  if (!GA_MEASUREMENT_ID || !window.gtag) return;
-
   window.gtag("event", eventName, eventParams);
 };
 

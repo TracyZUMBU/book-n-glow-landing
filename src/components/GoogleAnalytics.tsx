@@ -13,9 +13,7 @@ const GoogleAnalytics = () => {
       const script = document.createElement("script");
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-      document.head.appendChild(script);
 
-      // Initialize GA after script loads
       script.onload = () => {
         initGA();
       };
