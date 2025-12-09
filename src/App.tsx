@@ -3,8 +3,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 import Navigation from "./components/landing/Navigation";
 import ScrollToTop from "./components/ScrollToTop";
+import Auth from "./pages/Auth";
 import Booking from "./pages/Booking";
 import CGU from "./pages/CGU";
 import Contact from "./pages/Contact";
@@ -12,14 +14,13 @@ import FAQ from "./pages/FAQ";
 import Features from "./pages/Features";
 import Index from "./pages/Index";
 import MentionsLegales from "./pages/MentionsLegales";
+import ModalPreview from "./pages/ModalPreview";
 import NotFound from "./pages/NotFound";
+import PaymentDeposit from "./pages/PaymentDeposit";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
-import PaymentSuccess from "./pages/PaymentSuccess";
-import PaymentDeposit from "./pages/PaymentDeposit";
-import Auth from "./pages/Auth";
-import ModalPreview from "./pages/ModalPreview";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <GoogleAnalytics />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
