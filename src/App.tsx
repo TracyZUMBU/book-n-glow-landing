@@ -21,6 +21,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
+import ProviderSettings from "./pages/ProviderSettings";
 
 const queryClient = new QueryClient();
 
@@ -100,6 +101,7 @@ const App = () => (
           <Route path="/acompte-paiement" element={<PaymentDeposit />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/modal-preview" element={<ModalPreview />} />
+          <Route path="/prestataire/parametres" element={<ProviderSettings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
