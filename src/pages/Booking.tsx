@@ -29,6 +29,7 @@ const Booking = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [step, setStep] = useState<"service" | "slot" | "info" | "summary" | "payment-info" | "payment" | "confirmation">("service");
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "onsite">("onsite");
 
   // Mock service data
   const service = {
@@ -74,7 +75,13 @@ const Booking = () => {
     else if (step === "slot") setStep("info");
     else if (step === "info" && isAuthenticated) setStep("summary");
     else if (step === "summary") setStep("payment-info");
-    else if (step === "payment-info") setStep("payment");
+    else if (step === "payment-info") {
+      if (paymentMethod === "card") {
+        setStep("payment");
+      } else {
+        setStep("confirmation");
+      }
+    }
     else if (step === "payment") setStep("confirmation");
   };
 
@@ -334,25 +341,105 @@ const Booking = () => {
         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
           <CreditCard className="w-6 h-6 text-primary-foreground" />
         </div>
-        <h2 className="text-2xl font-display font-semibold text-foreground">Paiement</h2>
+        <h2 className="text-2xl font-display font-semibold text-foreground">Mode de paiement</h2>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <h3 className="text-xl font-semibold text-foreground mb-4">Paiement sur place</h3>
-          <p className="text-muted-foreground">
-            Un montant de <span className="text-primary font-bold text-lg">{calculateTotal()}€</span> sera à régler le jour du rendez-vous{" "}
-            <span className="font-semibold text-foreground">uniquement en espèces</span>.
-          </p>
+      <div className="space-y-4">
+        {/* Card Payment Option */}
+        <div 
+          onClick={() => setPaymentMethod("card")}
+          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+            paymentMethod === "card" 
+              ? "border-primary bg-primary/5" 
+              : "border-border hover:border-primary/50"
+          }`}
+        >
+          <div className="flex items-center gap-4">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+              paymentMethod === "card" 
+                ? "bg-gradient-to-br from-primary to-secondary" 
+                : "bg-muted"
+            }`}>
+              <CreditCard className={`w-6 h-6 ${paymentMethod === "card" ? "text-primary-foreground" : "text-muted-foreground"}`} />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground">Paiement par carte bancaire</h3>
+              <p className="text-sm text-muted-foreground">Paiement sécurisé en ligne</p>
+            </div>
+            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+              paymentMethod === "card" ? "border-primary" : "border-muted-foreground"
+            }`}>
+              {paymentMethod === "card" && (
+                <div className="w-3 h-3 rounded-full bg-primary" />
+              )}
+            </div>
+          </div>
+          
+          {paymentMethod === "card" && (
+            <div className="mt-4 pt-4 border-t border-border">
+              <p className="text-sm text-muted-foreground">
+                Vous serez redirigé vers une page de paiement sécurisée pour régler{" "}
+                <span className="text-primary font-bold">{calculateTotal()}€</span>.
+              </p>
+            </div>
+          )}
         </div>
 
-        <div className="border-l-4 border-primary bg-primary/5 p-4 rounded-r-lg">
-          <h4 className="text-lg font-semibold text-foreground mb-3">Politique d'annulation</h4>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Ce rendez-vous ne peut pas être annulé. Assurez-vous d'être en mesure de vous présenter le jour du rendez-vous. 
-            Si vous ne vous présentez pas, vous risquez la suspension, voire la suppression définitive de votre compte.
-          </p>
+        {/* On-site Payment Option */}
+        <div 
+          onClick={() => setPaymentMethod("onsite")}
+          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+            paymentMethod === "onsite" 
+              ? "border-primary bg-primary/5" 
+              : "border-border hover:border-primary/50"
+          }`}
+        >
+          <div className="flex items-center gap-4">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+              paymentMethod === "onsite" 
+                ? "bg-gradient-to-br from-primary to-secondary" 
+                : "bg-muted"
+            }`}>
+              <svg 
+                className={`w-6 h-6 ${paymentMethod === "onsite" ? "text-primary-foreground" : "text-muted-foreground"}`}
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground">Paiement sur place</h3>
+              <p className="text-sm text-muted-foreground">En espèces le jour du rendez-vous</p>
+            </div>
+            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+              paymentMethod === "onsite" ? "border-primary" : "border-muted-foreground"
+            }`}>
+              {paymentMethod === "onsite" && (
+                <div className="w-3 h-3 rounded-full bg-primary" />
+              )}
+            </div>
+          </div>
+          
+          {paymentMethod === "onsite" && (
+            <div className="mt-4 pt-4 border-t border-border">
+              <p className="text-sm text-muted-foreground">
+                Un montant de <span className="text-primary font-bold">{calculateTotal()}€</span> sera à régler le jour du rendez-vous{" "}
+                <span className="font-semibold text-foreground">uniquement en espèces</span>.
+              </p>
+            </div>
+          )}
         </div>
+      </div>
+
+      {/* Cancellation Policy */}
+      <div className="mt-6 border-l-4 border-primary bg-primary/5 p-4 rounded-r-lg">
+        <h4 className="text-lg font-semibold text-foreground mb-3">Politique d'annulation</h4>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Ce rendez-vous ne peut pas être annulé. Assurez-vous d'être en mesure de vous présenter le jour du rendez-vous. 
+          Si vous ne vous présentez pas, vous risquez la suspension, voire la suppression définitive de votre compte.
+        </p>
       </div>
     </Card>
   );
@@ -470,7 +557,11 @@ const Booking = () => {
                 onClick={handleContinue}
                 disabled={step === "info" && !isAuthenticated}
               >
-                {step === "payment-info" ? "Confirmer la réservation" : step === "payment" ? "Confirmer et payer" : "Continuer"}
+                {step === "payment-info" 
+                  ? (paymentMethod === "card" ? "Continuer vers le paiement" : "Confirmer la réservation") 
+                  : step === "payment" 
+                    ? "Confirmer et payer" 
+                    : "Continuer"}
               </Button>
             )}
           </div>
