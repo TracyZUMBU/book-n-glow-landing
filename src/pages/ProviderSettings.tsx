@@ -200,6 +200,14 @@ const ProviderSettings = () => {
                                 <span className="text-muted-foreground">%</span>
                               </div>
                             </div>
+                            
+                            {/* Warning Alert */}
+                            <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-50 border border-amber-200">
+                              <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                              <p className="text-sm text-amber-700">
+                                <span className="font-semibold">Attention :</span> Si vous requérez un acompte et autorisez les annulations, vous devrez rembourser l'acompte au client si celui-ci annule son rendez-vous dans les délais impartis. Si vous ne souhaitez pas rembourser l'acompte, il est préférable de ne pas autoriser les annulations.
+                              </p>
+                            </div>
                           </div>
                         )}
                       </div>
