@@ -4,7 +4,16 @@ import Navigation from "@/components/landing/Navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -36,10 +45,11 @@ import {
   Eye,
   Filter,
   Loader2,
+  Lock,
   Search,
   Users,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 // Composant pour afficher les providers (Desktop ou Mobile)
@@ -382,11 +392,52 @@ const AdminProviders = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [trialFilter, setTrialFilter] = useState<string>("all");
 
+  // Protection d'accès
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    // Vérifie si l'utilisateur est déjà authentifié (stocké dans sessionStorage)
+    return sessionStorage.getItem("admin_providers_authenticated") === "true";
+  });
+  const [accessCode, setAccessCode] = useState("");
+  const [error, setError] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(!isAuthenticated);
+
+  // Vérifie l'authentification au montage du composant
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setIsDialogOpen(true);
+    }
+  }, [isAuthenticated]);
+
+  // Fonction pour vérifier le code d'accès
+  const handleAccessCodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const correctCode = import.meta.env.VITE_ADMIN_PROVIDERS_PAGE_ACCESS;
+
+    if (!correctCode) {
+      setError(
+        "Code d'accès non configuré. Veuillez contacter l'administrateur."
+      );
+      return;
+    }
+
+    if (accessCode.trim() === correctCode) {
+      setIsAuthenticated(true);
+      sessionStorage.setItem("admin_providers_authenticated", "true");
+      setIsDialogOpen(false);
+      toast.success("Accès autorisé");
+    } else {
+      setError("Code d'accès incorrect");
+      setAccessCode("");
+    }
+  };
+
   // Récupération des providers depuis Supabase
   const {
     data: providers = [],
     isLoading,
-    error,
+    error: providersError,
   } = useQuery({
     queryKey: ["providers"],
     queryFn: getProviders,
@@ -487,6 +538,54 @@ const AdminProviders = () => {
     // TODO: Call Supabase to update account status (à implémenter plus tard)
   };
 
+  // Si non authentifié, afficher uniquement la modal
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Lock className="h-5 w-5 text-primary" />
+                </div>
+                <DialogTitle>Accès restreint</DialogTitle>
+              </div>
+              <DialogDescription>
+                Veuillez saisir le code d'accès pour accéder à cette page.
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleAccessCodeSubmit}>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label htmlFor="access-code">Code d'accès</Label>
+                  <Input
+                    id="access-code"
+                    type="password"
+                    value={accessCode}
+                    onChange={(e) => {
+                      setAccessCode(e.target.value);
+                      setError("");
+                    }}
+                    placeholder="Entrez le code d'accès"
+                    className={error ? "border-red-500" : ""}
+                    autoFocus
+                  />
+                  {error && <p className="text-sm text-red-600">{error}</p>}
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Valider</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+        <Footer />
+      </div>
+    );
+  }
+
   // État de chargement
   if (isLoading) {
     return (
@@ -508,7 +607,7 @@ const AdminProviders = () => {
   }
 
   // État d'erreur
-  if (error) {
+  if (providersError) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -520,8 +619,8 @@ const AdminProviders = () => {
                   Erreur lors du chargement des prestataires
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {error instanceof Error
-                    ? error.message
+                  {providersError instanceof Error
+                    ? providersError.message
                     : "Une erreur inconnue s'est produite"}
                 </p>
                 <p className="text-xs text-muted-foreground mt-4">

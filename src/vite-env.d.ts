@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly PORT?: string;
   readonly VITE_PUBLIC_SUPABASE_URL?: string;
   readonly VITE_PUBLIC_SUPABASE_ANON_KEY?: string;
+  readonly VITE_ADMIN_PROVIDERS_PAGE_ACCESS?: string;
 }
 
 interface ImportMeta {
