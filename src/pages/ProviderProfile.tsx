@@ -10,18 +10,41 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Instagram, MapPin } from "lucide-react";
+import { Clock, Instagram, MapPin } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const services = [
+interface ServiceOption {
+  id: number;
+  name: string;
+  price: string;
+  duration: string;
+}
+
+interface Service {
+  id: number;
+  title: string;
+  description: string;
+  price: string;
+  duration: string;
+  category: string;
+  options?: ServiceOption[];
+}
+
+const services: Service[] = [
   {
     id: 1,
     title: "Maquillage marié",
     description:
       "Maquillage complet pour le jour J, adapté à la morphologie du visage et au style souhaité.",
     price: "120",
+    duration: "1h30",
     category: "maquillage",
+    options: [
+      { id: 1, name: "Essai maquillage", price: "50", duration: "45min" },
+      { id: 2, name: "Faux cils individuels", price: "25", duration: "20min" },
+      { id: 3, name: "Retouche en soirée", price: "40", duration: "30min" },
+    ],
   },
   {
     id: 2,
@@ -29,7 +52,12 @@ const services = [
     description:
       "Nettoyage en profondeur, gommage, masque et hydratation pour une peau éclatante.",
     price: "80",
+    duration: "1h15",
     category: "soins",
+    options: [
+      { id: 1, name: "Massage du visage", price: "20", duration: "15min" },
+      { id: 2, name: "Soin contour des yeux", price: "15", duration: "10min" },
+    ],
   },
   {
     id: 3,
@@ -37,14 +65,25 @@ const services = [
     description:
       "Soin des ongles, pose de vernis semi-permanent et nail art selon vos envies.",
     price: "45",
+    duration: "1h",
     category: "ongles",
+    options: [
+      { id: 1, name: "Nail art simple", price: "10", duration: "15min" },
+      { id: 2, name: "Nail art complexe", price: "25", duration: "30min" },
+      { id: 3, name: "Soin des cuticules", price: "8", duration: "10min" },
+    ],
   },
   {
     id: 4,
     title: "Maquillage de soirée",
     description: "Look glamour et sophistiqué pour vos événements spéciaux.",
     price: "70",
+    duration: "1h",
     category: "maquillage",
+    options: [
+      { id: 1, name: "Faux cils en bande", price: "15", duration: "10min" },
+      { id: 2, name: "Paillettes/strass", price: "10", duration: "10min" },
+    ],
   },
   {
     id: 5,
@@ -52,6 +91,7 @@ const services = [
     description:
       "Effet naturel et durable pour un regard sublime sans mascara.",
     price: "60",
+    duration: "45min",
     category: "soins",
   },
   {
@@ -59,7 +99,12 @@ const services = [
     title: "Extension d'ongles en gel",
     description: "Pose d'extensions pour des ongles longs et résistants.",
     price: "65",
+    duration: "1h30",
     category: "ongles",
+    options: [
+      { id: 1, name: "Forme stiletto", price: "10", duration: "15min" },
+      { id: 2, name: "French manucure", price: "15", duration: "20min" },
+    ],
   },
 ];
 
@@ -172,11 +217,34 @@ const ProviderProfile = () => {
                     </CardHeader>
 
                     {showDetails === service.id && (
-                      <CardContent className="animate-fade-in">
+                      <CardContent className="animate-fade-in space-y-4">
                         <p className="text-muted-foreground">
                           Ce service comprend une consultation personnalisée
                           pour adapter la prestation à vos besoins spécifiques.
                         </p>
+                        
+                        {service.options && service.options.length > 0 && (
+                          <div className="space-y-3">
+                            <h4 className="font-semibold text-foreground">Options disponibles</h4>
+                            <div className="space-y-2">
+                              {service.options.map((option) => (
+                                <div 
+                                  key={option.id}
+                                  className="flex items-center justify-between p-3 rounded-lg bg-background-light border border-border/50"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <span className="font-medium text-foreground">{option.name}</span>
+                                    <span className="flex items-center gap-1 text-sm text-muted-foreground">
+                                      <Clock className="w-3.5 h-3.5" />
+                                      {option.duration}
+                                    </span>
+                                  </div>
+                                  <span className="font-semibold text-primary">+{option.price}€</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </CardContent>
                     )}
 
@@ -185,9 +253,15 @@ const ProviderProfile = () => {
                         <p className="text-sm text-muted-foreground">
                           à partir de
                         </p>
-                        <p className="text-3xl font-bold text-primary">
-                          {service.price}€
-                        </p>
+                        <div className="flex items-center gap-3">
+                          <p className="text-3xl font-bold text-primary">
+                            {service.price}€
+                          </p>
+                          <span className="flex items-center gap-1 text-muted-foreground">
+                            <Clock className="w-4 h-4" />
+                            {service.duration}
+                          </span>
+                        </div>
                       </div>
 
                       <div className="flex flex-col gap-2 w-full sm:w-auto">
