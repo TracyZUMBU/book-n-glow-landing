@@ -20,9 +20,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
 import {
   Ban,
+  Calendar,
+  Copy,
   ExternalLink,
   Eye,
   Filter,
@@ -31,6 +40,341 @@ import {
   Users,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
+
+// Composant pour afficher les providers (Desktop ou Mobile)
+interface ProvidersDisplayProps {
+  providers: Provider[];
+  formatDate: (dateString: string | null) => string;
+  getSubscriptionBadge: (type: Provider["subscriptionType"]) => JSX.Element;
+  getStatusBadge: (status: Provider["subscriptionStatus"]) => JSX.Element;
+  getAccountStatusBadge: (status: Provider["accountStatus"]) => JSX.Element;
+  handleView: (providerId: string) => void;
+  handleSuspend: (providerId: string) => void;
+}
+
+// Fonction pour copier l'ID dans le presse-papiers
+const copyProviderId = async (providerId: string) => {
+  try {
+    await navigator.clipboard.writeText(providerId);
+    toast.success("ID copié dans le presse-papiers", {
+      description: providerId,
+    });
+  } catch (error) {
+    toast.error("Erreur lors de la copie");
+  }
+};
+
+const ProvidersDisplay = ({
+  providers,
+  formatDate,
+  getSubscriptionBadge,
+  getStatusBadge,
+  getAccountStatusBadge,
+  handleView,
+  handleSuspend,
+}: ProvidersDisplayProps) => {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <ProvidersListMobile
+        providers={providers}
+        formatDate={formatDate}
+        getSubscriptionBadge={getSubscriptionBadge}
+        getStatusBadge={getStatusBadge}
+        getAccountStatusBadge={getAccountStatusBadge}
+        handleView={handleView}
+        handleSuspend={handleSuspend}
+      />
+    );
+  }
+
+  return (
+    <ProvidersTableDesktop
+      providers={providers}
+      formatDate={formatDate}
+      getSubscriptionBadge={getSubscriptionBadge}
+      getStatusBadge={getStatusBadge}
+      getAccountStatusBadge={getAccountStatusBadge}
+      handleView={handleView}
+      handleSuspend={handleSuspend}
+    />
+  );
+};
+
+// Composant Table Desktop
+const ProvidersTableDesktop = ({
+  providers,
+  formatDate,
+  getSubscriptionBadge,
+  getStatusBadge,
+  getAccountStatusBadge,
+  handleView,
+  handleSuspend,
+}: ProvidersDisplayProps) => {
+  return (
+    <Card>
+      <CardContent className="p-0">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="bg-muted/50">
+                <TableHead className="font-semibold">Prénom & Nom</TableHead>
+                <TableHead className="font-semibold">Abonnement</TableHead>
+                <TableHead className="font-semibold">Statut abo.</TableHead>
+                <TableHead className="font-semibold">Période d'essai</TableHead>
+                <TableHead className="font-semibold">Création</TableHead>
+                <TableHead className="font-semibold">Début abo.</TableHead>
+                <TableHead className="font-semibold">Instagram</TableHead>
+                <TableHead className="font-semibold">Compte</TableHead>
+                <TableHead className="font-semibold text-right">
+                  Actions
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {providers.map((provider) => (
+                <TableRow
+                  key={provider.id}
+                  className="hover:bg-muted/30 transition-colors"
+                >
+                  <TableCell className="font-medium">
+                    <div className="flex items-center gap-2">
+                      <span>
+                        {provider.firstName} {provider.lastName}
+                      </span>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button
+                              onClick={() => copyProviderId(provider.id)}
+                              className="p-1 rounded hover:bg-muted transition-colors"
+                              aria-label="Copier l'ID du provider"
+                            >
+                              <Copy className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="font-mono text-xs">{provider.id}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {getSubscriptionBadge(provider.subscriptionType)}
+                  </TableCell>
+                  <TableCell>
+                    {getStatusBadge(provider.subscriptionStatus)}
+                  </TableCell>
+                  <TableCell>
+                    {provider.isTrialing ? (
+                      <div className="space-y-1">
+                        <Badge className="bg-blue-500/10 text-blue-600 border-blue-500/20">
+                          Oui
+                        </Badge>
+                        <p className="text-xs text-muted-foreground">
+                          Fin : {formatDate(provider.trialEndDate)}
+                        </p>
+                      </div>
+                    ) : (
+                      <span className="text-muted-foreground">Non</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatDate(provider.createdAt)}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground">
+                    {formatDate(provider.subscriptionStartDate)}
+                  </TableCell>
+                  <TableCell>
+                    {provider.instagramHandle ? (
+                      <a
+                        href={`https://instagram.com/${provider.instagramHandle}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:text-primary/80 hover:underline transition-colors"
+                      >
+                        @{provider.instagramHandle}
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {getAccountStatusBadge(provider.accountStatus)}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-end gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleView(provider.id)}
+                        className="h-8"
+                      >
+                        <Eye className="h-4 w-4 mr-1" />
+                        Voir
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleSuspend(provider.id)}
+                        className="h-8 text-orange-600 hover:text-orange-700 hover:bg-orange-50 border-orange-200"
+                      >
+                        <Ban className="h-4 w-4 mr-1" />
+                        Suspendre
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+// Composant Liste Mobile avec Cartes
+const ProvidersListMobile = ({
+  providers,
+  formatDate,
+  getSubscriptionBadge,
+  getStatusBadge,
+  getAccountStatusBadge,
+  handleView,
+  handleSuspend,
+}: ProvidersDisplayProps) => {
+  return (
+    <div className="space-y-4">
+      {providers.map((provider) => (
+        <Card key={provider.id} className="hover:shadow-md transition-shadow">
+          <CardContent className="p-4">
+            {/* Header avec nom */}
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-4">
+                <h3 className="font-semibold text-lg">
+                  {provider.firstName} {provider.lastName}
+                </h3>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        onClick={() => copyProviderId(provider.id)}
+                        className="p-1.5 rounded hover:bg-muted transition-colors"
+                        aria-label="Copier l'ID du provider"
+                      >
+                        <Copy className="h-4 w-4 text-muted-foreground hover:text-foreground" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="font-mono text-xs">{provider.id}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+
+              {/* Badges avec labels */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground min-w-[100px]">
+                    Abonnement:
+                  </span>
+                  {getSubscriptionBadge(provider.subscriptionType)}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground min-w-[100px]">
+                    Statut abo.:
+                  </span>
+                  {getStatusBadge(provider.subscriptionStatus)}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground min-w-[100px]">
+                    Compte:
+                  </span>
+                  {getAccountStatusBadge(provider.accountStatus)}
+                </div>
+              </div>
+            </div>
+
+            {/* Informations principales */}
+            <div className="space-y-3 mb-4">
+              {/* Instagram */}
+              {provider.instagramHandle && (
+                <div className="flex items-center gap-2 text-sm">
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                  <a
+                    href={`https://instagram.com/${provider.instagramHandle}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    @{provider.instagramHandle}
+                  </a>
+                </div>
+              )}
+
+              {/* Période d'essai */}
+              {provider.isTrialing && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">
+                    Essai jusqu'au {formatDate(provider.trialEndDate)}
+                  </span>
+                </div>
+              )}
+
+              {/* Dates */}
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-muted-foreground text-xs mb-1">Création</p>
+                  <p className="font-medium">
+                    {formatDate(provider.createdAt)}
+                  </p>
+                </div>
+                {provider.subscriptionStartDate && (
+                  <div>
+                    <p className="text-muted-foreground text-xs mb-1">
+                      Début abonnement
+                    </p>
+                    <p className="font-medium">
+                      {formatDate(provider.subscriptionStartDate)}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-2 pt-3 border-t">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleView(provider.id)}
+                className="flex-1"
+              >
+                <Eye className="h-4 w-4 mr-2" />
+                Voir
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handleSuspend(provider.id)}
+                className="flex-1 text-orange-600 hover:text-orange-700 hover:bg-orange-50 border-orange-200"
+              >
+                <Ban className="h-4 w-4 mr-2" />
+                Suspendre
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+};
 
 const AdminProviders = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -282,122 +626,26 @@ const AdminProviders = () => {
           {filteredProviders.length > 1 ? "s" : ""}
         </div>
 
-        {/* Table */}
-        <Card>
-          <CardContent className="p-0">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted/50">
-                    <TableHead className="font-semibold">
-                      Prénom & Nom
-                    </TableHead>
-                    <TableHead className="font-semibold">Abonnement</TableHead>
-                    <TableHead className="font-semibold">Statut abo.</TableHead>
-                    <TableHead className="font-semibold">
-                      Période d'essai
-                    </TableHead>
-                    <TableHead className="font-semibold">Création</TableHead>
-                    <TableHead className="font-semibold">Début abo.</TableHead>
-                    <TableHead className="font-semibold">Instagram</TableHead>
-                    <TableHead className="font-semibold">Compte</TableHead>
-                    <TableHead className="font-semibold text-right">
-                      Actions
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredProviders.map((provider) => (
-                    <TableRow
-                      key={provider.id}
-                      className="hover:bg-muted/30 transition-colors"
-                    >
-                      <TableCell className="font-medium">
-                        {provider.firstName} {provider.lastName}
-                      </TableCell>
-                      <TableCell>
-                        {getSubscriptionBadge(provider.subscriptionType)}
-                      </TableCell>
-                      <TableCell>
-                        {getStatusBadge(provider.subscriptionStatus)}
-                      </TableCell>
-                      <TableCell>
-                        {provider.isTrialing ? (
-                          <div className="space-y-1">
-                            <Badge className="bg-blue-500/10 text-blue-600 border-blue-500/20">
-                              Oui
-                            </Badge>
-                            <p className="text-xs text-muted-foreground">
-                              Fin : {formatDate(provider.trialEndDate)}
-                            </p>
-                          </div>
-                        ) : (
-                          <span className="text-muted-foreground">Non</span>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {formatDate(provider.createdAt)}
-                      </TableCell>
-                      <TableCell className="text-muted-foreground">
-                        {formatDate(provider.subscriptionStartDate)}
-                      </TableCell>
-                      <TableCell>
-                        {provider.instagramHandle ? (
-                          <a
-                            href={`https://instagram.com/${provider.instagramHandle}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-primary hover:text-primary/80 hover:underline transition-colors"
-                          >
-                            @{provider.instagramHandle}
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        ) : (
-                          <span className="text-muted-foreground">—</span>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {getAccountStatusBadge(provider.accountStatus)}
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center justify-end gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleView(provider.id)}
-                            className="h-8"
-                          >
-                            <Eye className="h-4 w-4 mr-1" />
-                            Voir
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleSuspend(provider.id)}
-                            className="h-8 text-orange-600 hover:text-orange-700 hover:bg-orange-50 border-orange-200"
-                          >
-                            <Ban className="h-4 w-4 mr-1" />
-                            Suspendre
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {filteredProviders.length === 0 && (
-                    <TableRow>
-                      <TableCell
-                        colSpan={9}
-                        className="text-center py-8 text-muted-foreground"
-                      >
-                        Aucun prestataire trouvé avec ces critères.
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Desktop Table / Mobile Cards */}
+        {filteredProviders.length === 0 ? (
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center py-8 text-muted-foreground">
+                Aucun prestataire trouvé avec ces critères.
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <ProvidersDisplay
+            providers={filteredProviders}
+            formatDate={formatDate}
+            getSubscriptionBadge={getSubscriptionBadge}
+            getStatusBadge={getStatusBadge}
+            getAccountStatusBadge={getAccountStatusBadge}
+            handleView={handleView}
+            handleSuspend={handleSuspend}
+          />
+        )}
       </main>
 
       <Footer />

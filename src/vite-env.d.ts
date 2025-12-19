@@ -5,9 +5,7 @@ interface ImportMetaEnv {
   readonly RESEND_API_KEY?: string;
   readonly CONTACT_EMAIL?: string;
   readonly PORT?: string;
-  readonly VITE_SUPABASE_URL?: string;
   readonly VITE_PUBLIC_SUPABASE_URL?: string;
-  readonly VITE_SUPABASE_ANON_KEY?: string;
   readonly VITE_PUBLIC_SUPABASE_ANON_KEY?: string;
 }
 
