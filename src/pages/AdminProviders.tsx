@@ -1,8 +1,10 @@
-import { useState, useMemo } from "react";
-import { Search, Filter, Eye, Ban, ExternalLink, Users } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { getProviders, type Provider } from "@/api/providers";
+import Footer from "@/components/landing/Footer";
+import Navigation from "@/components/landing/Navigation";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -18,184 +20,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Navigation from "@/components/landing/Navigation";
-import Footer from "@/components/landing/Footer";
-
-// Types for future Supabase integration
-interface Provider {
-  id: string;
-  firstName: string;
-  lastName: string;
-  subscriptionType: "basic" | "premium";
-  subscriptionStatus: "trialing" | "active" | "canceled";
-  isTrialing: boolean;
-  trialEndDate: string | null;
-  createdAt: string;
-  subscriptionStartDate: string | null;
-  instagramHandle: string | null;
-  accountStatus: "active" | "suspended";
-}
-
-// Fake data - easily replaceable with Supabase query
-const fakeProviders: Provider[] = [
-  {
-    id: "1",
-    firstName: "Marie",
-    lastName: "Dupont",
-    subscriptionType: "premium",
-    subscriptionStatus: "active",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-03-15",
-    subscriptionStartDate: "2024-03-15",
-    instagramHandle: "marie.beauty",
-    accountStatus: "active",
-  },
-  {
-    id: "2",
-    firstName: "Sophie",
-    lastName: "Martin",
-    subscriptionType: "basic",
-    subscriptionStatus: "trialing",
-    isTrialing: true,
-    trialEndDate: "2025-01-15",
-    createdAt: "2024-12-01",
-    subscriptionStartDate: null,
-    instagramHandle: "sophie_nails",
-    accountStatus: "active",
-  },
-  {
-    id: "3",
-    firstName: "Emma",
-    lastName: "Bernard",
-    subscriptionType: "premium",
-    subscriptionStatus: "canceled",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-01-20",
-    subscriptionStartDate: "2024-01-20",
-    instagramHandle: "emma.hair.studio",
-    accountStatus: "suspended",
-  },
-  {
-    id: "4",
-    firstName: "Léa",
-    lastName: "Petit",
-    subscriptionType: "basic",
-    subscriptionStatus: "active",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-06-10",
-    subscriptionStartDate: "2024-07-10",
-    instagramHandle: null,
-    accountStatus: "active",
-  },
-  {
-    id: "5",
-    firstName: "Camille",
-    lastName: "Roux",
-    subscriptionType: "premium",
-    subscriptionStatus: "trialing",
-    isTrialing: true,
-    trialEndDate: "2025-01-20",
-    createdAt: "2024-12-06",
-    subscriptionStartDate: null,
-    instagramHandle: "camille.lashes",
-    accountStatus: "active",
-  },
-  {
-    id: "6",
-    firstName: "Julie",
-    lastName: "Moreau",
-    subscriptionType: "basic",
-    subscriptionStatus: "active",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-09-05",
-    subscriptionStartDate: "2024-09-19",
-    instagramHandle: "julie_makeup",
-    accountStatus: "active",
-  },
-  {
-    id: "7",
-    firstName: "Clara",
-    lastName: "Simon",
-    subscriptionType: "premium",
-    subscriptionStatus: "active",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-04-22",
-    subscriptionStartDate: "2024-05-06",
-    instagramHandle: "clara.wellness",
-    accountStatus: "active",
-  },
-  {
-    id: "8",
-    firstName: "Manon",
-    lastName: "Laurent",
-    subscriptionType: "basic",
-    subscriptionStatus: "canceled",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-02-14",
-    subscriptionStartDate: "2024-02-28",
-    instagramHandle: "manon_beaute",
-    accountStatus: "suspended",
-  },
-  {
-    id: "9",
-    firstName: "Chloé",
-    lastName: "Michel",
-    subscriptionType: "premium",
-    subscriptionStatus: "trialing",
-    isTrialing: true,
-    trialEndDate: "2025-01-10",
-    createdAt: "2024-11-26",
-    subscriptionStartDate: null,
-    instagramHandle: "chloe.spa",
-    accountStatus: "active",
-  },
-  {
-    id: "10",
-    firstName: "Alice",
-    lastName: "Garcia",
-    subscriptionType: "basic",
-    subscriptionStatus: "active",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-08-30",
-    subscriptionStartDate: "2024-09-13",
-    instagramHandle: null,
-    accountStatus: "active",
-  },
-  {
-    id: "11",
-    firstName: "Inès",
-    lastName: "Thomas",
-    subscriptionType: "premium",
-    subscriptionStatus: "active",
-    isTrialing: false,
-    trialEndDate: null,
-    createdAt: "2024-05-18",
-    subscriptionStartDate: "2024-06-01",
-    instagramHandle: "ines.beauty.paris",
-    accountStatus: "active",
-  },
-  {
-    id: "12",
-    firstName: "Zoé",
-    lastName: "Robert",
-    subscriptionType: "basic",
-    subscriptionStatus: "trialing",
-    isTrialing: true,
-    trialEndDate: "2025-01-25",
-    createdAt: "2024-12-11",
-    subscriptionStartDate: null,
-    instagramHandle: "zoe_nailart",
-    accountStatus: "active",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import {
+  Ban,
+  ExternalLink,
+  Eye,
+  Filter,
+  Loader2,
+  Search,
+  Users,
+} from "lucide-react";
+import { useMemo, useState } from "react";
 
 const AdminProviders = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -203,18 +38,31 @@ const AdminProviders = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [trialFilter, setTrialFilter] = useState<string>("all");
 
-  // Filter logic - ready for Supabase integration
+  // Récupération des providers depuis Supabase
+  const {
+    data: providers = [],
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["providers"],
+    queryFn: getProviders,
+  });
+
+  // Filter logic
   const filteredProviders = useMemo(() => {
-    return fakeProviders.filter((provider) => {
+    return providers.filter((provider) => {
       const matchesSearch =
         searchQuery === "" ||
         provider.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         provider.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (provider.instagramHandle &&
-          provider.instagramHandle.toLowerCase().includes(searchQuery.toLowerCase()));
+          provider.instagramHandle
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()));
 
       const matchesSubscription =
-        subscriptionFilter === "all" || provider.subscriptionType === subscriptionFilter;
+        subscriptionFilter === "all" ||
+        provider.subscriptionType === subscriptionFilter;
 
       const matchesStatus =
         statusFilter === "all" || provider.accountStatus === statusFilter;
@@ -224,9 +72,11 @@ const AdminProviders = () => {
         (trialFilter === "yes" && provider.isTrialing) ||
         (trialFilter === "no" && !provider.isTrialing);
 
-      return matchesSearch && matchesSubscription && matchesStatus && matchesTrial;
+      return (
+        matchesSearch && matchesSubscription && matchesStatus && matchesTrial
+      );
     });
-  }, [searchQuery, subscriptionFilter, statusFilter, trialFilter]);
+  }, [providers, searchQuery, subscriptionFilter, statusFilter, trialFilter]);
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "—";
@@ -282,7 +132,7 @@ const AdminProviders = () => {
     );
   };
 
-  // Action handlers - ready for Supabase integration
+  // Action handlers
   const handleView = (providerId: string) => {
     console.log("View provider:", providerId);
     // TODO: Navigate to provider detail page or open modal
@@ -290,8 +140,57 @@ const AdminProviders = () => {
 
   const handleSuspend = (providerId: string) => {
     console.log("Suspend provider:", providerId);
-    // TODO: Call Supabase to update account status
+    // TODO: Call Supabase to update account status (à implémenter plus tard)
   };
+
+  // État de chargement
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="container-mobile py-8 md:py-12">
+          <div className="flex items-center justify-center py-20">
+            <div className="flex flex-col items-center gap-4">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              <p className="text-muted-foreground">
+                Chargement des prestataires...
+              </p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // État d'erreur
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="container-mobile py-8 md:py-12">
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center py-8">
+                <p className="text-red-600 mb-2">
+                  Erreur lors du chargement des prestataires
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {error instanceof Error
+                    ? error.message
+                    : "Une erreur inconnue s'est produite"}
+                </p>
+                <p className="text-xs text-muted-foreground mt-4">
+                  Veuillez vérifier votre connexion Supabase et réessayer.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -335,7 +234,10 @@ const AdminProviders = () => {
               </div>
 
               {/* Subscription Type Filter */}
-              <Select value={subscriptionFilter} onValueChange={setSubscriptionFilter}>
+              <Select
+                value={subscriptionFilter}
+                onValueChange={setSubscriptionFilter}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Type d'abonnement" />
                 </SelectTrigger>
@@ -375,7 +277,8 @@ const AdminProviders = () => {
 
         {/* Results count */}
         <div className="mb-4 text-sm text-muted-foreground">
-          {filteredProviders.length} prestataire{filteredProviders.length > 1 ? "s" : ""} trouvé
+          {filteredProviders.length} prestataire
+          {filteredProviders.length > 1 ? "s" : ""} trouvé
           {filteredProviders.length > 1 ? "s" : ""}
         </div>
 
@@ -386,15 +289,21 @@ const AdminProviders = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-muted/50">
-                    <TableHead className="font-semibold">Prénom & Nom</TableHead>
+                    <TableHead className="font-semibold">
+                      Prénom & Nom
+                    </TableHead>
                     <TableHead className="font-semibold">Abonnement</TableHead>
                     <TableHead className="font-semibold">Statut abo.</TableHead>
-                    <TableHead className="font-semibold">Période d'essai</TableHead>
+                    <TableHead className="font-semibold">
+                      Période d'essai
+                    </TableHead>
                     <TableHead className="font-semibold">Création</TableHead>
                     <TableHead className="font-semibold">Début abo.</TableHead>
                     <TableHead className="font-semibold">Instagram</TableHead>
                     <TableHead className="font-semibold">Compte</TableHead>
-                    <TableHead className="font-semibold text-right">Actions</TableHead>
+                    <TableHead className="font-semibold text-right">
+                      Actions
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -406,8 +315,12 @@ const AdminProviders = () => {
                       <TableCell className="font-medium">
                         {provider.firstName} {provider.lastName}
                       </TableCell>
-                      <TableCell>{getSubscriptionBadge(provider.subscriptionType)}</TableCell>
-                      <TableCell>{getStatusBadge(provider.subscriptionStatus)}</TableCell>
+                      <TableCell>
+                        {getSubscriptionBadge(provider.subscriptionType)}
+                      </TableCell>
+                      <TableCell>
+                        {getStatusBadge(provider.subscriptionStatus)}
+                      </TableCell>
                       <TableCell>
                         {provider.isTrialing ? (
                           <div className="space-y-1">
@@ -443,7 +356,9 @@ const AdminProviders = () => {
                           <span className="text-muted-foreground">—</span>
                         )}
                       </TableCell>
-                      <TableCell>{getAccountStatusBadge(provider.accountStatus)}</TableCell>
+                      <TableCell>
+                        {getAccountStatusBadge(provider.accountStatus)}
+                      </TableCell>
                       <TableCell>
                         <div className="flex items-center justify-end gap-2">
                           <Button
@@ -470,7 +385,10 @@ const AdminProviders = () => {
                   ))}
                   {filteredProviders.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
+                      <TableCell
+                        colSpan={9}
+                        className="text-center py-8 text-muted-foreground"
+                      >
                         Aucun prestataire trouvé avec ces critères.
                       </TableCell>
                     </TableRow>
