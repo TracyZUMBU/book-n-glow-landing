@@ -38,11 +38,9 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Ban,
   Calendar,
   Copy,
   ExternalLink,
-  Eye,
   Filter,
   Loader2,
   Lock,
@@ -58,9 +56,6 @@ interface ProvidersDisplayProps {
   formatDate: (dateString: string | null) => string;
   getSubscriptionBadge: (type: Provider["subscriptionType"]) => JSX.Element;
   getStatusBadge: (status: Provider["subscriptionStatus"]) => JSX.Element;
-  getAccountStatusBadge: (status: Provider["accountStatus"]) => JSX.Element;
-  handleView: (providerId: string) => void;
-  handleSuspend: (providerId: string) => void;
 }
 
 // Fonction pour copier l'ID dans le presse-papiers
@@ -80,9 +75,6 @@ const ProvidersDisplay = ({
   formatDate,
   getSubscriptionBadge,
   getStatusBadge,
-  getAccountStatusBadge,
-  handleView,
-  handleSuspend,
 }: ProvidersDisplayProps) => {
   const isMobile = useIsMobile();
 
@@ -93,9 +85,6 @@ const ProvidersDisplay = ({
         formatDate={formatDate}
         getSubscriptionBadge={getSubscriptionBadge}
         getStatusBadge={getStatusBadge}
-        getAccountStatusBadge={getAccountStatusBadge}
-        handleView={handleView}
-        handleSuspend={handleSuspend}
       />
     );
   }
@@ -106,9 +95,6 @@ const ProvidersDisplay = ({
       formatDate={formatDate}
       getSubscriptionBadge={getSubscriptionBadge}
       getStatusBadge={getStatusBadge}
-      getAccountStatusBadge={getAccountStatusBadge}
-      handleView={handleView}
-      handleSuspend={handleSuspend}
     />
   );
 };
@@ -119,9 +105,6 @@ const ProvidersTableDesktop = ({
   formatDate,
   getSubscriptionBadge,
   getStatusBadge,
-  getAccountStatusBadge,
-  handleView,
-  handleSuspend,
 }: ProvidersDisplayProps) => {
   return (
     <Card>
@@ -137,9 +120,8 @@ const ProvidersTableDesktop = ({
                 <TableHead className="font-semibold">Création</TableHead>
                 <TableHead className="font-semibold">Début abo.</TableHead>
                 <TableHead className="font-semibold">Instagram</TableHead>
-                <TableHead className="font-semibold">Compte</TableHead>
-                <TableHead className="font-semibold text-right">
-                  Actions
+                <TableHead className="font-semibold">
+                  Lien de réservation
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -214,29 +196,19 @@ const ProvidersTableDesktop = ({
                     )}
                   </TableCell>
                   <TableCell>
-                    {getAccountStatusBadge(provider.accountStatus)}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center justify-end gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleView(provider.id)}
-                        className="h-8"
+                    {provider.slug ? (
+                      <a
+                        href={`https://app.book-n-glow.fr/prestataire-page/${provider.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:text-primary/80 hover:underline transition-colors"
                       >
-                        <Eye className="h-4 w-4 mr-1" />
-                        Voir
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleSuspend(provider.id)}
-                        className="h-8 text-orange-600 hover:text-orange-700 hover:bg-orange-50 border-orange-200"
-                      >
-                        <Ban className="h-4 w-4 mr-1" />
-                        Suspendre
-                      </Button>
-                    </div>
+                        Voir la page
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -254,9 +226,6 @@ const ProvidersListMobile = ({
   formatDate,
   getSubscriptionBadge,
   getStatusBadge,
-  getAccountStatusBadge,
-  handleView,
-  handleSuspend,
 }: ProvidersDisplayProps) => {
   return (
     <div className="space-y-4">
@@ -301,12 +270,6 @@ const ProvidersListMobile = ({
                   </span>
                   {getStatusBadge(provider.subscriptionStatus)}
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground min-w-[100px]">
-                    Compte:
-                  </span>
-                  {getAccountStatusBadge(provider.accountStatus)}
-                </div>
               </div>
             </div>
 
@@ -323,6 +286,21 @@ const ProvidersListMobile = ({
                     className="text-primary hover:underline"
                   >
                     @{provider.instagramHandle}
+                  </a>
+                </div>
+              )}
+
+              {/* Lien de réservation */}
+              {provider.slug && (
+                <div className="flex items-center gap-2 text-sm">
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                  <a
+                    href={`https://app.book-n-glow.fr/${provider.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    Voir la page de réservation
                   </a>
                 </div>
               )}
@@ -357,28 +335,6 @@ const ProvidersListMobile = ({
                 )}
               </div>
             </div>
-
-            {/* Actions */}
-            <div className="flex gap-2 pt-3 border-t">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleView(provider.id)}
-                className="flex-1"
-              >
-                <Eye className="h-4 w-4 mr-2" />
-                Voir
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleSuspend(provider.id)}
-                className="flex-1 text-orange-600 hover:text-orange-700 hover:bg-orange-50 border-orange-200"
-              >
-                <Ban className="h-4 w-4 mr-2" />
-                Suspendre
-              </Button>
-            </div>
           </CardContent>
         </Card>
       ))}
@@ -389,7 +345,6 @@ const ProvidersListMobile = ({
 const AdminProviders = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [subscriptionFilter, setSubscriptionFilter] = useState<string>("all");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
   const [trialFilter, setTrialFilter] = useState<string>("all");
 
   // Protection d'accès
@@ -459,19 +414,14 @@ const AdminProviders = () => {
         subscriptionFilter === "all" ||
         provider.subscriptionType === subscriptionFilter;
 
-      const matchesStatus =
-        statusFilter === "all" || provider.accountStatus === statusFilter;
-
       const matchesTrial =
         trialFilter === "all" ||
         (trialFilter === "yes" && provider.isTrialing) ||
         (trialFilter === "no" && !provider.isTrialing);
 
-      return (
-        matchesSearch && matchesSubscription && matchesStatus && matchesTrial
-      );
+      return matchesSearch && matchesSubscription && matchesTrial;
     });
-  }, [providers, searchQuery, subscriptionFilter, statusFilter, trialFilter]);
+  }, [providers, searchQuery, subscriptionFilter, trialFilter]);
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "—";
@@ -513,29 +463,6 @@ const AdminProviders = () => {
           </Badge>
         );
     }
-  };
-
-  const getAccountStatusBadge = (status: Provider["accountStatus"]) => {
-    return status === "active" ? (
-      <Badge className="bg-green-500/10 text-green-600 border-green-500/20 hover:bg-green-500/20">
-        Actif
-      </Badge>
-    ) : (
-      <Badge className="bg-orange-500/10 text-orange-600 border-orange-500/20 hover:bg-orange-500/20">
-        Suspendu
-      </Badge>
-    );
-  };
-
-  // Action handlers
-  const handleView = (providerId: string) => {
-    console.log("View provider:", providerId);
-    // TODO: Navigate to provider detail page or open modal
-  };
-
-  const handleSuspend = (providerId: string) => {
-    console.log("Suspend provider:", providerId);
-    // TODO: Call Supabase to update account status (à implémenter plus tard)
   };
 
   // Si non authentifié, afficher uniquement la modal
@@ -664,7 +591,7 @@ const AdminProviders = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {/* Search */}
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -688,18 +615,6 @@ const AdminProviders = () => {
                   <SelectItem value="all">Tous les abonnements</SelectItem>
                   <SelectItem value="basic">Basic</SelectItem>
                   <SelectItem value="premium">Premium</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Account Status Filter */}
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Statut du compte" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tous les statuts</SelectItem>
-                  <SelectItem value="active">Actif</SelectItem>
-                  <SelectItem value="suspended">Suspendu</SelectItem>
                 </SelectContent>
               </Select>
 
@@ -740,9 +655,6 @@ const AdminProviders = () => {
             formatDate={formatDate}
             getSubscriptionBadge={getSubscriptionBadge}
             getStatusBadge={getStatusBadge}
-            getAccountStatusBadge={getAccountStatusBadge}
-            handleView={handleView}
-            handleSuspend={handleSuspend}
           />
         )}
       </main>

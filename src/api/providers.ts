@@ -16,6 +16,7 @@ export interface Provider {
   subscriptionStartDate: string | null;
   instagramHandle: string | null;
   accountStatus: "active" | "suspended";
+  slug: string | null;
 }
 
 /**
@@ -64,6 +65,7 @@ function transformProvider(
     subscriptionStartDate,
     instagramHandle: provider.instagram_name || null,
     accountStatus,
+    slug: provider.slug || null,
   };
 }
 
