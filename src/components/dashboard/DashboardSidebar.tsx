@@ -1,4 +1,4 @@
-import { CalendarDays, Settings, Menu } from 'lucide-react';
+import { CalendarDays, Settings, Store } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import {
@@ -15,6 +15,11 @@ import {
 } from '@/components/ui/sidebar';
 
 const menuItems = [
+  {
+    title: 'Profil salon',
+    url: '/prestataire/profil',
+    icon: Store,
+  },
   {
     title: 'Disponibilités',
     url: '/prestataire/disponibilites',
