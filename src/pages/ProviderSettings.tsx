@@ -11,19 +11,14 @@ import {
   Settings,
   CreditCard,
   Clock,
-  Calendar,
   Ban,
   CheckCircle2,
   ExternalLink,
   Banknote,
   Wallet,
   AlertCircle,
-  Plus,
-  Trash2,
   Info,
 } from "lucide-react";
-import Navigation from "@/components/landing/Navigation";
-import Footer from "@/components/landing/Footer";
 
 const ProviderSettings = () => {
   const [paymentMethod, setPaymentMethod] = useState("stripe");
@@ -60,9 +55,7 @@ const ProviderSettings = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
-
-      <main className="container-mobile py-8 pt-24">
+      <main className="container-mobile py-8">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
@@ -71,7 +64,7 @@ const ProviderSettings = () => {
                 <Settings className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-3xl font-display font-bold text-foreground">
+                <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">
                   Paramètres de réservation
                 </h1>
                 <p className="text-muted-foreground">
@@ -341,14 +334,14 @@ const ProviderSettings = () => {
               <Card className="p-6 border-2 border-border bg-card">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-primary-foreground" />
+                    <Clock className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <div>
                     <h2 className="text-xl font-display font-semibold text-foreground">
-                      Gestion des créneaux
+                      Créneaux horaires par défaut
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      Définissez vos horaires de disponibilité
+                      Définissez vos horaires de travail habituels
                     </p>
                   </div>
                 </div>
@@ -357,83 +350,40 @@ const ProviderSettings = () => {
                   {timeSlots.map((slot) => (
                     <div
                       key={slot.id}
-                      className={`p-4 rounded-xl border-2 transition-all ${
+                      className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all ${
                         slot.enabled
-                          ? "border-primary/30 bg-primary/5"
-                          : "border-border bg-background-light"
+                          ? "border-border bg-card"
+                          : "border-border/50 bg-muted/30"
                       }`}
                     >
-                      <div className="flex items-center justify-between flex-wrap gap-4">
-                        <div className="flex items-center gap-4">
-                          <Switch
-                            checked={slot.enabled}
-                            onCheckedChange={() => toggleDayEnabled(slot.id)}
+                      <Switch
+                        checked={slot.enabled}
+                        onCheckedChange={() => toggleDayEnabled(slot.id)}
+                      />
+                      <span className={`w-24 font-medium ${
+                        slot.enabled ? "text-foreground" : "text-muted-foreground"
+                      }`}>
+                        {slot.day}
+                      </span>
+                      {slot.enabled && (
+                        <div className="flex items-center gap-2 flex-1">
+                          <Input
+                            type="time"
+                            value={slot.start}
+                            onChange={(e) => updateSlotTime(slot.id, "start", e.target.value)}
+                            className="w-28"
                           />
-                          <span
-                            className={`font-semibold min-w-[80px] ${
-                              slot.enabled ? "text-foreground" : "text-muted-foreground"
-                            }`}
-                          >
-                            {slot.day}
-                          </span>
+                          <span className="text-muted-foreground">à</span>
+                          <Input
+                            type="time"
+                            value={slot.end}
+                            onChange={(e) => updateSlotTime(slot.id, "end", e.target.value)}
+                            className="w-28"
+                          />
                         </div>
-
-                        {slot.enabled && (
-                          <div className="flex items-center gap-2 animate-in slide-in-from-left-2 duration-200">
-                            <Input
-                              type="time"
-                              value={slot.start}
-                              onChange={(e) => updateSlotTime(slot.id, "start", e.target.value)}
-                              className="w-[120px]"
-                            />
-                            <span className="text-muted-foreground">à</span>
-                            <Input
-                              type="time"
-                              value={slot.end}
-                              onChange={(e) => updateSlotTime(slot.id, "end", e.target.value)}
-                              className="w-[120px]"
-                            />
-                          </div>
-                        )}
-                      </div>
+                      )}
                     </div>
                   ))}
-                </div>
-
-                <Separator className="my-6" />
-
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-foreground">Paramètres avancés</h3>
-                  
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="slot-duration">Durée minimale d'un créneau</Label>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          id="slot-duration"
-                          type="number"
-                          defaultValue="30"
-                          min="15"
-                          className="w-24"
-                        />
-                        <span className="text-muted-foreground">minutes</span>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="buffer-time">Temps tampon entre rendez-vous</Label>
-                      <div className="flex items-center gap-2">
-                        <Input
-                          id="buffer-time"
-                          type="number"
-                          defaultValue="15"
-                          min="0"
-                          className="w-24"
-                        />
-                        <span className="text-muted-foreground">minutes</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </Card>
             </TabsContent>
@@ -450,7 +400,7 @@ const ProviderSettings = () => {
                       Politique d'annulation
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                      Définissez les conditions d'annulation pour vos clients
+                      Définissez les règles d'annulation pour vos clients
                     </p>
                   </div>
                 </div>
@@ -460,9 +410,8 @@ const ProviderSettings = () => {
                   onValueChange={setCancellationPolicy}
                   className="space-y-4"
                 >
-                  {/* Flexible Policy */}
                   <div
-                    className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                    className={`relative p-4 rounded-xl border-2 transition-all cursor-pointer ${
                       cancellationPolicy === "flexible"
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-primary/50"
@@ -475,16 +424,15 @@ const ProviderSettings = () => {
                         <Label htmlFor="flexible" className="text-lg font-semibold cursor-pointer">
                           Flexible
                         </Label>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          Annulation gratuite jusqu'à 24h avant le rendez-vous. Remboursement intégral de l'acompte.
+                        <p className="text-sm text-muted-foreground">
+                          Annulation gratuite jusqu'à 24h avant le rendez-vous
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Moderate Policy */}
                   <div
-                    className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                    className={`relative p-4 rounded-xl border-2 transition-all cursor-pointer ${
                       cancellationPolicy === "moderate"
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-primary/50"
@@ -497,16 +445,15 @@ const ProviderSettings = () => {
                         <Label htmlFor="moderate" className="text-lg font-semibold cursor-pointer">
                           Modérée
                         </Label>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          Annulation gratuite jusqu'à 48h avant le rendez-vous. Après ce délai, l'acompte n'est pas remboursé.
+                        <p className="text-sm text-muted-foreground">
+                          Annulation gratuite jusqu'à 48h avant le rendez-vous
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Strict Policy */}
                   <div
-                    className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
+                    className={`relative p-4 rounded-xl border-2 transition-all cursor-pointer ${
                       cancellationPolicy === "strict"
                         ? "border-primary bg-primary/5"
                         : "border-border hover:border-primary/50"
@@ -519,62 +466,18 @@ const ProviderSettings = () => {
                         <Label htmlFor="strict" className="text-lg font-semibold cursor-pointer">
                           Stricte
                         </Label>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          Annulation gratuite jusqu'à 7 jours avant le rendez-vous. Après ce délai, l'acompte n'est pas remboursé.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* No Cancellation Policy */}
-                  <div
-                    className={`p-4 rounded-xl border-2 transition-all cursor-pointer ${
-                      cancellationPolicy === "none"
-                        ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50"
-                    }`}
-                    onClick={() => setCancellationPolicy("none")}
-                  >
-                    <div className="flex items-center gap-3">
-                      <RadioGroupItem value="none" id="none" />
-                      <div>
-                        <Label htmlFor="none" className="text-lg font-semibold cursor-pointer">
-                          Non remboursable
-                        </Label>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          Aucune annulation possible. L'acompte n'est jamais remboursé en cas d'annulation.
+                        <p className="text-sm text-muted-foreground">
+                          Aucune annulation possible après réservation
                         </p>
                       </div>
                     </div>
                   </div>
                 </RadioGroup>
-
-                <Separator className="my-6" />
-
-                <div className="p-4 rounded-lg border-l-4 border-primary bg-primary/5">
-                  <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
-                    <Info className="w-4 h-4 text-primary" />
-                    Information importante
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    La politique d'annulation s'appliquera à toutes vos nouvelles réservations. Les réservations existantes conserveront leur politique initiale.
-                  </p>
-                </div>
               </Card>
             </TabsContent>
           </Tabs>
-
-          {/* Save Button */}
-          <div className="flex justify-end mt-8">
-            <Button variant="hero" size="lg" className="gap-2">
-              <CheckCircle2 className="w-5 h-5" />
-              Enregistrer les modifications
-            </Button>
-          </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };
