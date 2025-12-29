@@ -24,6 +24,7 @@ import ProviderProfile from "./pages/ProviderProfile";
 import ProviderSettings from "./pages/ProviderSettings";
 import ProviderAvailability from "./pages/ProviderAvailability";
 import ProviderDashboard from "./pages/ProviderDashboard";
+import ProviderProfileEdit from "./pages/ProviderProfileEdit";
 import AdminProviders from "./pages/AdminProviders";
 
 const queryClient = new QueryClient();
@@ -107,6 +108,7 @@ const App = () => (
           
           {/* Provider Dashboard with nested routes */}
           <Route path="/prestataire" element={<ProviderDashboard />}>
+            <Route path="profil" element={<ProviderProfileEdit />} />
             <Route path="disponibilites" element={<ProviderAvailability />} />
             <Route path="parametres" element={<ProviderSettings />} />
           </Route>
