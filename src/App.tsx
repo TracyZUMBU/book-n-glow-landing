@@ -22,8 +22,9 @@ import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
 import ProviderSettings from "./pages/ProviderSettings";
-import AdminProviders from "./pages/AdminProviders";
 import ProviderAvailability from "./pages/ProviderAvailability";
+import ProviderDashboard from "./pages/ProviderDashboard";
+import AdminProviders from "./pages/AdminProviders";
 
 const queryClient = new QueryClient();
 
@@ -103,8 +104,13 @@ const App = () => (
           <Route path="/acompte-paiement" element={<PaymentDeposit />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/modal-preview" element={<ModalPreview />} />
-          <Route path="/prestataire/parametres" element={<ProviderSettings />} />
-          <Route path="/prestataire/disponibilites" element={<ProviderAvailability />} />
+          
+          {/* Provider Dashboard with nested routes */}
+          <Route path="/prestataire" element={<ProviderDashboard />}>
+            <Route path="disponibilites" element={<ProviderAvailability />} />
+            <Route path="parametres" element={<ProviderSettings />} />
+          </Route>
+          
           <Route path="/admin/prestataires" element={<AdminProviders />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
