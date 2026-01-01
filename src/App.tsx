@@ -25,7 +25,12 @@ import ProviderSettings from "./pages/ProviderSettings";
 import ProviderAvailability from "./pages/ProviderAvailability";
 import ProviderDashboard from "./pages/ProviderDashboard";
 import ProviderProfileEdit from "./pages/ProviderProfileEdit";
+import ProviderRevenue from "./pages/ProviderRevenue";
+import ProviderBookingDetail from "./pages/ProviderBookingDetail";
 import AdminProviders from "./pages/AdminProviders";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminBookings from "./pages/admin/AdminBookings";
+import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
 
 const queryClient = new QueryClient();
 
@@ -108,12 +113,20 @@ const App = () => (
           
           {/* Provider Dashboard with nested routes */}
           <Route path="/prestataire" element={<ProviderDashboard />}>
+            <Route path="revenus" element={<ProviderRevenue />} />
+            <Route path="reservations/:bookingId" element={<ProviderBookingDetail />} />
             <Route path="profil" element={<ProviderProfileEdit />} />
             <Route path="disponibilites" element={<ProviderAvailability />} />
             <Route path="parametres" element={<ProviderSettings />} />
           </Route>
           
-          <Route path="/admin/prestataires" element={<AdminProviders />} />
+          {/* Admin Dashboard with nested routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="bookings" element={<AdminBookings />} />
+            <Route path="bookings/:bookingId" element={<AdminBookingDetail />} />
+            <Route path="prestataires" element={<AdminProviders />} />
+          </Route>
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
