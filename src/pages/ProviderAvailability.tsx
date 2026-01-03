@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay } from 'date-fns';
-import { Copy, Info } from 'lucide-react';
+import { Copy, Info, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
@@ -133,10 +133,19 @@ export default function ProviderAvailability() {
       {/* Header */}
       <div className="sticky top-0 md:top-0 z-10 bg-background/95 backdrop-blur-sm border-b">
         <div className="container-mobile py-4">
-          <div className="mb-4">
-            <h1 className="text-xl sm:text-2xl font-bold text-foreground">Disponibilités</h1>
-            <p className="text-sm text-muted-foreground">Gérez vos horaires de travail</p>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+            <CalendarDays className="w-6 h-6 text-primary-foreground" />
           </div>
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">
+              Disponibilités
+            </h1>
+            <p className="text-muted-foreground">
+              Gérez vos horaires de travail
+            </p>
+          </div>
+        </div>
           
           {/* Month Tabs */}
           <MonthTabs

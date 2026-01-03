@@ -23,11 +23,18 @@ export default function ProviderRevenue() {
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-display font-bold">Revenus & Paiements</h1>
-        <p className="text-muted-foreground mt-1">
-          Suivez vos revenus et l'état de vos paiements
-        </p>
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+          <Euro className="w-6 h-6 text-primary-foreground" />
+        </div>
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">
+            Revenus & Paiements
+          </h1>
+          <p className="text-muted-foreground">
+            Suivez vos revenus et l'état de vos paiements
+          </p>
+        </div>
       </div>
 
       {/* Stats cards */}

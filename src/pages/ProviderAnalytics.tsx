@@ -126,11 +126,18 @@ const ProviderAnalytics = () => {
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="space-y-1 sm:space-y-2">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Analyses</h1>
-        <p className="text-sm sm:text-base text-muted-foreground">
-          Aperçu de votre activité — Ces données vous aident à mieux comprendre votre performance
-        </p>
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+          <BarChart3 className="w-6 h-6 text-primary-foreground" />
+        </div>
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-display font-bold text-foreground">
+            Analyses
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Aperçu de votre activité — Ces données vous aident à mieux comprendre votre performance
+          </p>
+        </div>
       </div>
 
       {/* KPI Cards */}
