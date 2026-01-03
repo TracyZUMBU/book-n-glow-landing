@@ -1284,10 +1284,305 @@ export default function CGU() {
               </div>
             </div>
 
+            {/* Paiements par carte bancaire via Stripe */}
+            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
+                20. Paiements par carte bancaire via Stripe
+              </h2>
+              <div className="space-y-6 text-muted-foreground">
+                {/* Objet */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.1 Objet
+                  </h3>
+                  <p>
+                    La présente section a pour objet de définir les conditions
+                    applicables aux paiements par carte bancaire effectués via
+                    la plateforme{" "}
+                    <strong className="text-foreground">Book n Glow</strong>,
+                    utilisant la solution de paiement sécurisée Stripe.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Book n Glow</strong>{" "}
+                    agit en qualité d'intermédiaire technique de paiement entre
+                    le Client et le Prestataire.
+                  </p>
+                </div>
+
+                {/* Rôle de Book n Glow */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.2 Rôle de Book n Glow
+                  </h3>
+                  <p>
+                    <strong className="text-foreground">Book n Glow</strong> :
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      met à disposition une infrastructure de paiement
+                      sécurisée,
+                    </li>
+                    <li>
+                      collecte les paiements pour le compte des Prestataires via
+                      Stripe,
+                    </li>
+                    <li>
+                      organise le transfert des fonds vers les Prestataires
+                      selon les règles définies ci-après,
+                    </li>
+                    <li>
+                      ne fournit aucune prestation de service esthétique.
+                    </li>
+                  </ul>
+                  <p>
+                    Le contrat de prestation est conclu directement entre le
+                    Client et le Prestataire.
+                  </p>
+                </div>
+
+                {/* Paiement par carte bancaire */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.3 Paiement par carte bancaire
+                  </h3>
+                  <p>
+                    <strong className="text-foreground">
+                      20.3.1 Modalités de paiement
+                    </strong>
+                  </p>
+                  <p>
+                    Le Client peut régler tout ou partie de sa réservation par
+                    carte bancaire directement depuis la plateforme{" "}
+                    <strong className="text-foreground">Book n Glow</strong>.
+                  </p>
+                  <p>
+                    Les paiements sont traités par Stripe, prestataire de
+                    services de paiement certifié PCI-DSS.
+                  </p>
+                  <p>
+                    À aucun moment{" "}
+                    <strong className="text-foreground">Book n Glow</strong> n'a
+                    accès aux données bancaires du Client.
+                  </p>
+                  <p className="mt-4">
+                    <strong className="text-foreground">
+                      20.3.2 Acompte et paiement total
+                    </strong>
+                  </p>
+                  <p>Selon les paramètres définis par le Prestataire :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      un acompte peut être exigé lors de la réservation,
+                    </li>
+                    <li>ou le montant total peut être payé immédiatement.</li>
+                  </ul>
+                  <p>
+                    Le montant dû est clairement indiqué avant validation du
+                    paiement.
+                  </p>
+                </div>
+
+                {/* Conservation et transfert des fonds */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.4 Conservation et transfert des fonds
+                  </h3>
+                  <p>
+                    <strong className="text-foreground">
+                      20.4.1 Conservation temporaire
+                    </strong>
+                  </p>
+                  <p>
+                    Les fonds payés par le Client sont conservés temporairement
+                    par la plateforme via Stripe.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Book n Glow</strong> ne
+                    procède à aucun transfert immédiat vers le Prestataire.
+                  </p>
+                  <p className="mt-4">
+                    <strong className="text-foreground">
+                      20.4.2 Transfert au Prestataire
+                    </strong>
+                  </p>
+                  <p>
+                    Sauf cas exceptionnel (annulation, litige, remboursement),
+                    les fonds sont transférés automatiquement au Prestataire 24
+                    heures après la date et l'heure du rendez-vous.
+                  </p>
+                  <p>Ce délai permet :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>la gestion des annulations,</li>
+                    <li>la résolution d'éventuels litiges,</li>
+                    <li>la sécurisation des paiements.</li>
+                  </ul>
+                </div>
+
+                {/* Annulations et remboursements */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.5 Annulations et remboursements
+                  </h3>
+                  <p>
+                    <strong className="text-foreground">
+                      20.5.1 Annulation par le Client
+                    </strong>
+                  </p>
+                  <p>
+                    Le Client peut annuler sa réservation uniquement avant la
+                    date limite d'annulation indiquée lors de la réservation.
+                  </p>
+                  <p>Si l'annulation intervient dans ce délai :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      le paiement effectué est remboursé automatiquement
+                      (totalement ou selon les conditions du Prestataire).
+                    </li>
+                  </ul>
+                  <p>
+                    Toute annulation hors délai ne donne lieu à aucun
+                    remboursement, sauf décision exceptionnelle du Prestataire
+                    ou de{" "}
+                    <strong className="text-foreground">Book n Glow</strong>.
+                  </p>
+                  <p className="mt-4">
+                    <strong className="text-foreground">
+                      20.5.2 Annulation par le Prestataire
+                    </strong>
+                  </p>
+                  <p>Si le Prestataire annule la réservation :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      le Client est intégralement remboursé, quel que soit le
+                      moment de l'annulation.
+                    </li>
+                  </ul>
+                  <p className="mt-4">
+                    <strong className="text-foreground">
+                      20.5.3 Remboursements après réalisation du rendez-vous
+                    </strong>
+                  </p>
+                  <p>Après la date du rendez-vous :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>aucun remboursement n'est automatique,</li>
+                    <li>
+                      un remboursement partiel ou total peut être accordé à
+                      titre exceptionnel, à l'initiative du Prestataire ou de{" "}
+                      <strong className="text-foreground">Book n Glow</strong>.
+                    </li>
+                  </ul>
+                  <p>
+                    Les remboursements sont toujours traités via la plateforme{" "}
+                    <strong className="text-foreground">Book n Glow</strong>.
+                  </p>
+                </div>
+
+                {/* Modalités de remboursement */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.6 Modalités de remboursement
+                  </h3>
+                  <p>Les remboursements sont effectués :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>exclusivement via Stripe,</li>
+                    <li>
+                      sur le moyen de paiement utilisé lors de la réservation,
+                    </li>
+                    <li>
+                      dans un délai dépendant des délais bancaires (généralement
+                      5 à 10 jours ouvrés).
+                    </li>
+                  </ul>
+                  <p>
+                    En cas de remboursement après transfert des fonds au
+                    Prestataire,{" "}
+                    <strong className="text-foreground">Book n Glow</strong> se
+                    réserve le droit d'effectuer une contre-opération financière
+                    auprès du Prestataire via Stripe.
+                  </p>
+                </div>
+
+                {/* Responsabilité */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.7 Responsabilité
+                  </h3>
+                  <p>
+                    <strong className="text-foreground">Book n Glow</strong> ne
+                    saurait être tenue responsable :
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      de l'inexécution ou de la mauvaise exécution de la
+                      prestation réalisée par le Prestataire,
+                    </li>
+                    <li>
+                      d'un litige lié à la qualité de la prestation,
+                    </li>
+                    <li>
+                      d'un refus de remboursement hors conditions prévues.
+                    </li>
+                  </ul>
+                  <p>
+                    Toute réclamation doit être adressée en priorité au
+                    Prestataire concerné.
+                  </p>
+                </div>
+
+                {/* Sécurité et conformité */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.8 Sécurité et conformité
+                  </h3>
+                  <p>
+                    Les paiements sont traités par Stripe conformément aux
+                    normes de sécurité en vigueur.
+                  </p>
+                  <p>
+                    <strong className="text-foreground">Book n Glow</strong> se
+                    conforme aux obligations réglementaires applicables en
+                    matière de lutte contre la fraude et de protection des
+                    consommateurs.
+                  </p>
+                </div>
+
+                {/* Acceptation */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.9 Acceptation
+                  </h3>
+                  <p>
+                    Le paiement par carte bancaire implique l'acceptation pleine
+                    et entière :
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>des présentes conditions,</li>
+                    <li>
+                      des conditions générales de{" "}
+                      <strong className="text-foreground">Book n Glow</strong>,
+                    </li>
+                    <li>des conditions d'utilisation de Stripe.</li>
+                  </ul>
+                </div>
+
+                {/* Modification */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    20.10 Modification
+                  </h3>
+                  <p>
+                    <strong className="text-foreground">Book n Glow</strong> se
+                    réserve le droit de modifier les présentes conditions à tout
+                    moment.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Contact */}
             <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                20. Contact
+                21. Contact
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
