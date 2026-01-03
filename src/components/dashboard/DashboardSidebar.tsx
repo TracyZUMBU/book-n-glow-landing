@@ -1,4 +1,4 @@
-import { CalendarDays, Settings, Store, Euro } from 'lucide-react';
+import { CalendarDays, Settings, Store, Euro, BarChart3 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import {
@@ -19,6 +19,11 @@ const menuItems = [
     title: 'Revenus & Paiements',
     url: '/prestataire/revenus',
     icon: Euro,
+  },
+  {
+    title: 'Analyses',
+    url: '/prestataire/analyses',
+    icon: BarChart3,
   },
   {
     title: 'Profil salon',
