@@ -28,6 +28,8 @@ import ProviderProfileEdit from "./pages/ProviderProfileEdit";
 import ProviderRevenue from "./pages/ProviderRevenue";
 import ProviderBookingDetail from "./pages/ProviderBookingDetail";
 import ProviderAnalytics from "./pages/ProviderAnalytics";
+import ProviderClients from "./pages/ProviderClients";
+import ProviderClientDetail from "./pages/ProviderClientDetail";
 import AdminProviders from "./pages/AdminProviders";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminBookings from "./pages/admin/AdminBookings";
@@ -116,6 +118,8 @@ const App = () => (
           <Route path="/prestataire" element={<ProviderDashboard />}>
             <Route path="revenus" element={<ProviderRevenue />} />
             <Route path="analyses" element={<ProviderAnalytics />} />
+            <Route path="clients" element={<ProviderClients />} />
+            <Route path="clients/:clientId" element={<ProviderClientDetail />} />
             <Route path="reservations/:bookingId" element={<ProviderBookingDetail />} />
             <Route path="profil" element={<ProviderProfileEdit />} />
             <Route path="disponibilites" element={<ProviderAvailability />} />
