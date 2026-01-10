@@ -10,9 +10,127 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, Instagram, MapPin } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { Clock, Instagram, MapPin, Star, User } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+interface Review {
+  id: number;
+  clientName: string;
+  date: string;
+  comment?: string;
+  ratings: {
+    proprete: number;
+    qualiteTravail: number;
+    savoirEtre: number;
+    ponctualite: number;
+  };
+}
+
+const reviews: Review[] = [
+  {
+    id: 1,
+    clientName: "Marie L.",
+    date: "2024-01-15",
+    comment: "Un moment de détente absolue ! Le salon est impeccable et la prestation au top. Je recommande vivement.",
+    ratings: { proprete: 5, qualiteTravail: 5, savoirEtre: 5, ponctualite: 5 }
+  },
+  {
+    id: 2,
+    clientName: "Sophie D.",
+    date: "2024-01-10",
+    comment: "Très satisfaite de ma manucure, le résultat est magnifique !",
+    ratings: { proprete: 5, qualiteTravail: 5, savoirEtre: 4, ponctualite: 5 }
+  },
+  {
+    id: 3,
+    clientName: "Julie M.",
+    date: "2024-01-08",
+    ratings: { proprete: 4, qualiteTravail: 5, savoirEtre: 5, ponctualite: 4 }
+  },
+  {
+    id: 4,
+    clientName: "Camille R.",
+    date: "2024-01-05",
+    comment: "Excellent travail, très professionnelle. Le salon est magnifique et très propre.",
+    ratings: { proprete: 5, qualiteTravail: 5, savoirEtre: 5, ponctualite: 5 }
+  },
+  {
+    id: 5,
+    clientName: "Emma B.",
+    date: "2024-01-02",
+    comment: "Ponctuelle et à l'écoute, une vraie pro !",
+    ratings: { proprete: 5, qualiteTravail: 4, savoirEtre: 5, ponctualite: 5 }
+  },
+  {
+    id: 6,
+    clientName: "Léa P.",
+    date: "2023-12-28",
+    ratings: { proprete: 4, qualiteTravail: 5, savoirEtre: 5, ponctualite: 5 }
+  },
+  {
+    id: 7,
+    clientName: "Chloé V.",
+    date: "2023-12-20",
+    comment: "Super expérience, je reviendrai sans hésiter.",
+    ratings: { proprete: 5, qualiteTravail: 5, savoirEtre: 5, ponctualite: 4 }
+  },
+  {
+    id: 8,
+    clientName: "Inès K.",
+    date: "2023-12-15",
+    comment: "Travail de qualité, ambiance très agréable.",
+    ratings: { proprete: 5, qualiteTravail: 5, savoirEtre: 4, ponctualite: 5 }
+  }
+];
+
+const ratingLabels = {
+  proprete: "Propreté",
+  qualiteTravail: "Qualité du travail",
+  savoirEtre: "Savoir-être",
+  ponctualite: "Ponctualité"
+};
+
+const calculateAverageRatings = (reviews: Review[]) => {
+  const totals = { proprete: 0, qualiteTravail: 0, savoirEtre: 0, ponctualite: 0 };
+  reviews.forEach(review => {
+    totals.proprete += review.ratings.proprete;
+    totals.qualiteTravail += review.ratings.qualiteTravail;
+    totals.savoirEtre += review.ratings.savoirEtre;
+    totals.ponctualite += review.ratings.ponctualite;
+  });
+  const count = reviews.length;
+  return {
+    proprete: totals.proprete / count,
+    qualiteTravail: totals.qualiteTravail / count,
+    savoirEtre: totals.savoirEtre / count,
+    ponctualite: totals.ponctualite / count
+  };
+};
+
+const getOverallAverage = (ratings: Review["ratings"]) => {
+  return (ratings.proprete + ratings.qualiteTravail + ratings.savoirEtre + ratings.ponctualite) / 4;
+};
+
+const StarRating = ({ rating }: { rating: number }) => {
+  return (
+    <div className="flex gap-0.5">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
+          key={star}
+          className={`w-4 h-4 ${
+            star <= rating
+              ? "fill-primary text-primary"
+              : star - 0.5 <= rating
+              ? "fill-primary/50 text-primary"
+              : "fill-muted text-muted-foreground/30"
+          }`}
+        />
+      ))}
+    </div>
+  );
+};
 
 interface ServiceOption {
   id: number;
@@ -132,11 +250,14 @@ const ProviderProfile = () => {
       <main className="container-mobile max-w-4xl pt-24 pb-16">
         <Tabs defaultValue="booking" className="w-full">
           <TabsList className="w-full max-w-md mx-auto mb-8 h-12 bg-background-light">
-            <TabsTrigger value="booking" className="flex-1 text-base">
+            <TabsTrigger value="booking" className="flex-1 text-sm sm:text-base">
               Prendre RDV
             </TabsTrigger>
-            <TabsTrigger value="info" className="flex-1 text-base">
+            <TabsTrigger value="info" className="flex-1 text-sm sm:text-base">
               Informations
+            </TabsTrigger>
+            <TabsTrigger value="reviews" className="flex-1 text-sm sm:text-base">
+              Avis
             </TabsTrigger>
           </TabsList>
 
@@ -348,6 +469,90 @@ const ProviderProfile = () => {
                 </p>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="reviews" className="space-y-6">
+            {/* Global Ratings Summary */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-2xl">Note globale</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <span className="text-3xl font-bold text-primary">
+                      {(Object.values(calculateAverageRatings(reviews)).reduce((a, b) => a + b, 0) / 4).toFixed(1)}
+                    </span>
+                    <Star className="w-6 h-6 fill-primary text-primary" />
+                    <span className="text-muted-foreground">({reviews.length} avis)</span>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {Object.entries(calculateAverageRatings(reviews)).map(([key, value]) => (
+                  <div key={key} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium">{ratingLabels[key as keyof typeof ratingLabels]}</span>
+                      <div className="flex items-center gap-2">
+                        <StarRating rating={Math.round(value)} />
+                        <span className="text-sm font-semibold text-primary">{value.toFixed(1)}</span>
+                      </div>
+                    </div>
+                    <Progress value={value * 20} className="h-2" />
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            {/* Individual Reviews */}
+            <div className="space-y-4">
+              <h2 className="font-serif text-2xl font-bold">Tous les avis</h2>
+              
+              {reviews.map((review) => {
+                const overallRating = getOverallAverage(review.ratings);
+                return (
+                  <Card key={review.id} className="hover:shadow-elegant transition-all duration-300">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <User className="w-5 h-5 text-primary" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-lg">{review.clientName}</CardTitle>
+                            <CardDescription>
+                              {new Date(review.date).toLocaleDateString("fr-FR", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                              })}
+                            </CardDescription>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-1.5 bg-primary/10 px-3 py-1.5 rounded-full">
+                          <Star className="w-4 h-4 fill-primary text-primary" />
+                          <span className="font-semibold text-primary">{overallRating.toFixed(1)}</span>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {review.comment && (
+                        <p className="text-muted-foreground italic">"{review.comment}"</p>
+                      )}
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        {Object.entries(review.ratings).map(([key, value]) => (
+                          <div key={key} className="flex items-center justify-between text-sm">
+                            <span className="text-muted-foreground">
+                              {ratingLabels[key as keyof typeof ratingLabels]}
+                            </span>
+                            <StarRating rating={value} />
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </TabsContent>
         </Tabs>
       </main>
