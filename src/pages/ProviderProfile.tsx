@@ -11,7 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Clock, Instagram, MapPin, Star, User } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+} from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { ChevronLeft, ChevronRight, Clock, Instagram, MapPin, Star, User, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -147,6 +158,7 @@ interface Service {
   duration: string;
   category: string;
   options?: ServiceOption[];
+  photos?: string[];
 }
 
 const services: Service[] = [
@@ -163,6 +175,11 @@ const services: Service[] = [
       { id: 2, name: "Faux cils individuels", price: "25", duration: "20min" },
       { id: 3, name: "Retouche en soirée", price: "40", duration: "30min" },
     ],
+    photos: [
+      "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600",
+      "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=600",
+      "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600",
+    ],
   },
   {
     id: 2,
@@ -175,6 +192,10 @@ const services: Service[] = [
     options: [
       { id: 1, name: "Massage du visage", price: "20", duration: "15min" },
       { id: 2, name: "Soin contour des yeux", price: "15", duration: "10min" },
+    ],
+    photos: [
+      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600",
+      "https://images.unsplash.com/photo-1552693673-1bf958298935?w=600",
     ],
   },
   {
@@ -190,6 +211,12 @@ const services: Service[] = [
       { id: 2, name: "Nail art complexe", price: "25", duration: "30min" },
       { id: 3, name: "Soin des cuticules", price: "8", duration: "10min" },
     ],
+    photos: [
+      "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600",
+      "https://images.unsplash.com/photo-1610992015732-2449b0bb0a86?w=600",
+      "https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=600",
+      "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=600",
+    ],
   },
   {
     id: 4,
@@ -202,6 +229,10 @@ const services: Service[] = [
       { id: 1, name: "Faux cils en bande", price: "15", duration: "10min" },
       { id: 2, name: "Paillettes/strass", price: "10", duration: "10min" },
     ],
+    photos: [
+      "https://images.unsplash.com/photo-1503236823255-94609f598e71?w=600",
+      "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600",
+    ],
   },
   {
     id: 5,
@@ -211,6 +242,10 @@ const services: Service[] = [
     price: "60",
     duration: "45min",
     category: "soins",
+    photos: [
+      "https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=600",
+      "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=600",
+    ],
   },
   {
     id: 6,
@@ -222,6 +257,11 @@ const services: Service[] = [
     options: [
       { id: 1, name: "Forme stiletto", price: "10", duration: "15min" },
       { id: 2, name: "French manucure", price: "15", duration: "20min" },
+    ],
+    photos: [
+      "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600",
+      "https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=600",
+      "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=600",
     ],
   },
 ];
@@ -237,6 +277,15 @@ const ProviderProfile = () => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("tous");
   const [showDetails, setShowDetails] = useState<number | null>(null);
+  const [carouselOpen, setCarouselOpen] = useState(false);
+  const [carouselPhotos, setCarouselPhotos] = useState<string[]>([]);
+  const [carouselStartIndex, setCarouselStartIndex] = useState(0);
+
+  const openCarousel = (photos: string[], startIndex: number) => {
+    setCarouselPhotos(photos);
+    setCarouselStartIndex(startIndex);
+    setCarouselOpen(true);
+  };
 
   const filteredServices =
     activeCategory === "tous"
@@ -343,6 +392,29 @@ const ProviderProfile = () => {
                           Ce service comprend une consultation personnalisée
                           pour adapter la prestation à vos besoins spécifiques.
                         </p>
+
+                        {/* Photos Gallery */}
+                        {service.photos && service.photos.length > 0 && (
+                          <div className="space-y-3">
+                            <h4 className="font-semibold text-foreground">Galerie photos</h4>
+                            <div className="grid grid-cols-3 gap-2">
+                              {service.photos.map((photo, index) => (
+                                <button
+                                  key={index}
+                                  onClick={() => openCarousel(service.photos!, index)}
+                                  className="relative aspect-square rounded-lg overflow-hidden group cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+                                >
+                                  <img
+                                    src={photo}
+                                    alt={`${service.title} - Photo ${index + 1}`}
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                  />
+                                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                         
                         {service.options && service.options.length > 0 && (
                           <div className="space-y-3">
@@ -556,6 +628,46 @@ const ProviderProfile = () => {
           </TabsContent>
         </Tabs>
       </main>
+
+      {/* Photo Carousel Modal */}
+      <Dialog open={carouselOpen} onOpenChange={setCarouselOpen}>
+        <DialogContent className="max-w-4xl w-[95vw] p-0 bg-black/95 border-none">
+          <button
+            onClick={() => setCarouselOpen(false)}
+            className="absolute right-4 top-4 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+          >
+            <X className="w-5 h-5 text-white" />
+          </button>
+          
+          <Carousel
+            opts={{
+              startIndex: carouselStartIndex,
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {carouselPhotos.map((photo, index) => (
+                <CarouselItem key={index}>
+                  <div className="flex items-center justify-center min-h-[60vh] p-4">
+                    <img
+                      src={photo}
+                      alt={`Photo ${index + 1}`}
+                      className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4 bg-white/10 hover:bg-white/20 border-none text-white" />
+            <CarouselNext className="right-4 bg-white/10 hover:bg-white/20 border-none text-white" />
+          </Carousel>
+          
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/70 text-sm">
+            Utilisez les flèches pour naviguer
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Footer />
     </div>
