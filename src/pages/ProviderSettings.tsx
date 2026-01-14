@@ -18,7 +18,10 @@ import {
   Wallet,
   AlertCircle,
   Info,
+  Gift,
 } from "lucide-react";
+import LoyaltySettingsForm from "@/components/loyalty/LoyaltySettingsForm";
+import { defaultLoyaltySettings } from "@/data/fakeLoyaltyData";
 
 const ProviderSettings = () => {
   const [paymentMethod, setPaymentMethod] = useState("stripe");
@@ -75,7 +78,7 @@ const ProviderSettings = () => {
           </div>
 
           <Tabs defaultValue="payment" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 h-auto p-1 bg-background-light">
+            <TabsList className="grid w-full grid-cols-4 h-auto p-1 bg-background-light">
               <TabsTrigger value="payment" className="flex items-center gap-2 py-3">
                 <CreditCard className="w-4 h-4" />
                 <span className="hidden sm:inline">Paiement</span>
@@ -87,6 +90,10 @@ const ProviderSettings = () => {
               <TabsTrigger value="cancellation" className="flex items-center gap-2 py-3">
                 <Ban className="w-4 h-4" />
                 <span className="hidden sm:inline">Annulation</span>
+              </TabsTrigger>
+              <TabsTrigger value="loyalty" className="flex items-center gap-2 py-3">
+                <Gift className="w-4 h-4" />
+                <span className="hidden sm:inline">Fidélité</span>
               </TabsTrigger>
             </TabsList>
 
@@ -474,6 +481,16 @@ const ProviderSettings = () => {
                   </div>
                 </RadioGroup>
               </Card>
+            </TabsContent>
+
+            {/* Loyalty Tab */}
+            <TabsContent value="loyalty" className="space-y-6">
+              <LoyaltySettingsForm 
+                initialSettings={defaultLoyaltySettings}
+                onSave={(settings) => {
+                  console.log('Loyalty settings saved:', settings);
+                }}
+              />
             </TabsContent>
           </Tabs>
         </div>

@@ -30,6 +30,7 @@ import ProviderBookingDetail from "./pages/ProviderBookingDetail";
 import ProviderAnalytics from "./pages/ProviderAnalytics";
 import ProviderClients from "./pages/ProviderClients";
 import ProviderClientDetail from "./pages/ProviderClientDetail";
+import ClientLoyalty from "./pages/ClientLoyalty";
 import AdminProviders from "./pages/AdminProviders";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminBookings from "./pages/admin/AdminBookings";
@@ -113,6 +114,7 @@ const App = () => (
           <Route path="/acompte-paiement" element={<PaymentDeposit />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/modal-preview" element={<ModalPreview />} />
+          <Route path="/fidelite/:providerId" element={<ClientLoyalty />} />
           
           {/* Provider Dashboard with nested routes */}
           <Route path="/prestataire" element={<ProviderDashboard />}>
