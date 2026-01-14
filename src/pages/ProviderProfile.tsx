@@ -22,7 +22,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ChevronLeft, ChevronRight, Clock, Instagram, MapPin, Star, User, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Clock, Gift, Instagram, MapPin, Stamp, Star, User, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -345,6 +345,42 @@ const ProviderProfile = () => {
                   </a>
                 </div>
               </div>
+
+              {/* Loyalty Card Banner */}
+              <Card className="p-4 border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-secondary/5 hover:border-primary/40 transition-colors cursor-pointer">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shrink-0">
+                    <Stamp className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-foreground">Carte de fidélité</h3>
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                        Active
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      10 prestations = <strong className="text-foreground">-15% sur votre prochaine visite</strong>
+                    </p>
+                    <div className="flex items-center gap-1 mt-2">
+                      {Array.from({ length: 10 }).map((_, index) => (
+                        <div
+                          key={index}
+                          className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                            index < 7
+                              ? 'bg-primary border-primary'
+                              : 'border-dashed border-muted-foreground/40 bg-muted/30'
+                          }`}
+                        >
+                          {index < 7 && <Stamp className="w-3 h-3 text-white" />}
+                        </div>
+                      ))}
+                      <span className="ml-2 text-sm text-muted-foreground">7/10</span>
+                    </div>
+                  </div>
+                  <Gift className="w-5 h-5 text-primary shrink-0" />
+                </div>
+              </Card>
             </div>
 
             {/* Services Section */}
