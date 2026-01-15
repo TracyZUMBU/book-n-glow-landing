@@ -1,9 +1,9 @@
-import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Check, Crown, Sparkles } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
+import { Check, Crown, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 const plans = [
   {
@@ -26,18 +26,21 @@ const plans = [
     id: "complete",
     name: "Premium",
     icon: Crown,
-    price: "29.99€",
+    price: "19€",
     period: "/mois",
     description: "Solution complète pour gérer votre activité",
     features: [
       "Tout du plan gratuit",
       "Réservations illimitées",
       "Rappels email automatiques",
-      "Dashboard",
+      "Dashboard - statistiques & analyses",
       "Support prioritaire",
       "Gestion des rendez-vous",
       "Notifications de réservations",
-      "Différents types de paiement (dont PayPal.Me)",
+      "Vérification des acomptes PayPal.Me",
+      "Avis clients",
+      "Programme de fidélité",
+      "Publications de photo",
     ],
     popular: true,
   },
@@ -53,7 +56,8 @@ export const SubscriptionStep = () => {
           Choisissez votre <span className="text-gradient">abonnement</span>
         </h2>
         <p className="text-lg text-muted-foreground">
-          Sans engagement • Annulation à tout moment
+          Sans engagement • Annulation à tout moment • 19€/mois à vie pour les
+          premiers abonnés ( prix futur : 29,99€/mois)
         </p>
       </div>
 
@@ -131,18 +135,20 @@ export const SubscriptionStep = () => {
                       ))}
                     </div>
 
-                    {/* Code promo pour le plan Premium */}
+                    {/* Badge offre de lancement pour le plan Premium */}
                     {plan.id === "complete" && (
                       <div className="mt-4 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
                         <div className="text-center">
                           <p className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
-                            🎁 Offre spéciale
+                            🚀 Offre de lancement
                           </p>
-                          <p className="text-sm text-foreground mb-3">
-                            Code promo : <span className="font-bold text-lg text-primary">FREEMONTH</span>
+                          <p className="text-sm text-foreground mb-1">
+                            19€/mois à vie
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            1 mois gratuit + 14 jours d'essai gratuit
+                            <span className="line-through">
+                              (Prix futur : 29,99€/mois)
+                            </span>
                           </p>
                         </div>
                       </div>
@@ -158,7 +164,9 @@ export const SubscriptionStep = () => {
       {/* Info message */}
       <div className="mt-6 text-center">
         <p className="text-sm text-muted-foreground">
-          Le plan payant inclut <strong>14 jours d'essai gratuit</strong> + <strong>1 mois gratuit</strong> avec le code <strong className="text-primary">FREEMONTH</strong>
+          Offre de lancement : <strong>19€/mois à vie</strong> pour le plan
+          Premium.{" "}
+          <span className="line-through">(Prix futur : 29,99€/mois)</span>
         </p>
       </div>
     </div>

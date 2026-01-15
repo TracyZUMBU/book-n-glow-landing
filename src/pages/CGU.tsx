@@ -1330,9 +1330,7 @@ export default function CGU() {
                       organise le transfert des fonds vers les Prestataires
                       selon les règles définies ci-après,
                     </li>
-                    <li>
-                      ne fournit aucune prestation de service esthétique.
-                    </li>
+                    <li>ne fournit aucune prestation de service esthétique.</li>
                   </ul>
                   <p>
                     Le contrat de prestation est conclu directement entre le
@@ -1371,9 +1369,7 @@ export default function CGU() {
                   </p>
                   <p>Selon les paramètres définis par le Prestataire :</p>
                   <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      un acompte peut être exigé lors de la réservation,
-                    </li>
+                    <li>un acompte peut être exigé lors de la réservation,</li>
                     <li>ou le montant total peut être payé immédiatement.</li>
                   </ul>
                   <p>
@@ -1516,9 +1512,7 @@ export default function CGU() {
                       de l'inexécution ou de la mauvaise exécution de la
                       prestation réalisée par le Prestataire,
                     </li>
-                    <li>
-                      d'un litige lié à la qualité de la prestation,
-                    </li>
+                    <li>d'un litige lié à la qualité de la prestation,</li>
                     <li>
                       d'un refus de remboursement hors conditions prévues.
                     </li>
@@ -1579,10 +1573,305 @@ export default function CGU() {
               </div>
             </div>
 
+            {/* Programme de fidélité */}
+            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
+                21. Programme de carte de fidélité – Book n Glow
+              </h2>
+              <div className="space-y-6 text-muted-foreground">
+                {/* Objet */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.1 Objet
+                  </h3>
+                  <p>
+                    Les présentes conditions définissent les règles applicables
+                    au programme de carte de fidélité proposé sur la plateforme
+                    Book n Glow (ci-après la « Plateforme »).
+                  </p>
+                  <p>
+                    Ce programme permet aux prestataires proposant des services
+                    via la Plateforme (ci-après les « Prestataires ») d'offrir à
+                    leurs clients (ci-après les « Clients ») une récompense
+                    après un nombre déterminé de prestations effectuées.
+                  </p>
+                  <p>
+                    Le programme de carte de fidélité est facultatif,
+                    paramétrable par chaque Prestataire, et indépendant de Book
+                    n Glow.
+                  </p>
+                </div>
+
+                {/* Activation et paramétrage du programme */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.2 Activation et paramétrage du programme
+                  </h3>
+                  <p className="font-semibold text-foreground">
+                    21.2.1 Activation facultative
+                  </p>
+                  <p>Chaque Prestataire peut :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      activer ou désactiver un programme de carte de fidélité à
+                      tout moment depuis son espace personnel,
+                    </li>
+                    <li>
+                      choisir librement de ne pas proposer de programme de
+                      fidélité.
+                    </li>
+                  </ul>
+                  <p className="mt-4 font-semibold text-foreground">
+                    21.2.2 Paramétrage par le Prestataire
+                  </p>
+                  <p>Lors de l'activation, le Prestataire définit :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      le nombre de prestations terminées nécessaires pour
+                      débloquer une récompense,
+                    </li>
+                    <li>le type de récompense proposé :</li>
+                    <ul className="list-disc pl-6 space-y-2 mt-2">
+                      <li>réduction fixe (montant en euros),</li>
+                      <li>réduction en pourcentage,</li>
+                      <li>produit offert,</li>
+                      <li>
+                        prestation offerte (avec sélection des prestations
+                        éligibles).
+                      </li>
+                    </ul>
+                  </ul>
+                  <p>
+                    Le nombre de prestations requis est défini par le
+                    Prestataire et n'est pas imposé par Book n Glow.
+                  </p>
+                  <p className="mt-4 font-semibold text-foreground">
+                    21.2.3 Modification du programme
+                  </p>
+                  <p>
+                    Le Prestataire peut modifier les paramètres de son programme
+                    à tout moment. Les nouvelles règles s'appliquent
+                    immédiatement aux Clients, y compris à ceux ayant déjà
+                    commencé une carte de fidélité.
+                  </p>
+                </div>
+
+                {/* Fonctionnement de la carte de fidélité */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.3 Fonctionnement de la carte de fidélité
+                  </h3>
+                  <p className="font-semibold text-foreground">
+                    21.3.1 Attribution des prestations
+                  </p>
+                  <p>Une prestation est comptabilisée uniquement lorsque :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>la prestation est terminée,</li>
+                    <li>la réservation n'est pas annulée.</li>
+                  </ul>
+                  <p>
+                    Chaque prestation terminée valide une unité sur la carte de
+                    fidélité.
+                  </p>
+                  <p className="mt-4 font-semibold text-foreground">
+                    21.3.2 Annulation de prestation
+                  </p>
+                  <p>
+                    Une prestation annulée ne donne droit à aucune unité de
+                    fidélité.
+                  </p>
+                  <p>
+                    Si une prestation est annulée après avoir été comptabilisée,
+                    l'unité correspondante est retirée.
+                  </p>
+                </div>
+
+                {/* Déclenchement et attribution de la récompense */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.4 Déclenchement et attribution de la récompense
+                  </h3>
+                  <p className="font-semibold text-foreground">
+                    21.4.1 Déclenchement automatique
+                  </p>
+                  <p>Lorsque le nombre de prestations requis est atteint :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>la récompense est créée automatiquement,</li>
+                    <li>
+                      le compteur de la carte de fidélité est réinitialisé à
+                      zéro.
+                    </li>
+                  </ul>
+                  <p className="mt-4 font-semibold text-foreground">
+                    21.4.2 Unicité
+                  </p>
+                  <p>
+                    Une seule récompense est attribuée par cycle de carte de
+                    fidélité.
+                  </p>
+                  <p>Il n'existe pas de paliers intermédiaires.</p>
+                </div>
+
+                {/* Utilisation de la récompense */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.5 Utilisation de la récompense
+                  </h3>
+                  <p className="font-semibold text-foreground">
+                    21.5.1 Conditions d'utilisation
+                  </p>
+                  <p>
+                    La récompense peut être utilisée par le Client lors d'une
+                    réservation ultérieure.
+                  </p>
+                  <p>
+                    La récompense est cumulable avec les promotions
+                    éventuellement proposées par le Prestataire.
+                  </p>
+                  <p className="mt-4 font-semibold text-foreground">
+                    21.5.2 Durée de validité
+                  </p>
+                  <p>
+                    Chaque récompense est valable six (6) mois à compter de sa
+                    date de création.
+                  </p>
+                  <p>
+                    La durée de validité est fixe et ne peut pas être prolongée.
+                  </p>
+                </div>
+
+                {/* Annulation après utilisation d'une récompense */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.6 Annulation après utilisation d'une récompense
+                  </h3>
+                  <p className="font-semibold text-foreground">
+                    21.6.1 Annulation de la réservation
+                  </p>
+                  <p>
+                    Si une réservation payée à l'aide d'une récompense est
+                    annulée :
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      la récompense est restaurée et redevient disponible,
+                    </li>
+                    <li>la date de validité initiale ne change pas.</li>
+                  </ul>
+                  <p className="mt-4 font-semibold text-foreground">
+                    21.6.2 Récompense expirée
+                  </p>
+                  <p>
+                    Si la récompense était expirée au moment de l'annulation :
+                  </p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>elle reste expirée,</li>
+                    <li>aucune restauration n'est possible.</li>
+                  </ul>
+                </div>
+
+                {/* Suivi et historique */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.7 Suivi et historique
+                  </h3>
+                  <p>
+                    Toutes les actions liées à la carte de fidélité
+                    (attribution, retrait, déclenchement de récompense,
+                    utilisation, annulation) sont enregistrées à des fins de
+                    traçabilité.
+                  </p>
+                  <p>Le Client peut consulter :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>l'état de sa carte de fidélité,</li>
+                    <li>ses récompenses disponibles, utilisées ou expirées.</li>
+                  </ul>
+                </div>
+
+                {/* Responsabilité */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.8 Responsabilité
+                  </h3>
+                  <p className="font-semibold text-foreground">
+                    21.8.1 Responsabilité du Prestataire
+                  </p>
+                  <p>Le Prestataire est seul responsable :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>du contenu de son programme de fidélité,</li>
+                    <li>des récompenses proposées,</li>
+                    <li>
+                      de l'exécution des prestations ou de la remise des
+                      produits offerts.
+                    </li>
+                  </ul>
+                  <p className="mt-4 font-semibold text-foreground">
+                    21.8.2 Rôle de Book n Glow
+                  </p>
+                  <p>
+                    Book n Glow agit exclusivement en tant que fournisseur de
+                    solution technique permettant la gestion du programme de
+                    fidélité.
+                  </p>
+                  <p>Book n Glow ne saurait être tenu responsable :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      de la modification ou suppression d'un programme par un
+                      Prestataire,
+                    </li>
+                    <li>du refus d'un Prestataire d'honorer une récompense,</li>
+                    <li>
+                      de tout litige entre un Prestataire et un Client relatif
+                      au programme de fidélité.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Modification ou suppression du programme */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.9 Modification ou suppression du programme
+                  </h3>
+                  <p>
+                    Le Prestataire peut désactiver son programme de fidélité à
+                    tout moment.
+                  </p>
+                  <p>En cas de désactivation :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      les récompenses déjà attribuées restent valables jusqu'à
+                      leur date d'expiration,
+                    </li>
+                    <li>aucune nouvelle unité de fidélité n'est attribuée.</li>
+                  </ul>
+                  <p>En cas de suppression :</p>
+                  <ul className="list-disc pl-6 space-y-2">
+                    <li>
+                      les unités gagnés sont perdus. Si le prestataire crée à
+                      nouveau la carte de fidélité, les unités seront remis à
+                      zéro.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Acceptation */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-serif font-semibold text-foreground">
+                    21.10 Acceptation
+                  </h3>
+                  <p>
+                    L'utilisation de la carte de fidélité implique l'acceptation
+                    pleine et entière des présentes Conditions Générales par le
+                    Prestataire et le Client.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Contact */}
             <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                21. Contact
+                22. Contact
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
