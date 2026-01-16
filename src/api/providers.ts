@@ -11,6 +11,7 @@ export interface ProviderService {
 
 export interface Provider {
   id: string;
+  email: string;
   firstName: string;
   lastName: string;
   subscriptionType: "basic" | "premium";
@@ -76,6 +77,7 @@ function transformProvider(
     id: provider.id,
     firstName: provider.first_name,
     lastName: provider.last_name,
+    email: provider.email || null,
     subscriptionType,
     subscriptionStatus,
     isTrialing,
@@ -85,7 +87,6 @@ function transformProvider(
     instagramHandle: provider.instagram_name || null,
     accountStatus,
     slug: provider.slug || null,
-    // Nouveaux champs
     city: provider.city || null,
     bio: provider.bio || null,
     companyName: provider.company_name || null,
@@ -97,7 +98,8 @@ function transformProvider(
     depositType: provider.deposit_type || null,
     paypalAccount: provider.paypal_account || null,
     onboardingStatus: provider.onboarding_status || null,
-    requiresCustomerConfirmation: provider.requires_customer_confirmation ?? false,
+    requiresCustomerConfirmation:
+      provider.requires_customer_confirmation ?? false,
     services,
   };
 }

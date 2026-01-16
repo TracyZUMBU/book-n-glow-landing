@@ -65,6 +65,7 @@ import {
   UserCheck,
   Users,
   X,
+  Mail,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -292,9 +293,7 @@ const ProviderDetailPanel = ({
           </Badge>
         );
       default:
-        return (
-          <Badge variant="secondary">{status || "Non défini"}</Badge>
-        );
+        return <Badge variant="secondary">{status || "Non défini"}</Badge>;
     }
   };
 
@@ -326,9 +325,7 @@ const ProviderDetailPanel = ({
         <SheetTitle className="flex items-center gap-2">
           {provider.firstName} {provider.lastName}
         </SheetTitle>
-        <SheetDescription>
-          Détails du prestataire
-        </SheetDescription>
+        <SheetDescription>Détails du prestataire</SheetDescription>
       </SheetHeader>
 
       <div className="space-y-6">
@@ -339,15 +336,11 @@ const ProviderDetailPanel = ({
           </h3>
           <Card>
             <CardContent className="p-4 space-y-1">
+              <DetailRow icon={MapPin} label="Ville" value={provider.city} />
               <DetailRow
-                icon={MapPin}
-                label="Ville"
-                value={provider.city}
-              />
-              <DetailRow
-                icon={Instagram}
-                label="Instagram"
-                value={provider.instagramHandle ? `@${provider.instagramHandle}` : null}
+                icon={Mail}
+                label="Adresse email"
+                value={provider.email}
               />
               <DetailRow
                 icon={Building2}
@@ -357,7 +350,9 @@ const ProviderDetailPanel = ({
               {provider.bio && (
                 <div className="pt-2">
                   <p className="text-sm text-muted-foreground mb-1">Bio</p>
-                  <p className="text-sm bg-muted/50 p-3 rounded-lg">{provider.bio}</p>
+                  <p className="text-sm bg-muted/50 p-3 rounded-lg">
+                    {provider.bio}
+                  </p>
                 </div>
               )}
             </CardContent>
@@ -376,7 +371,9 @@ const ProviderDetailPanel = ({
               <DetailRow
                 icon={Settings}
                 label="Status onboarding"
-                valueElement={getOnboardingStatusBadge(provider.onboardingStatus)}
+                valueElement={getOnboardingStatusBadge(
+                  provider.onboardingStatus
+                )}
               />
               <DetailRow
                 icon={UserCheck}
@@ -525,8 +522,8 @@ const ProvidersListMobile = ({
   return (
     <div className="space-y-4">
       {providers.map((provider) => (
-        <Card 
-          key={provider.id} 
+        <Card
+          key={provider.id}
           className="hover:shadow-md transition-shadow cursor-pointer"
           onClick={() => onProviderClick(provider)}
         >
@@ -647,7 +644,9 @@ const AdminProviders = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [subscriptionFilter, setSubscriptionFilter] = useState<string>("all");
   const [trialFilter, setTrialFilter] = useState<string>("all");
-  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(
+    null
+  );
 
   // Protection d'accès
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
@@ -965,7 +964,10 @@ const AdminProviders = () => {
       <Footer />
 
       {/* Panel de détails */}
-      <Sheet open={!!selectedProvider} onOpenChange={(open) => !open && setSelectedProvider(null)}>
+      <Sheet
+        open={!!selectedProvider}
+        onOpenChange={(open) => !open && setSelectedProvider(null)}
+      >
         {selectedProvider && (
           <ProviderDetailPanel
             provider={selectedProvider}

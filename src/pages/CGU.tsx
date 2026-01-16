@@ -1,10 +1,184 @@
+import { useEffect, useState } from "react";
 import Footer from "@/components/landing/Footer";
 import Navigation from "@/components/landing/Navigation";
+
+// Table des matières
+const tableOfContents = [
+  { id: "objet", title: "1. Objet" },
+  { id: "acceptation", title: "2. Acceptation des CGU" },
+  { id: "definitions", title: "3. Définitions" },
+  { id: "identification", title: "4. Identification" },
+  { id: "acces", title: "5. Accès au site" },
+  { id: "utilisation", title: "6. Utilisation du site" },
+  { id: "propriete", title: "7. Propriété intellectuelle" },
+  { id: "donnees", title: "8. Données personnelles" },
+  { id: "inscription", title: "9. Inscription" },
+  { id: "liens", title: "10. Liens hypertextes" },
+  { id: "responsabilite", title: "11. Limitation de responsabilité" },
+  { id: "plateforme", title: "12. Limitation de responsabilité de la Plateforme" },
+  { id: "disponibilite", title: "13. Disponibilité du service" },
+  { id: "obligations", title: "14. Obligations de l'Utilisateur" },
+  { id: "resiliation", title: "15. Résiliation" },
+  { id: "droits", title: "16. Droits et obligations de Book n Glow" },
+  { id: "force-majeure", title: "17. Force majeure" },
+  { id: "modification", title: "18. Modification des CGU" },
+  { id: "droit-applicable", title: "19. Droit applicable et juridiction compétente" },
+  { id: "paiements", title: "20. Paiements par carte bancaire via Stripe" },
+  { id: "fidelite", title: "21. Programme de carte de fidélité" },
+  { id: "contact", title: "22. Contact" },
+];
+
+function TableOfContents() {
+  const [activeSection, setActiveSection] = useState<string>("");
+  const [isVisible, setIsVisible] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = tableOfContents.map((item) => {
+        const element = document.getElementById(item.id);
+        return { id: item.id, element, top: element?.getBoundingClientRect().top ?? 0 };
+      });
+
+      // Trouver la section active
+      const currentSection = sections.find((section, index) => {
+        const nextSection = sections[index + 1];
+        const isInView = section.top <= 150;
+        const isBeforeNext = !nextSection || (nextSection.top > 150);
+        return isInView && isBeforeNext;
+      });
+
+      if (currentSection) {
+        setActiveSection(currentSection.id);
+      }
+
+      // Afficher la table des matières après le scroll du hero
+      setIsVisible(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Appel initial
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 100; // Offset pour la navigation
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+      setIsMobileOpen(false); // Fermer sur mobile après clic
+    }
+  };
+
+  if (!isVisible) return null;
+
+  return (
+    <>
+      {/* Desktop - Table des matières fixe */}
+      <nav className="fixed left-4 top-1/2 -translate-y-1/2 z-30 hidden lg:block">
+        <div className="bg-card border border-border rounded-xl p-4 shadow-lg max-h-[80vh] overflow-y-auto w-[240px]">
+          <h3 className="text-sm font-semibold text-foreground mb-3 sticky top-0 bg-card pb-2 border-b border-border">
+            Table des matières
+          </h3>
+          <ul className="space-y-1 text-sm mt-3">
+            {tableOfContents.map((item) => (
+              <li key={item.id}>
+                <button
+                  onClick={() => scrollToSection(item.id)}
+                  className={`text-left w-full px-3 py-2 rounded-md transition-all text-xs ${
+                    activeSection === item.id
+                      ? "bg-primary/10 text-primary font-medium border-l-2 border-primary"
+                      : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                  }`}
+                >
+                  {item.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      {/* Mobile - Bouton flottant */}
+      <div className="lg:hidden fixed bottom-6 right-6 z-40">
+        <button
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          className="bg-primary text-primary-foreground rounded-full p-4 shadow-lg hover:bg-primary/90 transition-colors"
+          aria-label="Ouvrir la table des matières"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Menu mobile */}
+        {isMobileOpen && (
+          <>
+            <div
+              className="fixed inset-0 bg-black/50 z-40"
+              onClick={() => setIsMobileOpen(false)}
+            />
+            <nav className="fixed right-0 top-0 h-full w-[280px] bg-card border-l border-border shadow-xl z-50 overflow-y-auto">
+              <div className="p-4 border-b border-border flex items-center justify-between">
+                <h3 className="text-base font-semibold text-foreground">Table des matières</h3>
+                <button
+                  onClick={() => setIsMobileOpen(false)}
+                  className="text-muted-foreground hover:text-foreground"
+                  aria-label="Fermer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <ul className="p-4 space-y-1">
+                {tableOfContents.map((item) => (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => scrollToSection(item.id)}
+                      className={`text-left w-full px-3 py-2.5 rounded-md transition-all text-sm ${
+                        activeSection === item.id
+                          ? "bg-primary/10 text-primary font-medium border-l-2 border-primary"
+                          : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                      }`}
+                    >
+                      {item.title}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
 
 export default function CGU() {
   return (
     <>
       <Navigation />
+      <TableOfContents />
       {/* Hero Section */}
       <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 text-center">
         <div className="container-mobile max-w-4xl animate-fade-in">
@@ -20,10 +194,10 @@ export default function CGU() {
 
       {/* Content */}
       <section className="pt-10 pb-20 md:pt-20 md:pb-32 px-4 bg-background-light">
-        <div className="container-mobile max-w-4xl">
+        <div className="container-mobile max-w-4xl lg:ml-[280px] lg:mr-4">
           <div className="space-y-8">
             {/* Objet */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="objet" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 1. Objet
               </h2>
@@ -49,7 +223,7 @@ export default function CGU() {
             </div>
 
             {/* Acceptation */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="acceptation" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 2. Acceptation des CGU
               </h2>
@@ -71,7 +245,7 @@ export default function CGU() {
             </div>
 
             {/* Définitions */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="definitions" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 3. Définitions
               </h2>
@@ -129,7 +303,7 @@ export default function CGU() {
             </div>
 
             {/* Identification */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="identification" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 4. Identification
               </h2>
@@ -163,7 +337,7 @@ export default function CGU() {
             </div>
 
             {/* Accès au site */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="acces" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 5. Accès au site
               </h2>
@@ -190,7 +364,7 @@ export default function CGU() {
             </div>
 
             {/* Utilisation du site */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="utilisation" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 6. Utilisation du site
               </h2>
@@ -232,7 +406,7 @@ export default function CGU() {
             </div>
 
             {/* Propriété intellectuelle */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="propriete" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 7. Propriété intellectuelle
               </h2>
@@ -268,7 +442,7 @@ export default function CGU() {
             </div>
 
             {/* Données utilisateur */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="donnees" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 8. Données personnelles
               </h2>
@@ -292,7 +466,7 @@ export default function CGU() {
             </div>
 
             {/* Inscription */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="inscription" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 9. Inscription
               </h2>
@@ -450,7 +624,7 @@ export default function CGU() {
             </div>
 
             {/* Liens hypertextes */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="liens" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 10. Liens hypertextes
               </h2>
@@ -475,7 +649,7 @@ export default function CGU() {
             </div>
 
             {/* Responsabilité */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="responsabilite" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 11. Limitation de responsabilité
               </h2>
@@ -515,7 +689,7 @@ export default function CGU() {
             </div>
 
             {/* Limitation de responsabilité de la Plateforme */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="plateforme" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 12. Limitation de responsabilité de la Plateforme
               </h2>
@@ -635,7 +809,7 @@ export default function CGU() {
             </div>
 
             {/* Disponibilité du service */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="disponibilite" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 13. Disponibilité du service
               </h2>
@@ -664,7 +838,7 @@ export default function CGU() {
             </div>
 
             {/* Obligations de l'Utilisateur */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="obligations" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 14. Obligations de l'Utilisateur
               </h2>
@@ -927,7 +1101,7 @@ export default function CGU() {
             </div>
 
             {/* Résiliation */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="resiliation" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 15. Résiliation
               </h2>
@@ -983,7 +1157,7 @@ export default function CGU() {
             </div>
 
             {/* Droits et obligations */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="droits" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 16. Droits et obligations de Book n Glow
               </h2>
@@ -1228,7 +1402,7 @@ export default function CGU() {
             </div>
 
             {/* Force majeure */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="force-majeure" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 17. Force majeure
               </h2>
@@ -1243,7 +1417,7 @@ export default function CGU() {
             </div>
 
             {/* Modification des CGU */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="modification" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 18. Modification des CGU
               </h2>
@@ -1264,7 +1438,7 @@ export default function CGU() {
             </div>
 
             {/* Droit applicable */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="droit-applicable" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 19. Droit applicable et juridiction compétente
               </h2>
@@ -1285,7 +1459,7 @@ export default function CGU() {
             </div>
 
             {/* Paiements par carte bancaire via Stripe */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="paiements" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 20. Paiements par carte bancaire via Stripe
               </h2>
@@ -1574,7 +1748,7 @@ export default function CGU() {
             </div>
 
             {/* Programme de fidélité */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="fidelite" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 21. Programme de carte de fidélité – Book n Glow
               </h2>
@@ -1869,7 +2043,7 @@ export default function CGU() {
             </div>
 
             {/* Contact */}
-            <div className="bg-card p-6 md:p-8 rounded-2xl border border-border">
+            <div id="contact" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 22. Contact
               </h2>
