@@ -21,6 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import {
   Table,
   TableBody,
@@ -38,14 +46,25 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
 import {
+  Ban,
+  Building2,
   Calendar,
+  Check,
+  Clock,
   Copy,
+  CreditCard,
   ExternalLink,
   Filter,
+  Instagram,
   Loader2,
   Lock,
+  MapPin,
   Search,
+  Scissors,
+  Settings,
+  UserCheck,
   Users,
+  X,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -56,10 +75,12 @@ interface ProvidersDisplayProps {
   formatDate: (dateString: string | null) => string;
   getSubscriptionBadge: (type: Provider["subscriptionType"]) => JSX.Element;
   getStatusBadge: (status: Provider["subscriptionStatus"]) => JSX.Element;
+  onProviderClick: (provider: Provider) => void;
 }
 
 // Fonction pour copier l'ID dans le presse-papiers
-const copyProviderId = async (providerId: string) => {
+const copyProviderId = async (providerId: string, e?: React.MouseEvent) => {
+  e?.stopPropagation();
   try {
     await navigator.clipboard.writeText(providerId);
     toast.success("ID copié dans le presse-papiers", {
@@ -75,6 +96,7 @@ const ProvidersDisplay = ({
   formatDate,
   getSubscriptionBadge,
   getStatusBadge,
+  onProviderClick,
 }: ProvidersDisplayProps) => {
   const isMobile = useIsMobile();
 
@@ -85,6 +107,7 @@ const ProvidersDisplay = ({
         formatDate={formatDate}
         getSubscriptionBadge={getSubscriptionBadge}
         getStatusBadge={getStatusBadge}
+        onProviderClick={onProviderClick}
       />
     );
   }
@@ -95,6 +118,7 @@ const ProvidersDisplay = ({
       formatDate={formatDate}
       getSubscriptionBadge={getSubscriptionBadge}
       getStatusBadge={getStatusBadge}
+      onProviderClick={onProviderClick}
     />
   );
 };
@@ -105,6 +129,7 @@ const ProvidersTableDesktop = ({
   formatDate,
   getSubscriptionBadge,
   getStatusBadge,
+  onProviderClick,
 }: ProvidersDisplayProps) => {
   return (
     <Card>
@@ -129,7 +154,8 @@ const ProvidersTableDesktop = ({
               {providers.map((provider) => (
                 <TableRow
                   key={provider.id}
-                  className="hover:bg-muted/30 transition-colors"
+                  className="hover:bg-muted/30 transition-colors cursor-pointer"
+                  onClick={() => onProviderClick(provider)}
                 >
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-2">
@@ -140,7 +166,7 @@ const ProvidersTableDesktop = ({
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button
-                              onClick={() => copyProviderId(provider.id)}
+                              onClick={(e) => copyProviderId(provider.id, e)}
                               className="p-1 rounded hover:bg-muted transition-colors"
                               aria-label="Copier l'ID du provider"
                             >
@@ -186,6 +212,7 @@ const ProvidersTableDesktop = ({
                         href={`https://instagram.com/${provider.instagramHandle}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="inline-flex items-center gap-1 text-primary hover:text-primary/80 hover:underline transition-colors"
                       >
                         @{provider.instagramHandle}
@@ -201,6 +228,7 @@ const ProvidersTableDesktop = ({
                         href={`https://app.book-n-glow.fr/prestataire-page/${provider.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
                         className="inline-flex items-center gap-1 text-primary hover:text-primary/80 hover:underline transition-colors"
                       >
                         Voir la page
@@ -220,17 +248,288 @@ const ProvidersTableDesktop = ({
   );
 };
 
+// Composant Panel de détails du prestataire
+const ProviderDetailPanel = ({
+  provider,
+  onClose,
+}: {
+  provider: Provider;
+  onClose: () => void;
+}) => {
+  const getPaymentMethodLabel = (method: string | null) => {
+    switch (method) {
+      case "stripe":
+        return "Stripe";
+      case "paypal_me":
+        return "PayPal.me";
+      case "on_site":
+        return "Sur place";
+      case "free":
+        return "Gratuit";
+      default:
+        return method || "Non défini";
+    }
+  };
+
+  const getOnboardingStatusBadge = (status: string | null) => {
+    switch (status) {
+      case "completed":
+        return (
+          <Badge className="bg-green-500/10 text-green-600 border-green-500/20">
+            Terminé
+          </Badge>
+        );
+      case "in_progress":
+        return (
+          <Badge className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
+            En cours
+          </Badge>
+        );
+      case "pending":
+        return (
+          <Badge className="bg-orange-500/10 text-orange-600 border-orange-500/20">
+            En attente
+          </Badge>
+        );
+      default:
+        return (
+          <Badge variant="secondary">{status || "Non défini"}</Badge>
+        );
+    }
+  };
+
+  const DetailRow = ({
+    icon: Icon,
+    label,
+    value,
+    valueElement,
+  }: {
+    icon: React.ElementType;
+    label: string;
+    value?: string | null;
+    valueElement?: React.ReactNode;
+  }) => (
+    <div className="flex items-start gap-3 py-2">
+      <Icon className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
+      <div className="flex-1 min-w-0">
+        <p className="text-sm text-muted-foreground">{label}</p>
+        {valueElement || (
+          <p className="text-sm font-medium truncate">{value || "—"}</p>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+      <SheetHeader className="pb-4">
+        <SheetTitle className="flex items-center gap-2">
+          {provider.firstName} {provider.lastName}
+        </SheetTitle>
+        <SheetDescription>
+          Détails du prestataire
+        </SheetDescription>
+      </SheetHeader>
+
+      <div className="space-y-6">
+        {/* Informations générales */}
+        <div>
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            Informations générales
+          </h3>
+          <Card>
+            <CardContent className="p-4 space-y-1">
+              <DetailRow
+                icon={MapPin}
+                label="Ville"
+                value={provider.city}
+              />
+              <DetailRow
+                icon={Instagram}
+                label="Instagram"
+                value={provider.instagramHandle ? `@${provider.instagramHandle}` : null}
+              />
+              <DetailRow
+                icon={Building2}
+                label="Nom de l'entreprise"
+                value={provider.companyName}
+              />
+              {provider.bio && (
+                <div className="pt-2">
+                  <p className="text-sm text-muted-foreground mb-1">Bio</p>
+                  <p className="text-sm bg-muted/50 p-3 rounded-lg">{provider.bio}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        {/* Configuration */}
+        <div>
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            Configuration
+          </h3>
+          <Card>
+            <CardContent className="p-4 space-y-1">
+              <DetailRow
+                icon={Settings}
+                label="Status onboarding"
+                valueElement={getOnboardingStatusBadge(provider.onboardingStatus)}
+              />
+              <DetailRow
+                icon={UserCheck}
+                label="Confirmation client requise"
+                valueElement={
+                  provider.requiresCustomerConfirmation ? (
+                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20">
+                      <Check className="h-3 w-3 mr-1" />
+                      Oui
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary">
+                      <X className="h-3 w-3 mr-1" />
+                      Non
+                    </Badge>
+                  )
+                }
+              />
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        {/* Annulations */}
+        <div>
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            Politique d'annulation
+          </h3>
+          <Card>
+            <CardContent className="p-4 space-y-1">
+              <DetailRow
+                icon={Ban}
+                label="Annulations autorisées"
+                valueElement={
+                  provider.allowCancellation ? (
+                    <Badge className="bg-green-500/10 text-green-600 border-green-500/20">
+                      <Check className="h-3 w-3 mr-1" />
+                      Oui
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-red-500/10 text-red-600 border-red-500/20">
+                      <X className="h-3 w-3 mr-1" />
+                      Non
+                    </Badge>
+                  )
+                }
+              />
+              {provider.allowCancellation && (
+                <DetailRow
+                  icon={Clock}
+                  label="Délai d'annulation"
+                  value={
+                    provider.cancellationDeadlineHours
+                      ? `${provider.cancellationDeadlineHours}h avant le RDV`
+                      : null
+                  }
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        {/* Paiement */}
+        <div>
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            Paiement
+          </h3>
+          <Card>
+            <CardContent className="p-4 space-y-1">
+              <DetailRow
+                icon={CreditCard}
+                label="Méthode de paiement"
+                value={getPaymentMethodLabel(provider.paymentMethod)}
+              />
+              {provider.depositRequired && (
+                <>
+                  <DetailRow
+                    icon={CreditCard}
+                    label="Acompte requis"
+                    value={
+                      provider.depositType === "percentage"
+                        ? `${provider.depositAmount}%`
+                        : provider.depositAmount
+                        ? `${provider.depositAmount}€`
+                        : "Oui"
+                    }
+                  />
+                </>
+              )}
+              {provider.paymentMethod === "paypal_me" && (
+                <DetailRow
+                  icon={CreditCard}
+                  label="Compte PayPal.me"
+                  value={provider.paypalAccount}
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        <Separator />
+
+        {/* Services */}
+        <div>
+          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+            Services ({provider.services.length})
+          </h3>
+          <Card>
+            <CardContent className="p-4">
+              {provider.services.length > 0 ? (
+                <div className="space-y-2">
+                  {provider.services.map((service) => (
+                    <div
+                      key={service.id}
+                      className="flex items-center gap-2 text-sm"
+                    >
+                      <Scissors className="h-4 w-4 text-muted-foreground" />
+                      <span>{service.name}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-4">
+                  Aucun service configuré
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </SheetContent>
+  );
+};
+
 // Composant Liste Mobile avec Cartes
 const ProvidersListMobile = ({
   providers,
   formatDate,
   getSubscriptionBadge,
   getStatusBadge,
+  onProviderClick,
 }: ProvidersDisplayProps) => {
   return (
     <div className="space-y-4">
       {providers.map((provider) => (
-        <Card key={provider.id} className="hover:shadow-md transition-shadow">
+        <Card 
+          key={provider.id} 
+          className="hover:shadow-md transition-shadow cursor-pointer"
+          onClick={() => onProviderClick(provider)}
+        >
           <CardContent className="p-4">
             {/* Header avec nom */}
             <div className="mb-4">
@@ -242,7 +541,7 @@ const ProvidersListMobile = ({
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <button
-                        onClick={() => copyProviderId(provider.id)}
+                        onClick={(e) => copyProviderId(provider.id, e)}
                         className="p-1.5 rounded hover:bg-muted transition-colors"
                         aria-label="Copier l'ID du provider"
                       >
@@ -283,6 +582,7 @@ const ProvidersListMobile = ({
                     href={`https://instagram.com/${provider.instagramHandle}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="text-primary hover:underline"
                   >
                     @{provider.instagramHandle}
@@ -298,6 +598,7 @@ const ProvidersListMobile = ({
                     href={`https://app.book-n-glow.fr/${provider.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="text-primary hover:underline"
                   >
                     Voir la page de réservation
@@ -346,6 +647,7 @@ const AdminProviders = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [subscriptionFilter, setSubscriptionFilter] = useState<string>("all");
   const [trialFilter, setTrialFilter] = useState<string>("all");
+  const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
 
   // Protection d'accès
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
@@ -655,11 +957,22 @@ const AdminProviders = () => {
             formatDate={formatDate}
             getSubscriptionBadge={getSubscriptionBadge}
             getStatusBadge={getStatusBadge}
+            onProviderClick={setSelectedProvider}
           />
         )}
       </main>
 
       <Footer />
+
+      {/* Panel de détails */}
+      <Sheet open={!!selectedProvider} onOpenChange={(open) => !open && setSelectedProvider(null)}>
+        {selectedProvider && (
+          <ProviderDetailPanel
+            provider={selectedProvider}
+            onClose={() => setSelectedProvider(null)}
+          />
+        )}
+      </Sheet>
     </div>
   );
 };
