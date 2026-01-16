@@ -4,6 +4,11 @@ import { supabase } from "@/lib/supabase";
 type ProviderRow = Tables<"providers">;
 type SubscriptionRow = Tables<"stripe_subscriptions">;
 
+export interface ProviderService {
+  id: string;
+  name: string;
+}
+
 export interface Provider {
   id: string;
   firstName: string;
@@ -17,6 +22,20 @@ export interface Provider {
   instagramHandle: string | null;
   accountStatus: "active" | "suspended";
   slug: string | null;
+  // Nouveaux champs pour les détails
+  city: string | null;
+  bio: string | null;
+  companyName: string | null;
+  allowCancellation: boolean;
+  cancellationDeadlineHours: number | null;
+  paymentMethod: string | null;
+  depositAmount: number | null;
+  depositRequired: boolean;
+  depositType: string | null;
+  paypalAccount: string | null;
+  onboardingStatus: string | null;
+  requiresCustomerConfirmation: boolean;
+  services: ProviderService[];
 }
 
 /**
@@ -24,7 +43,8 @@ export interface Provider {
  */
 function transformProvider(
   provider: ProviderRow,
-  subscription: SubscriptionRow | null
+  subscription: SubscriptionRow | null,
+  services: ProviderService[] = []
 ): Provider {
   // Détermine le type d'abonnement depuis le plan
   const subscriptionType: "basic" | "premium" =
@@ -50,7 +70,6 @@ function transformProvider(
   const subscriptionStartDate = subscription?.current_period_start || null;
 
   // Statut du compte (pour l'instant, on considère tous les comptes comme actifs)
-  // Vous pouvez ajouter une colonne account_status dans la table providers si nécessaire
   const accountStatus: "active" | "suspended" = "active";
 
   return {
@@ -66,11 +85,25 @@ function transformProvider(
     instagramHandle: provider.instagram_name || null,
     accountStatus,
     slug: provider.slug || null,
+    // Nouveaux champs
+    city: provider.city || null,
+    bio: provider.bio || null,
+    companyName: provider.company_name || null,
+    allowCancellation: provider.allow_cancellation ?? false,
+    cancellationDeadlineHours: provider.cancellation_deadline_hours || null,
+    paymentMethod: provider.payment_method || null,
+    depositAmount: provider.deposit_amount || null,
+    depositRequired: provider.deposit_required ?? false,
+    depositType: provider.deposit_type || null,
+    paypalAccount: provider.paypal_account || null,
+    onboardingStatus: provider.onboarding_status || null,
+    requiresCustomerConfirmation: provider.requires_customer_confirmation ?? false,
+    services,
   };
 }
 
 /**
- * Récupère tous les providers depuis Supabase avec leurs abonnements
+ * Récupère tous les providers depuis Supabase avec leurs abonnements et services
  * Exclut les providers avec is_demo = true (comptes de test)
  */
 export async function getProviders(): Promise<Provider[]> {
@@ -99,7 +132,16 @@ export async function getProviders(): Promise<Provider[]> {
 
   if (subscriptionsError) {
     console.error("Error fetching subscriptions:", subscriptionsError);
-    // On continue même si les abonnements ne peuvent pas être récupérés
+  }
+
+  // Récupère les services pour tous les providers
+  const { data: allServices, error: servicesError } = await supabase
+    .from("services")
+    .select("id, name, provider_id")
+    .in("provider_id", providerIds);
+
+  if (servicesError) {
+    console.error("Error fetching services:", servicesError);
   }
 
   // Crée un map pour accéder rapidement aux abonnements par provider_id
@@ -110,9 +152,20 @@ export async function getProviders(): Promise<Provider[]> {
     });
   }
 
+  // Crée un map pour accéder rapidement aux services par provider_id
+  const servicesMap = new Map<string, ProviderService[]>();
+  if (allServices) {
+    allServices.forEach((service) => {
+      const existing = servicesMap.get(service.provider_id) || [];
+      existing.push({ id: String(service.id), name: service.name });
+      servicesMap.set(service.provider_id, existing);
+    });
+  }
+
   // Transforme les données
   return providers.map((provider) => {
     const subscription = subscriptionMap.get(provider.id) || null;
-    return transformProvider(provider, subscription);
+    const services = servicesMap.get(provider.id) || [];
+    return transformProvider(provider, subscription, services);
   });
 }
