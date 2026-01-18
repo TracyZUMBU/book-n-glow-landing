@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Percent, Tag, Info, Sparkles, Save } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Percent, Tag, Info, Sparkles, Save, Search } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
@@ -16,12 +16,14 @@ import {
   fakeServices,
   ServicePromotion,
   calculateDiscountedPrice,
+  getCategories,
 } from '@/data/fakePromotionsData';
 
 const ProviderPromotions = () => {
   const [globalPromoActive, setGlobalPromoActive] = useState(false);
   const [globalDiscountPercent, setGlobalDiscountPercent] = useState(10);
   const [services, setServices] = useState<ServicePromotion[]>(fakeServices);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleGlobalPromoToggle = (checked: boolean) => {
     setGlobalPromoActive(checked);
@@ -62,6 +64,28 @@ const ProviderPromotions = () => {
   };
 
   const activePromotionsCount = services.filter((s) => s.promotionActive).length;
+
+  // Filter and group services by category
+  const filteredAndGroupedServices = useMemo(() => {
+    const filtered = services.filter((service) =>
+      service.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    
+    const categories = getCategories();
+    const grouped: Record<string, ServicePromotion[]> = {};
+    
+    categories.forEach((category) => {
+      const categoryServices = filtered
+        .filter((s) => s.category === category)
+        .sort((a, b) => a.name.localeCompare(b.name, 'fr'));
+      
+      if (categoryServices.length > 0) {
+        grouped[category] = categoryServices;
+      }
+    });
+    
+    return grouped;
+  }, [services, searchQuery]);
 
   return (
     <div className="space-y-6">
@@ -166,20 +190,51 @@ const ProviderPromotions = () => {
       </Card>
 
       {/* Services List */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold text-foreground">Vos services</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
-            <ServicePromotionCard
-              key={service.id}
-              service={service}
-              onToggle={(checked) => handleServicePromoToggle(service.id, checked)}
-              onDiscountChange={(percent) =>
-                handleServiceDiscountChange(service.id, percent)
-              }
+      <div className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h2 className="text-lg font-semibold text-foreground">Vos services</h2>
+          <div className="relative w-full sm:w-72">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Rechercher un service..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
             />
-          ))}
+          </div>
         </div>
+
+        {Object.keys(filteredAndGroupedServices).length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            <Search className="h-12 w-12 mx-auto mb-3 opacity-50" />
+            <p>Aucun service trouvé pour "{searchQuery}"</p>
+          </div>
+        ) : (
+          Object.entries(filteredAndGroupedServices).map(([category, categoryServices]) => (
+            <div key={category} className="space-y-3">
+              <h3 className="text-md font-medium text-foreground border-b pb-2 flex items-center gap-2">
+                <Tag className="h-4 w-4 text-primary" />
+                {category}
+                <Badge variant="secondary" className="ml-2">
+                  {categoryServices.length}
+                </Badge>
+              </h3>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {categoryServices.map((service) => (
+                  <ServicePromotionCard
+                    key={service.id}
+                    service={service}
+                    onToggle={(checked) => handleServicePromoToggle(service.id, checked)}
+                    onDiscountChange={(percent) =>
+                      handleServiceDiscountChange(service.id, percent)
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* Save Button */}
