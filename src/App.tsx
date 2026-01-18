@@ -30,6 +30,7 @@ import ProviderBookingDetail from "./pages/ProviderBookingDetail";
 import ProviderAnalytics from "./pages/ProviderAnalytics";
 import ProviderClients from "./pages/ProviderClients";
 import ProviderClientDetail from "./pages/ProviderClientDetail";
+import ProviderPromotions from "./pages/ProviderPromotions";
 import ClientLoyalty from "./pages/ClientLoyalty";
 import AdminProviders from "./pages/AdminProviders";
 import AdminLayout from "./pages/admin/AdminLayout";
@@ -124,6 +125,7 @@ const App = () => (
             <Route path="clients/:clientId" element={<ProviderClientDetail />} />
             <Route path="reservations/:bookingId" element={<ProviderBookingDetail />} />
             <Route path="profil" element={<ProviderProfileEdit />} />
+            <Route path="promotions" element={<ProviderPromotions />} />
             <Route path="disponibilites" element={<ProviderAvailability />} />
             <Route path="parametres" element={<ProviderSettings />} />
           </Route>
