@@ -6,9 +6,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import Navigation from "./components/landing/Navigation";
 import ScrollToTop from "./components/ScrollToTop";
+import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
+import AdminBookings from "./pages/admin/AdminBookings";
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminProviderDetail from "./pages/admin/AdminProviderDetail";
+import AdminProviders from "./pages/AdminProviders";
 import Auth from "./pages/Auth";
 import Booking from "./pages/Booking";
 import CGU from "./pages/CGU";
+import ClientLoyalty from "./pages/ClientLoyalty";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Features from "./pages/Features";
@@ -20,22 +26,17 @@ import PaymentDeposit from "./pages/PaymentDeposit";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Pricing from "./pages/Pricing";
-import ProviderProfile from "./pages/ProviderProfile";
-import ProviderSettings from "./pages/ProviderSettings";
-import ProviderAvailability from "./pages/ProviderAvailability";
-import ProviderDashboard from "./pages/ProviderDashboard";
-import ProviderProfileEdit from "./pages/ProviderProfileEdit";
-import ProviderRevenue from "./pages/ProviderRevenue";
-import ProviderBookingDetail from "./pages/ProviderBookingDetail";
 import ProviderAnalytics from "./pages/ProviderAnalytics";
-import ProviderClients from "./pages/ProviderClients";
+import ProviderAvailability from "./pages/ProviderAvailability";
+import ProviderBookingDetail from "./pages/ProviderBookingDetail";
 import ProviderClientDetail from "./pages/ProviderClientDetail";
+import ProviderClients from "./pages/ProviderClients";
+import ProviderDashboard from "./pages/ProviderDashboard";
+import ProviderProfile from "./pages/ProviderProfile";
+import ProviderProfileEdit from "./pages/ProviderProfileEdit";
 import ProviderPromotions from "./pages/ProviderPromotions";
-import ClientLoyalty from "./pages/ClientLoyalty";
-import AdminProviders from "./pages/AdminProviders";
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminBookings from "./pages/admin/AdminBookings";
-import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
+import ProviderRevenue from "./pages/ProviderRevenue";
+import ProviderSettings from "./pages/ProviderSettings";
 
 const queryClient = new QueryClient();
 
@@ -135,6 +136,7 @@ const App = () => (
             <Route path="bookings" element={<AdminBookings />} />
             <Route path="bookings/:bookingId" element={<AdminBookingDetail />} />
             <Route path="prestataires" element={<AdminProviders />} />
+            <Route path="prestataires/:providerId" element={<AdminProviderDetail />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

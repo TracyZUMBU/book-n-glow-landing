@@ -43,6 +43,137 @@ export type Database = {
           },
         ]
       }
+      booking_payments: {
+        Row: {
+          amount: number
+          amount_received: number | null
+          booking_id: number
+          created_at: string
+          id: number
+          net_amount: number
+          paid_at: string | null
+          paid_type: string
+          provider_id: string
+          status: string
+          stripe_balance_transaction_id: string | null
+          stripe_fee_amount: number
+          stripe_payment_intent_id: string | null
+        }
+        Insert: {
+          amount: number
+          amount_received?: number | null
+          booking_id: number
+          created_at?: string
+          id?: never
+          net_amount?: number
+          paid_at?: string | null
+          paid_type: string
+          provider_id: string
+          status?: string
+          stripe_balance_transaction_id?: string | null
+          stripe_fee_amount?: number
+          stripe_payment_intent_id?: string | null
+        }
+        Update: {
+          amount?: number
+          amount_received?: number | null
+          booking_id?: number
+          created_at?: string
+          id?: never
+          net_amount?: number
+          paid_at?: string | null
+          paid_type?: string
+          provider_id?: string
+          status?: string
+          stripe_balance_transaction_id?: string | null
+          stripe_fee_amount?: number
+          stripe_payment_intent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_payments_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_payments_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_payments_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      booking_refunds: {
+        Row: {
+          amount: number
+          booking_id: number
+          booking_payment_id: number
+          booking_transfer_id: number | null
+          created_at: string
+          id: number
+          initiated_by: string
+          status: string
+          stripe_refund_id: string | null
+          stripe_transfer_reversal_id: string | null
+        }
+        Insert: {
+          amount: number
+          booking_id: number
+          booking_payment_id: number
+          booking_transfer_id?: number | null
+          created_at?: string
+          id?: never
+          initiated_by: string
+          status?: string
+          stripe_refund_id?: string | null
+          stripe_transfer_reversal_id?: string | null
+        }
+        Update: {
+          amount?: number
+          booking_id?: number
+          booking_payment_id?: number
+          booking_transfer_id?: number | null
+          created_at?: string
+          id?: never
+          initiated_by?: string
+          status?: string
+          stripe_refund_id?: string | null
+          stripe_transfer_reversal_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_refunds_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_refunds_booking_payment_id_fkey"
+            columns: ["booking_payment_id"]
+            isOneToOne: false
+            referencedRelation: "booking_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_refunds_booking_transfer_id_fkey"
+            columns: ["booking_transfer_id"]
+            isOneToOne: false
+            referencedRelation: "booking_transfers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       booking_selected_options: {
         Row: {
           additional_duration: number
@@ -88,6 +219,80 @@ export type Database = {
           },
         ]
       }
+      booking_transfers: {
+        Row: {
+          amount: number
+          booking_id: number
+          booking_payment_id: number
+          created_at: string
+          id: number
+          last_attempt_at: string | null
+          last_error: string | null
+          provider_id: string
+          retry_count: number
+          status: string
+          stripe_transfer_id: string
+          transferred_at: string
+        }
+        Insert: {
+          amount: number
+          booking_id: number
+          booking_payment_id: number
+          created_at?: string
+          id?: never
+          last_attempt_at?: string | null
+          last_error?: string | null
+          provider_id: string
+          retry_count?: number
+          status?: string
+          stripe_transfer_id: string
+          transferred_at?: string
+        }
+        Update: {
+          amount?: number
+          booking_id?: number
+          booking_payment_id?: number
+          created_at?: string
+          id?: never
+          last_attempt_at?: string | null
+          last_error?: string | null
+          provider_id?: string
+          retry_count?: number
+          status?: string
+          stripe_transfer_id?: string
+          transferred_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "booking_transfers_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_transfers_booking_payment_id_fkey"
+            columns: ["booking_payment_id"]
+            isOneToOne: false
+            referencedRelation: "booking_payments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_transfers_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "booking_transfers_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           booking_datetime: string
@@ -95,18 +300,18 @@ export type Database = {
           cancellation_deadline_at: string | null
           cancelled_at: string | null
           cancelled_by: string | null
-          completed_at: string | null
           confirmation_deadline_at: string | null
           created_at: string
           customer_id: string
           deposit_amount_due: number | null
           id: number
+          loyalty_discount_amount: number
+          loyalty_eligible: boolean | null
           message: string | null
           options_duration: number
           options_price: number
-          paid_at: string | null
           payment_method: string
-          payment_status: string
+          promotion_discount_amount: number
           provider_id: string
           service_duration: number
           service_id: number
@@ -116,7 +321,6 @@ export type Database = {
           total_duration: number
           total_price: number
           transaction_paypal_id: string | null
-          transferred_at: string | null
           version: number
         }
         Insert: {
@@ -125,18 +329,18 @@ export type Database = {
           cancellation_deadline_at?: string | null
           cancelled_at?: string | null
           cancelled_by?: string | null
-          completed_at?: string | null
           confirmation_deadline_at?: string | null
           created_at?: string
           customer_id: string
           deposit_amount_due?: number | null
           id?: never
+          loyalty_discount_amount?: number
+          loyalty_eligible?: boolean | null
           message?: string | null
           options_duration?: number
           options_price?: number
-          paid_at?: string | null
           payment_method: string
-          payment_status?: string
+          promotion_discount_amount?: number
           provider_id: string
           service_duration?: number
           service_id: number
@@ -146,7 +350,6 @@ export type Database = {
           total_duration?: number
           total_price?: number
           transaction_paypal_id?: string | null
-          transferred_at?: string | null
           version?: number
         }
         Update: {
@@ -155,18 +358,18 @@ export type Database = {
           cancellation_deadline_at?: string | null
           cancelled_at?: string | null
           cancelled_by?: string | null
-          completed_at?: string | null
           confirmation_deadline_at?: string | null
           created_at?: string
           customer_id?: string
           deposit_amount_due?: number | null
           id?: never
+          loyalty_discount_amount?: number
+          loyalty_eligible?: boolean | null
           message?: string | null
           options_duration?: number
           options_price?: number
-          paid_at?: string | null
           payment_method?: string
-          payment_status?: string
+          promotion_discount_amount?: number
           provider_id?: string
           service_duration?: number
           service_id?: number
@@ -176,7 +379,6 @@ export type Database = {
           total_duration?: number
           total_price?: number
           transaction_paypal_id?: string | null
-          transferred_at?: string | null
           version?: number
         }
         Relationships: [
@@ -250,6 +452,62 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_provider_notes: {
+        Row: {
+          created_at: string
+          customer_id: string
+          id: number
+          note: string
+          provider_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          id?: number
+          note: string
+          provider_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          id?: number
+          note?: string
+          provider_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_provider_notes_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_provider_notes_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers_with_email"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_provider_notes_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_provider_notes_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           created_at: string
@@ -282,6 +540,293 @@ export type Database = {
           phone_verified?: boolean
         }
         Relationships: []
+      }
+      loyalty_card_accounts: {
+        Row: {
+          completed_bookings_count: number
+          created_at: string
+          customer_id: string
+          deleted_at: string | null
+          id: number
+          provider_id: string
+          updated_at: string
+        }
+        Insert: {
+          completed_bookings_count?: number
+          created_at?: string
+          customer_id: string
+          deleted_at?: string | null
+          id?: number
+          provider_id: string
+          updated_at?: string
+        }
+        Update: {
+          completed_bookings_count?: number
+          created_at?: string
+          customer_id?: string
+          deleted_at?: string | null
+          id?: number
+          provider_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_card_accounts_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_accounts_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers_with_email"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_accounts_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_accounts_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loyalty_card_program_services: {
+        Row: {
+          created_at: string
+          id: number
+          loyalty_card_program_id: number
+          service_id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          loyalty_card_program_id: number
+          service_id: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          loyalty_card_program_id?: number
+          service_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_card_program_services_loyalty_card_program_id_fkey"
+            columns: ["loyalty_card_program_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_card_programs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_program_services_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loyalty_card_programs: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          id: number
+          is_active: boolean
+          provider_id: string
+          required_completed_bookings_count: number
+          reward_type: string
+          reward_value: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          is_active?: boolean
+          provider_id: string
+          required_completed_bookings_count: number
+          reward_type: string
+          reward_value?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          id?: number
+          is_active?: boolean
+          provider_id?: string
+          required_completed_bookings_count?: number
+          reward_type?: string
+          reward_value?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_card_programs_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_programs_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loyalty_card_rewards: {
+        Row: {
+          created_at: string
+          id: number
+          loyalty_card_account_id: number
+          loyalty_card_program_id: number
+          reward_type: string
+          reward_value: number | null
+          status: string
+          updated_at: string
+          used_at: string | null
+          used_for_booking_id: number | null
+          valid_from: string
+          valid_until: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          loyalty_card_account_id: number
+          loyalty_card_program_id: number
+          reward_type: string
+          reward_value?: number | null
+          status?: string
+          updated_at?: string
+          used_at?: string | null
+          used_for_booking_id?: number | null
+          valid_from?: string
+          valid_until: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          loyalty_card_account_id?: number
+          loyalty_card_program_id?: number
+          reward_type?: string
+          reward_value?: number | null
+          status?: string
+          updated_at?: string
+          used_at?: string | null
+          used_for_booking_id?: number | null
+          valid_from?: string
+          valid_until?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_card_rewards_loyalty_card_account_id_fkey"
+            columns: ["loyalty_card_account_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_card_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_rewards_loyalty_card_program_id_fkey"
+            columns: ["loyalty_card_program_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_card_programs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_rewards_used_for_booking_id_fkey"
+            columns: ["used_for_booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loyalty_card_transactions: {
+        Row: {
+          booking_id: number | null
+          count_delta: number
+          created_at: string
+          id: number
+          loyalty_card_account_id: number
+          new_count: number
+          original_transaction_id: number | null
+          previous_count: number
+          reason: string | null
+          reward_unlocked_id: number | null
+          reward_used_id: number | null
+          transaction_type: string
+        }
+        Insert: {
+          booking_id?: number | null
+          count_delta: number
+          created_at?: string
+          id?: number
+          loyalty_card_account_id: number
+          new_count: number
+          original_transaction_id?: number | null
+          previous_count: number
+          reason?: string | null
+          reward_unlocked_id?: number | null
+          reward_used_id?: number | null
+          transaction_type: string
+        }
+        Update: {
+          booking_id?: number | null
+          count_delta?: number
+          created_at?: string
+          id?: number
+          loyalty_card_account_id?: number
+          new_count?: number
+          original_transaction_id?: number | null
+          previous_count?: number
+          reason?: string | null
+          reward_unlocked_id?: number | null
+          reward_used_id?: number | null
+          transaction_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_card_transactions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_transactions_loyalty_card_account_id_fkey"
+            columns: ["loyalty_card_account_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_card_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_transactions_original_transaction_id_fkey"
+            columns: ["original_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_card_transactions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_card_transactions_reward_used_id_fkey"
+            columns: ["reward_used_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_card_rewards"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notifications_to_send: {
         Row: {
@@ -376,6 +921,125 @@ export type Database = {
           },
         ]
       }
+      provider_announcements: {
+        Row: {
+          created_at: string
+          id: string
+          is_enabled: boolean
+          message: string
+          provider_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          message: string
+          provider_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_enabled?: boolean
+          message?: string
+          provider_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_announcements_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "provider_announcements_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provider_daily_availabilities: {
+        Row: {
+          created_at: string
+          date: string
+          id: number
+          is_closed: boolean
+          provider_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: never
+          is_closed?: boolean
+          provider_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: never
+          is_closed?: boolean
+          provider_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_provider_daily_availabilities_provider_id"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_provider_daily_availabilities_provider_id"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      provider_daily_time_ranges: {
+        Row: {
+          created_at: string
+          daily_availability_id: number
+          end_time: string
+          id: number
+          start_time: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          daily_availability_id: number
+          end_time: string
+          id?: never
+          start_time: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          daily_availability_id?: number
+          end_time?: string
+          id?: never
+          start_time?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "provider_daily_time_ranges_daily_availability_id_fkey"
+            columns: ["daily_availability_id"]
+            isOneToOne: false
+            referencedRelation: "provider_daily_availabilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       provider_opening_hours: {
         Row: {
           created_at: string
@@ -430,6 +1094,7 @@ export type Database = {
           end_datetime: string
           id: string
           provider_id: string
+          reason: string | null
           start_datetime: string
         }
         Insert: {
@@ -437,6 +1102,7 @@ export type Database = {
           end_datetime: string
           id?: string
           provider_id: string
+          reason?: string | null
           start_datetime: string
         }
         Update: {
@@ -444,6 +1110,7 @@ export type Database = {
           end_datetime?: string
           id?: string
           provider_id?: string
+          reason?: string | null
           start_datetime?: string
         }
         Relationships: [
@@ -468,7 +1135,6 @@ export type Database = {
           allow_cancellation: boolean
           bio: string | null
           cancellation_deadline_hours: number | null
-          charges_enabled: boolean | null
           city: string
           company_name: string
           contact_method: string
@@ -491,7 +1157,6 @@ export type Database = {
           max_booking_months_in_advance: number | null
           onboarding_status: string
           payment_method: string
-          payouts_enabled: boolean | null
           paypal_account: string | null
           postal_code: string
           profile_image_url: string | null
@@ -500,14 +1165,11 @@ export type Database = {
           same_day_booking_deadline_hours: number | null
           slug: string
           street: string
-          stripe_account_status: string | null
-          stripe_connected_account_id: string | null
         }
         Insert: {
           allow_cancellation?: boolean
           bio?: string | null
           cancellation_deadline_hours?: number | null
-          charges_enabled?: boolean | null
           city: string
           company_name: string
           contact_method?: string
@@ -530,7 +1192,6 @@ export type Database = {
           max_booking_months_in_advance?: number | null
           onboarding_status?: string
           payment_method?: string
-          payouts_enabled?: boolean | null
           paypal_account?: string | null
           postal_code: string
           profile_image_url?: string | null
@@ -539,14 +1200,11 @@ export type Database = {
           same_day_booking_deadline_hours?: number | null
           slug: string
           street: string
-          stripe_account_status?: string | null
-          stripe_connected_account_id?: string | null
         }
         Update: {
           allow_cancellation?: boolean
           bio?: string | null
           cancellation_deadline_hours?: number | null
-          charges_enabled?: boolean | null
           city?: string
           company_name?: string
           contact_method?: string
@@ -569,7 +1227,6 @@ export type Database = {
           max_booking_months_in_advance?: number | null
           onboarding_status?: string
           payment_method?: string
-          payouts_enabled?: boolean | null
           paypal_account?: string | null
           postal_code?: string
           profile_image_url?: string | null
@@ -578,8 +1235,6 @@ export type Database = {
           same_day_booking_deadline_hours?: number | null
           slug?: string
           street?: string
-          stripe_account_status?: string | null
-          stripe_connected_account_id?: string | null
         }
         Relationships: []
       }
@@ -635,6 +1290,138 @@ export type Database = {
           },
         ]
       }
+      service_photos: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: number
+          photo_url: string
+          service_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order: number
+          id?: number
+          photo_url: string
+          service_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: number
+          photo_url?: string
+          service_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_photos_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      service_reviews: {
+        Row: {
+          attitude_rating: number
+          booking_id: number
+          cleanliness_rating: number
+          comment: string | null
+          created_at: string
+          customer_id: string
+          deleted_at: string | null
+          id: string
+          is_anonymous: boolean
+          is_published: boolean
+          provider_id: string
+          punctuality_rating: number
+          quality_rating: number
+          service_id: number
+          updated_at: string
+        }
+        Insert: {
+          attitude_rating: number
+          booking_id: number
+          cleanliness_rating: number
+          comment?: string | null
+          created_at?: string
+          customer_id: string
+          deleted_at?: string | null
+          id?: string
+          is_anonymous?: boolean
+          is_published?: boolean
+          provider_id: string
+          punctuality_rating: number
+          quality_rating: number
+          service_id: number
+          updated_at?: string
+        }
+        Update: {
+          attitude_rating?: number
+          booking_id?: number
+          cleanliness_rating?: number
+          comment?: string | null
+          created_at?: string
+          customer_id?: string
+          deleted_at?: string | null
+          id?: string
+          is_anonymous?: boolean
+          is_published?: boolean
+          provider_id?: string
+          punctuality_rating?: number
+          quality_rating?: number
+          service_id?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_reviews_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_reviews_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers_with_email"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_reviews_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_reviews_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "service_reviews_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           category_id: number | null
@@ -646,6 +1433,8 @@ export type Database = {
           is_archived: boolean
           name: string
           price: number
+          promo_active: boolean
+          promo_percentage: number | null
           provider_id: string
         }
         Insert: {
@@ -658,6 +1447,8 @@ export type Database = {
           is_archived?: boolean
           name: string
           price: number
+          promo_active?: boolean
+          promo_percentage?: number | null
           provider_id: string
         }
         Update: {
@@ -670,6 +1461,8 @@ export type Database = {
           is_archived?: boolean
           name?: string
           price?: number
+          promo_active?: boolean
+          promo_percentage?: number | null
           provider_id?: string
         }
         Relationships: [
@@ -691,6 +1484,57 @@ export type Database = {
             foreignKeyName: "services_provider_id_fkey"
             columns: ["provider_id"]
             isOneToOne: false
+            referencedRelation: "providers_with_phone"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stripe_accounts: {
+        Row: {
+          account_type: string
+          charges_enabled: boolean
+          created_at: string
+          id: string
+          onboarding_completed_at: string | null
+          payouts_enabled: boolean
+          provider_id: string
+          stripe_account_id: string
+          updated_at: string
+        }
+        Insert: {
+          account_type?: string
+          charges_enabled?: boolean
+          created_at?: string
+          id?: string
+          onboarding_completed_at?: string | null
+          payouts_enabled?: boolean
+          provider_id: string
+          stripe_account_id: string
+          updated_at?: string
+        }
+        Update: {
+          account_type?: string
+          charges_enabled?: boolean
+          created_at?: string
+          id?: string
+          onboarding_completed_at?: string | null
+          payouts_enabled?: boolean
+          provider_id?: string
+          stripe_account_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stripe_accounts_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: true
+            referencedRelation: "providers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stripe_accounts_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: true
             referencedRelation: "providers_with_phone"
             referencedColumns: ["id"]
           },
@@ -826,29 +1670,39 @@ export type Database = {
           same_day_booking_deadline_hours: number | null
           slug: string | null
           street: string | null
-          stripe_account_status: string | null
-          stripe_connected_account_id: string | null
         }
         Relationships: []
       }
     }
     Functions: {
+      apply_loyalty_card_for_completed_booking: {
+        Args: { p_booking_id: number }
+        Returns: Json
+      }
+      apply_loyalty_card_for_completed_bookings: {
+        Args: never
+        Returns: undefined
+      }
       archive_or_delete_service: {
         Args: { input_service_id: number }
         Returns: string
       }
-      cancel_failed_stripe_card_bookings: { Args: never; Returns: undefined }
       cancel_unconfirmed_bookings: { Args: never; Returns: undefined }
       cancel_unpaid_pending_payment_bookings: {
         Args: never
         Returns: undefined
       }
+      cancel_unpaid_stripe_card_bookings: { Args: never; Returns: undefined }
       check_provider_availability: {
         Args: {
           p_end_datetime: string
           p_provider_id: string
           p_start_datetime: string
         }
+        Returns: boolean
+      }
+      check_service_ownership: {
+        Args: { service_id_param: number }
         Returns: boolean
       }
       create_booking_with_margin:
@@ -918,6 +1772,73 @@ export type Database = {
         }
         Returns: number
       }
+      create_booking_with_options_atomic_v2:
+        | {
+            Args: {
+              p_booking_datetime: string
+              p_booking_end_datetime: string
+              p_cancellation_deadline_at?: string
+              p_confirmation_deadline_at?: string
+              p_customer_id: string
+              p_deposit_amount_due: number
+              p_message?: string
+              p_options?: Json
+              p_options_duration: number
+              p_options_price: number
+              p_payment_method: string
+              p_provider_id: string
+              p_service_duration: number
+              p_service_id: number
+              p_service_price: number
+              p_status: string
+            }
+            Returns: number
+          }
+        | {
+            Args: {
+              p_booking_datetime: string
+              p_booking_end_datetime: string
+              p_cancellation_deadline_at?: string
+              p_confirmation_deadline_at?: string
+              p_customer_id: string
+              p_deposit_amount_due: number
+              p_loyalty_discount_amount?: number
+              p_message?: string
+              p_options?: Json
+              p_options_duration: number
+              p_options_price: number
+              p_payment_method: string
+              p_provider_id: string
+              p_service_duration: number
+              p_service_id: number
+              p_service_price: number
+              p_status: string
+            }
+            Returns: number
+          }
+        | {
+            Args: {
+              p_booking_datetime: string
+              p_booking_end_datetime: string
+              p_cancellation_deadline_at?: string
+              p_confirmation_deadline_at?: string
+              p_customer_id: string
+              p_deposit_amount_due: number
+              p_loyalty_discount_amount?: number
+              p_message?: string
+              p_options?: Json
+              p_options_duration: number
+              p_options_price: number
+              p_payment_method: string
+              p_promotion_discount_amount?: number
+              p_provider_id: string
+              p_service_duration: number
+              p_service_id: number
+              p_service_price: number
+              p_status: string
+            }
+            Returns: number
+          }
       create_client_anonymous: {
         Args: { p_email: string; p_name: string; p_phone: string }
         Returns: {
@@ -937,6 +1858,32 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      create_or_update_loyalty_card_program: {
+        Args: {
+          p_eligible_service_ids?: number[]
+          p_is_active?: boolean
+          p_provider_id: string
+          p_required_completed_bookings_count: number
+          p_reward_type: string
+          p_reward_value?: number
+        }
+        Returns: Json
+      }
+      create_service_photo_if_below_limit: {
+        Args: {
+          p_display_order: number
+          p_photo_url: string
+          p_service_id: number
+        }
+        Returns: {
+          created_at: string
+          display_order: number
+          id: number
+          photo_url: string
+          service_id: number
+          updated_at: string
+        }[]
+      }
       debug_create_booking: {
         Args: {
           p_client_id: string
@@ -955,6 +1902,20 @@ export type Database = {
         }
         Returns: number
       }
+      find_first_available_date: {
+        Args: {
+          p_max_weeks_to_search?: number
+          p_provider_id: string
+          p_service_duration_min: number
+          p_start_from_date?: string
+        }
+        Returns: string
+      }
+      get_active_loyalty_card_program: { Args: never; Returns: Json }
+      get_available_loyalty_card_rewards: {
+        Args: { p_customer_id: string; p_provider_id: string }
+        Returns: Json
+      }
       get_available_slots: {
         Args: {
           p_provider_id: string
@@ -971,8 +1932,53 @@ export type Database = {
         }
         Returns: Json
       }
+      get_available_slots_v3: {
+        Args: {
+          p_provider_id: string
+          p_service_duration_min: number
+          p_start_date: string
+        }
+        Returns: Json
+      }
       get_booking_with_privacy: {
         Args: { p_booking_id: number }
+        Returns: Json
+      }
+      get_customer_loyalty_card_info: {
+        Args: { p_customer_id: string; p_provider_id: string }
+        Returns: Json
+      }
+      get_pending_free_product_rewards: {
+        Args: { p_page?: number; p_page_size?: number }
+        Returns: Json
+      }
+      get_provider_analytics: {
+        Args: { p_provider_id: string; p_year?: number }
+        Returns: Json
+      }
+      get_provider_analytics_v2: {
+        Args: { p_provider_id: string; p_year?: number }
+        Returns: Json
+      }
+      get_provider_customer_booking_history: {
+        Args: {
+          p_customer_id: string
+          p_limit?: number
+          p_offset?: number
+          p_provider_id: string
+        }
+        Returns: Json
+      }
+      get_provider_customer_details: {
+        Args: { p_customer_id: string; p_provider_id: string }
+        Returns: Json
+      }
+      get_provider_customers_list: {
+        Args: { p_limit?: number; p_offset?: number; p_provider_id: string }
+        Returns: Json
+      }
+      get_provider_revenue_stats: {
+        Args: { p_provider_id: string }
         Returns: Json
       }
       increment_verification_attempt: {
@@ -985,6 +1991,18 @@ export type Database = {
           earliest_start: string
           latest_end: string
         }[]
+      }
+      reorder_service_photos: {
+        Args: { p_photo_ids: number[]; p_service_id: number }
+        Returns: undefined
+      }
+      rollback_loyalty_card_for_cancelled_booking: {
+        Args: { p_booking_id: number }
+        Returns: Json
+      }
+      save_provider_daily_availabilities: {
+        Args: { p_days: Json; p_provider_id: string }
+        Returns: undefined
       }
       search_bookings: {
         Args: { input_provider_id: string; query: string }
@@ -1013,7 +2031,29 @@ export type Database = {
           status: string
         }[]
       }
+      search_provider_customers: {
+        Args: { p_provider_id: string; p_query: string }
+        Returns: {
+          customer_id: string
+          first_name: string
+          last_name: string
+          phone: string
+        }[]
+      }
       unaccent: { Args: { "": string }; Returns: string }
+      use_loyalty_card_reward: {
+        Args: { p_booking_id: number; p_reward_id: number }
+        Returns: Json
+      }
+      validate_loyalty_card_reward: {
+        Args: {
+          p_customer_id: string
+          p_provider_id: string
+          p_reward_id: number
+          p_service_id?: number
+        }
+        Returns: Json
+      }
       verify_phone_code_transaction: {
         Args: { p_client_id: string; p_code_hash: string }
         Returns: boolean

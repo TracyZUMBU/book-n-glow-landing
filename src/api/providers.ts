@@ -171,3 +171,166 @@ export async function getProviders(): Promise<Provider[]> {
     return transformProvider(provider, subscription, services);
   });
 }
+
+export interface ProviderDailyTimeRange {
+  id: number;
+  startTime: string;
+  endTime: string;
+}
+
+export interface ProviderDailyAvailability {
+  id: number;
+  date: string;
+  isClosed: boolean;
+  timeRanges: ProviderDailyTimeRange[];
+}
+
+export interface ProviderUnavailability {
+  id: string;
+  startDatetime: string;
+  endDatetime: string;
+  reason: string | null;
+}
+
+/**
+ * Récupère les disponibilités quotidiennes d'un prestataire
+ * avec leurs créneaux horaires
+ */
+export async function getProviderDailyAvailabilities(
+  providerId: string,
+  startDate?: string,
+  endDate?: string
+): Promise<ProviderDailyAvailability[]> {
+  // Construire la requête de base
+  let query = supabase
+    .from("provider_daily_availabilities")
+    .select("*")
+    .eq("provider_id", providerId);
+
+  // Ajouter les filtres de date si fournis
+  if (startDate) {
+    query = query.gte("date", startDate);
+  }
+  if (endDate) {
+    query = query.lte("date", endDate);
+  }
+
+  const { data: availabilities, error: availabilitiesError } = await query
+    .order("date", { ascending: true });
+
+  if (availabilitiesError) {
+    console.error("Error fetching daily availabilities:", availabilitiesError);
+    throw new Error(
+      `Failed to fetch daily availabilities: ${availabilitiesError.message}`
+    );
+  }
+
+  if (!availabilities || availabilities.length === 0) {
+    return [];
+  }
+
+  // Récupérer les créneaux horaires pour chaque disponibilité
+  const availabilityIds = availabilities.map((a) => a.id);
+  const { data: timeRanges, error: timeRangesError } = await supabase
+    .from("provider_daily_time_ranges")
+    .select("*")
+    .in("daily_availability_id", availabilityIds)
+    .order("start_time", { ascending: true });
+
+  if (timeRangesError) {
+    console.error("Error fetching time ranges:", timeRangesError);
+    throw new Error(
+      `Failed to fetch time ranges: ${timeRangesError.message}`
+    );
+  }
+
+  // Grouper les créneaux par disponibilité
+  const timeRangesMap = new Map<number, ProviderDailyTimeRange[]>();
+  if (timeRanges) {
+    timeRanges.forEach((tr) => {
+      const existing = timeRangesMap.get(tr.daily_availability_id) || [];
+      existing.push({
+        id: tr.id,
+        startTime: tr.start_time,
+        endTime: tr.end_time,
+      });
+      timeRangesMap.set(tr.daily_availability_id, existing);
+    });
+  }
+
+  // Combiner les données
+  return availabilities.map((availability) => ({
+    id: availability.id,
+    date: availability.date,
+    isClosed: availability.is_closed,
+    timeRanges: timeRangesMap.get(availability.id) || [],
+  }));
+}
+
+/**
+ * Récupère les périodes d'indisponibilité d'un prestataire
+ */
+export async function getProviderUnavailabilities(
+  providerId: string
+): Promise<ProviderUnavailability[]> {
+  const { data, error } = await supabase
+    .from("provider_unavailabilities")
+    .select("*")
+    .eq("provider_id", providerId)
+    .order("start_datetime", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching unavailabilities:", error);
+    throw new Error(`Failed to fetch unavailabilities: ${error.message}`);
+  }
+
+  if (!data || data.length === 0) {
+    return [];
+  }
+
+  return data.map((unavailability) => ({
+    id: unavailability.id,
+    startDatetime: unavailability.start_datetime,
+    endDatetime: unavailability.end_datetime,
+    reason: unavailability.reason || null,
+  }));
+}
+
+/**
+ * Récupère un prestataire par son ID avec tous ses détails
+ */
+export async function getProviderById(providerId: string): Promise<Provider | null> {
+  const { data: provider, error: providerError } = await supabase
+    .from("providers")
+    .select("*")
+    .eq("id", providerId)
+    .eq("is_demo", false)
+    .single();
+
+  if (providerError) {
+    console.error("Error fetching provider:", providerError);
+    throw new Error(`Failed to fetch provider: ${providerError.message}`);
+  }
+
+  if (!provider) {
+    return null;
+  }
+
+  // Récupère l'abonnement
+  const { data: subscription } = await supabase
+    .from("stripe_subscriptions")
+    .select("*")
+    .eq("provider_id", providerId)
+    .single();
+
+  // Récupère les services
+  const { data: services } = await supabase
+    .from("services")
+    .select("id, name, provider_id")
+    .eq("provider_id", providerId);
+
+  const servicesList: ProviderService[] =
+    services?.map((s) => ({ id: String(s.id), name: s.name })) || [];
+
+  return transformProvider(provider, subscription || null, servicesList);
+}
