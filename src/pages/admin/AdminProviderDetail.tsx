@@ -1,33 +1,31 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { format, parseISO } from "date-fns";
-import { fr } from "date-fns/locale";
 import {
   getProviderById,
   getProviderDailyAvailabilities,
   getProviderUnavailabilities,
 } from "@/api/providers";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { format, parseISO } from "date-fns";
+import { fr } from "date-fns/locale";
 import {
   ArrowLeft,
+  Ban,
   Building2,
   Calendar,
+  Check,
   Clock,
+  CreditCard,
+  Loader2,
   Mail,
   MapPin,
   Scissors,
   Settings,
   UserCheck,
-  Ban,
-  CreditCard,
-  Loader2,
-  ExternalLink,
-  X,
-  Check,
+  X
 } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const WEEKDAYS = [
   "Dimanche",
