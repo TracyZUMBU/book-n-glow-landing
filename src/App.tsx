@@ -32,6 +32,7 @@ import ProviderBookingDetail from "./pages/ProviderBookingDetail";
 import ProviderClientDetail from "./pages/ProviderClientDetail";
 import ProviderClients from "./pages/ProviderClients";
 import ProviderDashboard from "./pages/ProviderDashboard";
+import ProviderOnboarding from "./pages/ProviderOnboarding";
 import ProviderProfile from "./pages/ProviderProfile";
 import ProviderProfileEdit from "./pages/ProviderProfileEdit";
 import ProviderPromotions from "./pages/ProviderPromotions";
@@ -115,6 +116,7 @@ const App = () => (
           <Route path="/paiement-reussi" element={<PaymentSuccess />} />
           <Route path="/acompte-paiement" element={<PaymentDeposit />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/inscription-prestataire" element={<ProviderOnboarding />} />
           <Route path="/modal-preview" element={<ModalPreview />} />
           <Route path="/fidelite/:providerId" element={<ClientLoyalty />} />
           

@@ -3,7 +3,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { Check, Crown, Sparkles } from "lucide-react";
-import { useState } from "react";
 
 const plans = [
   {
@@ -23,7 +22,7 @@ const plans = [
     popular: false,
   },
   {
-    id: "complete",
+    id: "premium",
     name: "Premium",
     icon: Crown,
     price: "19€",
@@ -47,22 +46,24 @@ const plans = [
   },
 ];
 
-export const SubscriptionStep = () => {
-  const [selectedPlan, setSelectedPlan] = useState<string>("complete");
+interface SubscriptionStepProps {
+  selectedPlan: "free" | "premium";
+  onPlanChange: (plan: "free" | "premium") => void;
+}
 
+export const SubscriptionStep = ({ selectedPlan, onPlanChange }: SubscriptionStepProps) => {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4">
-          Choisissez votre <span className="text-gradient">abonnement</span>
+        <h2 className="text-2xl font-bold text-foreground mb-2">
+          Choisissez votre abonnement
         </h2>
-        <p className="text-lg text-muted-foreground">
-          Sans engagement • Annulation à tout moment • 19€/mois à vie pour les
-          premiers abonnés ( prix futur : 29,99€/mois)
+        <p className="text-muted-foreground">
+          Sans engagement • Annulation à tout moment
         </p>
       </div>
 
-      <RadioGroup value={selectedPlan} onValueChange={setSelectedPlan}>
+      <RadioGroup value={selectedPlan} onValueChange={(value) => onPlanChange(value as "free" | "premium")}>
         <div className="grid md:grid-cols-2 gap-6">
           {plans.map((plan) => {
             const Icon = plan.icon;
@@ -73,13 +74,13 @@ export const SubscriptionStep = () => {
                 <Label
                   htmlFor={plan.id}
                   className={cn(
-                    "cursor-pointer block",
+                    "cursor-pointer block transition-transform",
                     isSelected && "scale-[1.02]"
                   )}
                 >
                   <Card
                     className={cn(
-                      "relative p-6 transition-all duration-300 hover:shadow-xl",
+                      "relative p-6 transition-all duration-300 hover:shadow-xl h-full",
                       isSelected
                         ? "border-2 border-primary shadow-lg ring-2 ring-primary/20"
                         : "border-2 border-border hover:border-primary/50"
@@ -97,7 +98,7 @@ export const SubscriptionStep = () => {
                     {/* Popular badge */}
                     {plan.popular && (
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-secondary text-primary-foreground px-4 py-1 rounded-full text-xs font-semibold shadow-md">
-                        Le plus populaire
+                        Recommandé
                       </div>
                     )}
 
@@ -137,7 +138,7 @@ export const SubscriptionStep = () => {
                     </div>
 
                     {/* Badge offre de lancement pour le plan Premium */}
-                    {plan.id === "complete" && (
+                    {plan.id === "premium" && (
                       <div className="mt-4 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
                         <div className="text-center">
                           <p className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
@@ -161,15 +162,6 @@ export const SubscriptionStep = () => {
           })}
         </div>
       </RadioGroup>
-
-      {/* Info message */}
-      <div className="mt-6 text-center">
-        <p className="text-sm text-muted-foreground">
-          Offre de lancement : <strong>19€/mois à vie</strong> pour le plan
-          Premium.{" "}
-          <span className="line-through">(Prix futur : 29,99€/mois)</span>
-        </p>
-      </div>
     </div>
   );
 };
