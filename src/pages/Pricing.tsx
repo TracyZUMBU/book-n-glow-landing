@@ -154,8 +154,8 @@ const Pricing = () => {
                       plan.popular
                         ? "hero"
                         : plan.free
-                        ? "secondary"
-                        : "outline"
+                          ? "secondary"
+                          : "outline"
                     }
                     size="lg"
                     className="w-full"

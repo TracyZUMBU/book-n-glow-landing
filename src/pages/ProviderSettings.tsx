@@ -29,7 +29,7 @@ const ProviderSettings = () => {
   const [cancellationPolicy, setCancellationPolicy] = useState("flexible");
   const [depositPercentage, setDepositPercentage] = useState("30");
   const [paypalUsername, setPaypalUsername] = useState("");
-  
+
   const [timeSlots, setTimeSlots] = useState([
     { id: 1, day: "Lundi", enabled: true, start: "09:00", end: "18:00" },
     { id: 2, day: "Mardi", enabled: true, start: "09:00", end: "18:00" },
@@ -41,18 +41,20 @@ const ProviderSettings = () => {
   ]);
 
   const toggleDayEnabled = (id: number) => {
-    setTimeSlots(prev =>
-      prev.map(slot =>
-        slot.id === id ? { ...slot, enabled: !slot.enabled } : slot
-      )
+    setTimeSlots((prev) =>
+      prev.map((slot) =>
+        slot.id === id ? { ...slot, enabled: !slot.enabled } : slot,
+      ),
     );
   };
 
-  const updateSlotTime = (id: number, field: "start" | "end", value: string) => {
-    setTimeSlots(prev =>
-      prev.map(slot =>
-        slot.id === id ? { ...slot, [field]: value } : slot
-      )
+  const updateSlotTime = (
+    id: number,
+    field: "start" | "end",
+    value: string,
+  ) => {
+    setTimeSlots((prev) =>
+      prev.map((slot) => (slot.id === id ? { ...slot, [field]: value } : slot)),
     );
   };
 
@@ -79,19 +81,31 @@ const ProviderSettings = () => {
 
           <Tabs defaultValue="payment" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4 h-auto p-1 bg-background-light">
-              <TabsTrigger value="payment" className="flex items-center gap-2 py-3">
+              <TabsTrigger
+                value="payment"
+                className="flex items-center gap-2 py-3"
+              >
                 <CreditCard className="w-4 h-4" />
                 <span className="hidden sm:inline">Paiement</span>
               </TabsTrigger>
-              <TabsTrigger value="schedule" className="flex items-center gap-2 py-3">
+              <TabsTrigger
+                value="schedule"
+                className="flex items-center gap-2 py-3"
+              >
                 <Clock className="w-4 h-4" />
                 <span className="hidden sm:inline">Créneaux</span>
               </TabsTrigger>
-              <TabsTrigger value="cancellation" className="flex items-center gap-2 py-3">
+              <TabsTrigger
+                value="cancellation"
+                className="flex items-center gap-2 py-3"
+              >
                 <Ban className="w-4 h-4" />
                 <span className="hidden sm:inline">Annulation</span>
               </TabsTrigger>
-              <TabsTrigger value="loyalty" className="flex items-center gap-2 py-3">
+              <TabsTrigger
+                value="loyalty"
+                className="flex items-center gap-2 py-3"
+              >
                 <Gift className="w-4 h-4" />
                 <span className="hidden sm:inline">Fidélité</span>
               </TabsTrigger>
@@ -135,12 +149,17 @@ const ProviderSettings = () => {
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
                           <RadioGroupItem value="cash" id="cash" />
-                          <Label htmlFor="cash" className="text-lg font-semibold cursor-pointer">
+                          <Label
+                            htmlFor="cash"
+                            className="text-lg font-semibold cursor-pointer"
+                          >
                             Paiement sur place (espèces)
                           </Label>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2 ml-7">
-                          Les clients paieront directement la totalité de la prestation sur place lors de la prestation. Aucun acompte ne sera demandé.
+                          Les clients paieront directement la totalité de la
+                          prestation sur place lors de la prestation. Aucun
+                          acompte ne sera demandé.
                         </p>
                       </div>
                     </div>
@@ -162,31 +181,46 @@ const ProviderSettings = () => {
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
                           <RadioGroupItem value="paypal" id="paypal" />
-                          <Label htmlFor="paypal" className="text-lg font-semibold cursor-pointer">
+                          <Label
+                            htmlFor="paypal"
+                            className="text-lg font-semibold cursor-pointer"
+                          >
                             PayPal.Me (avec acompte)
                           </Label>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2 ml-7">
-                          Les clients devront payer un acompte via PayPal.Me lors de la réservation. Vous devrez configurer votre compte PayPal.Me et le montant de l'acompte ci-dessous.
+                          Le client est redirige vers votre page PayPal.Me avec
+                          le montant a payer lors de la reservation. Le client
+                          dispose de 15 minutes pour payer, puis vous pouvez
+                          annuler le rendez-vous si le paiement n'a pas ete
+                          effectue.
                         </p>
-                        
+
                         {paymentMethod === "paypal" && (
                           <div className="mt-4 ml-7 space-y-4 animate-in slide-in-from-top-2 duration-200">
                             <div className="space-y-2">
-                              <Label htmlFor="paypal-username">Votre lien PayPal.Me</Label>
+                              <Label htmlFor="paypal-username">
+                                Votre identifiant PayPal.Me
+                              </Label>
                               <div className="flex items-center gap-2">
-                                <span className="text-sm text-muted-foreground">paypal.me/</span>
+                                <span className="text-sm text-muted-foreground">
+                                  paypal.me/
+                                </span>
                                 <Input
                                   id="paypal-username"
-                                  placeholder="votre-username"
+                                  placeholder="votre-identifiant"
                                   value={paypalUsername}
-                                  onChange={(e) => setPaypalUsername(e.target.value)}
+                                  onChange={(e) =>
+                                    setPaypalUsername(e.target.value)
+                                  }
                                   className="flex-1"
                                 />
                               </div>
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor="deposit-paypal">Pourcentage d'acompte</Label>
+                              <Label htmlFor="deposit-paypal">
+                                Pourcentage d'acompte
+                              </Label>
                               <div className="flex items-center gap-2">
                                 <Input
                                   id="deposit-paypal"
@@ -194,18 +228,28 @@ const ProviderSettings = () => {
                                   min="10"
                                   max="100"
                                   value={depositPercentage}
-                                  onChange={(e) => setDepositPercentage(e.target.value)}
+                                  onChange={(e) =>
+                                    setDepositPercentage(e.target.value)
+                                  }
                                   className="w-24"
                                 />
                                 <span className="text-muted-foreground">%</span>
                               </div>
                             </div>
-                            
+
                             {/* Warning Alert */}
                             <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-50 border border-amber-200">
                               <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                               <p className="text-sm text-amber-700">
-                                <span className="font-semibold">Attention :</span> Si vous requérez un acompte et autorisez les annulations, vous devrez rembourser l'acompte au client si celui-ci annule son rendez-vous dans les délais impartis. Si vous ne souhaitez pas rembourser l'acompte, il est préférable de ne pas autoriser les annulations.
+                                <span className="font-semibold">
+                                  Attention :
+                                </span>{" "}
+                                Si vous requérez un acompte et autorisez les
+                                annulations, vous devrez rembourser l'acompte au
+                                client si celui-ci annule son rendez-vous dans
+                                les délais impartis. Si vous ne souhaitez pas
+                                rembourser l'acompte, il est préférable de ne
+                                pas autoriser les annulations.
                               </p>
                             </div>
                           </div>
@@ -230,12 +274,17 @@ const ProviderSettings = () => {
                       <div className="flex-1">
                         <div className="flex items-center gap-3">
                           <RadioGroupItem value="stripe" id="stripe" />
-                          <Label htmlFor="stripe" className="text-lg font-semibold cursor-pointer">
+                          <Label
+                            htmlFor="stripe"
+                            className="text-lg font-semibold cursor-pointer"
+                          >
                             Paiement par carte bancaire (Stripe)
                           </Label>
                         </div>
                         <p className="text-sm text-muted-foreground mt-2 ml-7">
-                          Les clients pourront payer par carte bancaire lors de la réservation. Vous devez connecter votre compte Stripe pour activer cette option.
+                          Les clients pourront payer par carte bancaire lors de
+                          la réservation. Vous devez connecter votre compte
+                          Stripe pour activer cette option.
                         </p>
 
                         {paymentMethod === "stripe" && (
@@ -250,16 +299,22 @@ const ProviderSettings = () => {
                                       <CreditCard className="w-5 h-5 text-primary-foreground" />
                                     </div>
                                     <div>
-                                      <h3 className="font-semibold text-foreground">Compte Stripe</h3>
+                                      <h3 className="font-semibold text-foreground">
+                                        Compte Stripe
+                                      </h3>
                                       {stripeConnected ? (
                                         <div className="flex items-center gap-1.5 text-sm">
                                           <CheckCircle2 className="w-4 h-4 text-green-500" />
-                                          <span className="text-green-600 font-medium">Connecté</span>
+                                          <span className="text-green-600 font-medium">
+                                            Connecté
+                                          </span>
                                         </div>
                                       ) : (
                                         <div className="flex items-center gap-1.5 text-sm">
                                           <AlertCircle className="w-4 h-4 text-amber-500" />
-                                          <span className="text-amber-600 font-medium">Non connecté</span>
+                                          <span className="text-amber-600 font-medium">
+                                            Non connecté
+                                          </span>
                                         </div>
                                       )}
                                     </div>
@@ -274,12 +329,18 @@ const ProviderSettings = () => {
                                     <div className="flex items-start gap-3 p-3 rounded-lg bg-green-50 border border-green-100">
                                       <Info className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                                       <p className="text-sm text-green-700">
-                                        Les clients peuvent payer par carte bancaire. Les fonds seront transférés sur votre compte bancaire selon les délais de Stripe (généralement 2-7 jours).
+                                        Les clients peuvent payer par carte
+                                        bancaire. Les fonds seront transférés
+                                        sur votre compte bancaire selon les
+                                        délais de Stripe (généralement 2-7
+                                        jours).
                                       </p>
                                     </div>
 
                                     <div className="space-y-2">
-                                      <Label htmlFor="deposit-stripe">Pourcentage d'acompte</Label>
+                                      <Label htmlFor="deposit-stripe">
+                                        Pourcentage d'acompte
+                                      </Label>
                                       <div className="flex items-center gap-2">
                                         <Input
                                           id="deposit-stripe"
@@ -287,24 +348,37 @@ const ProviderSettings = () => {
                                           min="10"
                                           max="100"
                                           value={depositPercentage}
-                                          onChange={(e) => setDepositPercentage(e.target.value)}
+                                          onChange={(e) =>
+                                            setDepositPercentage(e.target.value)
+                                          }
                                           className="w-24"
                                         />
-                                        <span className="text-muted-foreground">%</span>
+                                        <span className="text-muted-foreground">
+                                          %
+                                        </span>
                                       </div>
                                       <p className="text-xs text-muted-foreground">
-                                        Le client paiera ce pourcentage lors de la réservation
+                                        Le client paiera ce pourcentage lors de
+                                        la réservation
                                       </p>
                                     </div>
 
                                     <Separator />
 
                                     <div className="flex flex-wrap gap-3">
-                                      <Button variant="outline" size="sm" className="gap-2">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2"
+                                      >
                                         <Settings className="w-4 h-4" />
                                         Paramètres Stripe
                                       </Button>
-                                      <Button variant="outline" size="sm" className="gap-2">
+                                      <Button
+                                        variant="outline"
+                                        size="sm"
+                                        className="gap-2"
+                                      >
                                         <ExternalLink className="w-4 h-4" />
                                         Dashboard Stripe
                                       </Button>
@@ -315,11 +389,16 @@ const ProviderSettings = () => {
                                     <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-50 border border-amber-100">
                                       <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                                       <p className="text-sm text-amber-700">
-                                        Connectez votre compte Stripe pour accepter les paiements par carte bancaire de vos clients.
+                                        Connectez votre compte Stripe pour
+                                        accepter les paiements par carte
+                                        bancaire de vos clients.
                                       </p>
                                     </div>
 
-                                    <Button variant="hero" className="w-full gap-2">
+                                    <Button
+                                      variant="hero"
+                                      className="w-full gap-2"
+                                    >
                                       <CreditCard className="w-4 h-4" />
                                       Connecter mon compte Stripe
                                     </Button>
@@ -367,9 +446,13 @@ const ProviderSettings = () => {
                         checked={slot.enabled}
                         onCheckedChange={() => toggleDayEnabled(slot.id)}
                       />
-                      <span className={`w-24 font-medium ${
-                        slot.enabled ? "text-foreground" : "text-muted-foreground"
-                      }`}>
+                      <span
+                        className={`w-24 font-medium ${
+                          slot.enabled
+                            ? "text-foreground"
+                            : "text-muted-foreground"
+                        }`}
+                      >
                         {slot.day}
                       </span>
                       {slot.enabled && (
@@ -377,14 +460,18 @@ const ProviderSettings = () => {
                           <Input
                             type="time"
                             value={slot.start}
-                            onChange={(e) => updateSlotTime(slot.id, "start", e.target.value)}
+                            onChange={(e) =>
+                              updateSlotTime(slot.id, "start", e.target.value)
+                            }
                             className="w-28"
                           />
                           <span className="text-muted-foreground">à</span>
                           <Input
                             type="time"
                             value={slot.end}
-                            onChange={(e) => updateSlotTime(slot.id, "end", e.target.value)}
+                            onChange={(e) =>
+                              updateSlotTime(slot.id, "end", e.target.value)
+                            }
                             className="w-28"
                           />
                         </div>
@@ -428,7 +515,10 @@ const ProviderSettings = () => {
                     <div className="flex items-center gap-3">
                       <RadioGroupItem value="flexible" id="flexible" />
                       <div>
-                        <Label htmlFor="flexible" className="text-lg font-semibold cursor-pointer">
+                        <Label
+                          htmlFor="flexible"
+                          className="text-lg font-semibold cursor-pointer"
+                        >
                           Flexible
                         </Label>
                         <p className="text-sm text-muted-foreground">
@@ -449,7 +539,10 @@ const ProviderSettings = () => {
                     <div className="flex items-center gap-3">
                       <RadioGroupItem value="moderate" id="moderate" />
                       <div>
-                        <Label htmlFor="moderate" className="text-lg font-semibold cursor-pointer">
+                        <Label
+                          htmlFor="moderate"
+                          className="text-lg font-semibold cursor-pointer"
+                        >
                           Modérée
                         </Label>
                         <p className="text-sm text-muted-foreground">
@@ -470,7 +563,10 @@ const ProviderSettings = () => {
                     <div className="flex items-center gap-3">
                       <RadioGroupItem value="strict" id="strict" />
                       <div>
-                        <Label htmlFor="strict" className="text-lg font-semibold cursor-pointer">
+                        <Label
+                          htmlFor="strict"
+                          className="text-lg font-semibold cursor-pointer"
+                        >
                           Stricte
                         </Label>
                         <p className="text-sm text-muted-foreground">
@@ -485,10 +581,10 @@ const ProviderSettings = () => {
 
             {/* Loyalty Tab */}
             <TabsContent value="loyalty" className="space-y-6">
-              <LoyaltySettingsForm 
+              <LoyaltySettingsForm
                 initialSettings={defaultLoyaltySettings}
                 onSave={(settings) => {
-                  console.log('Loyalty settings saved:', settings);
+                  console.log("Loyalty settings saved:", settings);
                 }}
               />
             </TabsContent>

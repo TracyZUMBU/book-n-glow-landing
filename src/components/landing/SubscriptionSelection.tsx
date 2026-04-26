@@ -87,8 +87,8 @@ const SubscriptionSelection = () => {
                   isSelected
                     ? "border-primary shadow-xl scale-105"
                     : plan.popular
-                    ? "border-primary/50 shadow-lg"
-                    : "border-border"
+                      ? "border-primary/50 shadow-lg"
+                      : "border-border"
                 }`}
                 style={{ animationDelay: `${index * 100}ms` }}
                 onClick={() => setSelectedPlan(plan.id)}

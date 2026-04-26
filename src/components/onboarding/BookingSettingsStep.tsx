@@ -1,22 +1,26 @@
-import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { Card, CardContent } from "@/components/ui/card";
-import { 
-  CreditCard, 
-  Banknote, 
-  Clock, 
-  Calendar, 
-  Phone, 
-  Instagram, 
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import {
   AlertCircle,
-  Percent,
-  Euro,
+  Banknote,
   CheckCircle2,
-  XCircle
+  Clock,
+  CreditCard,
+  Euro,
+  Instagram,
+  Percent,
+  Phone,
+  XCircle,
 } from "lucide-react";
 
 interface BookingSettingsStepProps {
@@ -47,7 +51,8 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
           Configurez vos réservations
         </h2>
         <p className="text-muted-foreground">
-          Personnalisez l'expérience de réservation pour vos clients. Ces paramètres peuvent être modifiés à tout moment.
+          Personnalisez l'expérience de réservation pour vos clients. Ces
+          paramètres peuvent être modifiés à tout moment.
         </p>
       </div>
 
@@ -58,16 +63,23 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
             <CreditCard className="w-5 h-5 text-primary" />
             Mode de paiement
           </Label>
-          
+
           <RadioGroup
             value={data.paymentMethod}
-            onValueChange={(value) => onChange({ paymentMethod: value as "onsite" | "paypal" | "stripe" })}
+            onValueChange={(value) =>
+              onChange({
+                paymentMethod: value as "onsite" | "paypal" | "stripe",
+              })
+            }
             className="space-y-3"
           >
             <div className="flex items-start gap-3 p-4 rounded-lg border hover:border-primary/50 transition-colors">
               <RadioGroupItem value="onsite" id="onsite" className="mt-1" />
               <div className="flex-1">
-                <Label htmlFor="onsite" className="flex items-center gap-2 cursor-pointer font-medium">
+                <Label
+                  htmlFor="onsite"
+                  className="flex items-center gap-2 cursor-pointer font-medium"
+                >
                   <Banknote className="w-4 h-4 text-green-600" />
                   Paiement sur place (espèces)
                 </Label>
@@ -80,14 +92,23 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
             <div className="flex items-start gap-3 p-4 rounded-lg border hover:border-primary/50 transition-colors">
               <RadioGroupItem value="paypal" id="paypal" className="mt-1" />
               <div className="flex-1">
-                <Label htmlFor="paypal" className="flex items-center gap-2 cursor-pointer font-medium">
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z"/>
+                <Label
+                  htmlFor="paypal"
+                  className="flex items-center gap-2 cursor-pointer font-medium"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106z" />
                   </svg>
                   PayPal.me (acompte + espèces)
                 </Label>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Le client verse un acompte via PayPal.me, puis paie le reste sur place.
+                  Le client est redirige vers votre page PayPal.me avec le
+                  montant a payer. Il dispose de 15 minutes pour payer, sinon
+                  vous pouvez annuler le rendez-vous.
                 </p>
               </div>
             </div>
@@ -95,7 +116,10 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
             <div className="flex items-start gap-3 p-4 rounded-lg border hover:border-primary/50 transition-colors">
               <RadioGroupItem value="stripe" id="stripe" className="mt-1" />
               <div className="flex-1">
-                <Label htmlFor="stripe" className="flex items-center gap-2 cursor-pointer font-medium">
+                <Label
+                  htmlFor="stripe"
+                  className="flex items-center gap-2 cursor-pointer font-medium"
+                >
                   <CreditCard className="w-4 h-4 text-purple-600" />
                   Carte bancaire (Stripe)
                 </Label>
@@ -110,7 +134,7 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
           {data.paymentMethod === "paypal" && (
             <div className="mt-4 p-4 bg-muted/50 rounded-lg space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="paypalUsername">Votre nom d'utilisateur PayPal.me</Label>
+                <Label htmlFor="paypalUsername">Votre lien PayPal.me</Label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
                     paypal.me/
@@ -118,9 +142,11 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                   <Input
                     id="paypalUsername"
                     className="pl-24"
-                    placeholder="votre_username"
+                    placeholder="votre-lien"
                     value={data.paypalUsername}
-                    onChange={(e) => onChange({ paypalUsername: e.target.value })}
+                    onChange={(e) =>
+                      onChange({ paypalUsername: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -129,18 +155,26 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                 <Label>Type d'acompte</Label>
                 <RadioGroup
                   value={data.depositType}
-                  onValueChange={(value) => onChange({ depositType: value as "fixed" | "percentage" })}
+                  onValueChange={(value) =>
+                    onChange({ depositType: value as "fixed" | "percentage" })
+                  }
                   className="flex gap-4"
                 >
                   <div className="flex items-center gap-2">
                     <RadioGroupItem value="fixed" id="fixed" />
-                    <Label htmlFor="fixed" className="flex items-center gap-1 cursor-pointer">
+                    <Label
+                      htmlFor="fixed"
+                      className="flex items-center gap-1 cursor-pointer"
+                    >
                       <Euro className="w-4 h-4" /> Montant fixe
                     </Label>
                   </div>
                   <div className="flex items-center gap-2">
                     <RadioGroupItem value="percentage" id="percentage" />
-                    <Label htmlFor="percentage" className="flex items-center gap-1 cursor-pointer">
+                    <Label
+                      htmlFor="percentage"
+                      className="flex items-center gap-1 cursor-pointer"
+                    >
                       <Percent className="w-4 h-4" /> Pourcentage
                     </Label>
                   </div>
@@ -149,7 +183,8 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
 
               <div className="space-y-2">
                 <Label htmlFor="depositAmount">
-                  Montant de l'acompte {data.depositType === "percentage" ? "(%)" : "(€)"}
+                  Montant de l'acompte{" "}
+                  {data.depositType === "percentage" ? "(%)" : "(€)"}
                 </Label>
                 <Input
                   id="depositAmount"
@@ -157,12 +192,15 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                   min={0}
                   max={data.depositType === "percentage" ? 100 : 1000}
                   value={data.depositAmount}
-                  onChange={(e) => onChange({ depositAmount: parseInt(e.target.value) || 0 })}
+                  onChange={(e) =>
+                    onChange({ depositAmount: parseInt(e.target.value) || 0 })
+                  }
                 />
                 {data.depositType === "fixed" && (
                   <p className="text-xs text-amber-600 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" />
-                    Veillez à fixer un montant inférieur au prix de vos services.
+                    Veillez à fixer un montant inférieur au prix de vos
+                    services.
                   </p>
                 )}
               </div>
@@ -176,7 +214,9 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                 <Label>Type de paiement par carte</Label>
                 <RadioGroup
                   value={data.stripePaymentType}
-                  onValueChange={(value) => onChange({ stripePaymentType: value as "deposit" | "full" })}
+                  onValueChange={(value) =>
+                    onChange({ stripePaymentType: value as "deposit" | "full" })
+                  }
                   className="space-y-2"
                 >
                   <div className="flex items-center gap-2">
@@ -200,18 +240,31 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                     <Label>Type d'acompte</Label>
                     <RadioGroup
                       value={data.depositType}
-                      onValueChange={(value) => onChange({ depositType: value as "fixed" | "percentage" })}
+                      onValueChange={(value) =>
+                        onChange({
+                          depositType: value as "fixed" | "percentage",
+                        })
+                      }
                       className="flex gap-4"
                     >
                       <div className="flex items-center gap-2">
                         <RadioGroupItem value="fixed" id="stripeFixed" />
-                        <Label htmlFor="stripeFixed" className="flex items-center gap-1 cursor-pointer">
+                        <Label
+                          htmlFor="stripeFixed"
+                          className="flex items-center gap-1 cursor-pointer"
+                        >
                           <Euro className="w-4 h-4" /> Montant fixe
                         </Label>
                       </div>
                       <div className="flex items-center gap-2">
-                        <RadioGroupItem value="percentage" id="stripePercentage" />
-                        <Label htmlFor="stripePercentage" className="flex items-center gap-1 cursor-pointer">
+                        <RadioGroupItem
+                          value="percentage"
+                          id="stripePercentage"
+                        />
+                        <Label
+                          htmlFor="stripePercentage"
+                          className="flex items-center gap-1 cursor-pointer"
+                        >
                           <Percent className="w-4 h-4" /> Pourcentage
                         </Label>
                       </div>
@@ -220,7 +273,8 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
 
                   <div className="space-y-2">
                     <Label htmlFor="stripeDepositAmount">
-                      Montant de l'acompte {data.depositType === "percentage" ? "(%)" : "(€)"}
+                      Montant de l'acompte{" "}
+                      {data.depositType === "percentage" ? "(%)" : "(€)"}
                     </Label>
                     <Input
                       id="stripeDepositAmount"
@@ -228,7 +282,11 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                       min={0}
                       max={data.depositType === "percentage" ? 100 : 1000}
                       value={data.depositAmount}
-                      onChange={(e) => onChange({ depositAmount: parseInt(e.target.value) || 0 })}
+                      onChange={(e) =>
+                        onChange({
+                          depositAmount: parseInt(e.target.value) || 0,
+                        })
+                      }
                     />
                   </div>
                 </>
@@ -248,12 +306,15 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
             </Label>
             <Switch
               checked={data.requireConfirmation}
-              onCheckedChange={(checked) => onChange({ requireConfirmation: checked })}
+              onCheckedChange={(checked) =>
+                onChange({ requireConfirmation: checked })
+              }
             />
           </div>
-          
+
           <p className="text-sm text-muted-foreground mb-4">
-            Si activé, le client devra confirmer son rendez-vous la veille à l'heure que vous définissez.
+            Si activé, le client devra confirmer son rendez-vous la veille à
+            l'heure que vous définissez.
           </p>
 
           {data.requireConfirmation && (
@@ -270,14 +331,18 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                 </SelectTrigger>
                 <SelectContent>
                   {Array.from({ length: 24 }, (_, i) => (
-                    <SelectItem key={i} value={`${i.toString().padStart(2, "0")}:00`}>
+                    <SelectItem
+                      key={i}
+                      value={`${i.toString().padStart(2, "0")}:00`}
+                    >
                       {`${i.toString().padStart(2, "0")}:00`}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                Exemple : si vous choisissez 18:00, le client devra confirmer avant 18h la veille.
+                Exemple : si vous choisissez 18:00, le client devra confirmer
+                avant 18h la veille.
               </p>
             </div>
           )}
@@ -299,7 +364,9 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
               </Label>
               <Select
                 value={data.minBookingHours.toString()}
-                onValueChange={(value) => onChange({ minBookingHours: parseInt(value) })}
+                onValueChange={(value) =>
+                  onChange({ minBookingHours: parseInt(value) })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -313,7 +380,8 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
-                Nombre d'heures minimum avant un créneau pour qu'il soit réservable.
+                Nombre d'heures minimum avant un créneau pour qu'il soit
+                réservable.
               </p>
             </div>
 
@@ -323,7 +391,9 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
               </Label>
               <Select
                 value={data.slotInterval.toString()}
-                onValueChange={(value) => onChange({ slotInterval: parseInt(value) })}
+                onValueChange={(value) =>
+                  onChange({ slotInterval: parseInt(value) })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -347,7 +417,9 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
             </Label>
             <Select
               value={data.advanceBookingMonths.toString()}
-              onValueChange={(value) => onChange({ advanceBookingMonths: parseInt(value) })}
+              onValueChange={(value) =>
+                onChange({ advanceBookingMonths: parseInt(value) })
+              }
             >
               <SelectTrigger>
                 <SelectValue />
@@ -372,7 +444,9 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
             </Label>
             <Switch
               checked={data.allowCancellation}
-              onCheckedChange={(checked) => onChange({ allowCancellation: checked })}
+              onCheckedChange={(checked) =>
+                onChange({ allowCancellation: checked })
+              }
             />
           </div>
 
@@ -383,7 +457,9 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
               </Label>
               <Select
                 value={data.cancellationHours.toString()}
-                onValueChange={(value) => onChange({ cancellationHours: parseInt(value) })}
+                onValueChange={(value) =>
+                  onChange({ cancellationHours: parseInt(value) })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -417,39 +493,58 @@ const BookingSettingsStep = ({ data, onChange }: BookingSettingsStepProps) => {
             <Phone className="w-5 h-5 text-primary" />
             Comment vos clients peuvent-ils vous contacter ?
           </Label>
-          
+
           <p className="text-sm text-muted-foreground mb-4">
-            Cette information sera visible uniquement par les clients ayant déjà réservé.
+            Cette information sera visible uniquement par les clients ayant déjà
+            réservé.
           </p>
 
           <RadioGroup
             value={data.contactMethod}
-            onValueChange={(value) => onChange({ contactMethod: value as "instagram" | "phone" })}
+            onValueChange={(value) =>
+              onChange({ contactMethod: value as "instagram" | "phone" })
+            }
             className="space-y-3"
           >
             <div className="flex items-start gap-3 p-4 rounded-lg border hover:border-primary/50 transition-colors">
-              <RadioGroupItem value="instagram" id="contactInstagram" className="mt-1" />
+              <RadioGroupItem
+                value="instagram"
+                id="contactInstagram"
+                className="mt-1"
+              />
               <div className="flex-1">
-                <Label htmlFor="contactInstagram" className="flex items-center gap-2 cursor-pointer font-medium">
+                <Label
+                  htmlFor="contactInstagram"
+                  className="flex items-center gap-2 cursor-pointer font-medium"
+                >
                   <Instagram className="w-4 h-4" />
                   Via Instagram
                 </Label>
                 <p className="text-xs text-muted-foreground mt-1">
-                  En cas de problème, le client vous contactera via votre compte Instagram.
-                  Nous recommandons le téléphone pour une communication plus fluide.
+                  En cas de problème, le client vous contactera via votre compte
+                  Instagram. Nous recommandons le téléphone pour une
+                  communication plus fluide.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3 p-4 rounded-lg border hover:border-primary/50 transition-colors">
-              <RadioGroupItem value="phone" id="contactPhone" className="mt-1" />
+              <RadioGroupItem
+                value="phone"
+                id="contactPhone"
+                className="mt-1"
+              />
               <div className="flex-1">
-                <Label htmlFor="contactPhone" className="flex items-center gap-2 cursor-pointer font-medium">
+                <Label
+                  htmlFor="contactPhone"
+                  className="flex items-center gap-2 cursor-pointer font-medium"
+                >
                   <Phone className="w-4 h-4" />
                   Via téléphone
                 </Label>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Votre numéro sera accessible uniquement aux clients ayant déjà réservé.
+                  Votre numéro sera accessible uniquement aux clients ayant déjà
+                  réservé.
                 </p>
               </div>
             </div>

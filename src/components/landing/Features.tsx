@@ -41,9 +41,9 @@ const features = [
   },
   {
     icon: CreditCard,
-    title: "Vérification des acomptes PayPalMe",
+    title: "Paiement par redirection PayPal.Me",
     description:
-      "Notre système vérifie automatiquement les paiements d'acompte via PayPalMe.",
+      "Le client est redirigé vers la page PayPal.Me du prestataire avec le montant à payer. Délai de paiement : 15 minutes.",
   },
 ];
 

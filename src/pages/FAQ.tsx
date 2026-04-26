@@ -44,7 +44,7 @@ const faqData: FAQItem[] = [
     id: "3",
     question: "Quels sont les moyens de paiement disponibles ?",
     reponse:
-      "Plusieurs moyens de paiement sont disponibles : paiement sur place directement chez le prestataire, PayPalMe (notamment pour les acomptes), et le paiement par carte bancaire sera bientôt disponible.",
+      "Plusieurs moyens de paiement sont disponibles : paiement sur place directement chez le prestataire, PayPal.me (le client est redirigé vers la page du prestataire avec le montant à payer pendant la réservation), et le paiement par carte bancaire sera bientôt disponible.",
     categorie: CATEGORY_LABELS["Paiement"],
     destinataire: ["client", "prestataire", "general"],
   },
@@ -84,7 +84,7 @@ const faqData: FAQItem[] = [
     id: "8",
     question: "L'acompte est-il remboursable ?",
     reponse:
-      "Si paiement effectué sur PayPalMe non sauf mention contraire par le prestataire.",
+      "Les conditions de remboursement dépendent du prestataire. En cas de paiement via PayPal.me, le client dispose de 15 minutes pour payer, puis le prestataire peut annuler le rendez-vous si le paiement n'est pas effectué.",
     categorie: CATEGORY_LABELS["Paiement"],
     destinataire: "client",
   },
@@ -120,7 +120,7 @@ export default function FAQ() {
 
   // Normaliser les destinataires (convertir string en array si nécessaire)
   const normalizeDestinataires = (
-    dest: FAQItem["destinataire"]
+    dest: FAQItem["destinataire"],
   ): ("client" | "prestataire" | "general")[] => {
     return Array.isArray(dest) ? dest : [dest];
   };
@@ -266,12 +266,12 @@ export default function FAQ() {
                                 <span
                                   key={dest}
                                   className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${getDestinataireColor(
-                                    dest
+                                    dest,
                                   )}`}
                                 >
                                   {getDestinataireLabel(dest)}
                                 </span>
-                              )
+                              ),
                             )}
                           </div>
                         </div>

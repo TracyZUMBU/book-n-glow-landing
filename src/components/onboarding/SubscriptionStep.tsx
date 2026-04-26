@@ -51,7 +51,10 @@ interface SubscriptionStepProps {
   onPlanChange: (plan: "free" | "premium") => void;
 }
 
-export const SubscriptionStep = ({ selectedPlan, onPlanChange }: SubscriptionStepProps) => {
+export const SubscriptionStep = ({
+  selectedPlan,
+  onPlanChange,
+}: SubscriptionStepProps) => {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="text-center mb-8">
@@ -63,7 +66,10 @@ export const SubscriptionStep = ({ selectedPlan, onPlanChange }: SubscriptionSte
         </p>
       </div>
 
-      <RadioGroup value={selectedPlan} onValueChange={(value) => onPlanChange(value as "free" | "premium")}>
+      <RadioGroup
+        value={selectedPlan}
+        onValueChange={(value) => onPlanChange(value as "free" | "premium")}
+      >
         <div className="grid md:grid-cols-2 gap-6">
           {plans.map((plan) => {
             const Icon = plan.icon;
@@ -75,7 +81,7 @@ export const SubscriptionStep = ({ selectedPlan, onPlanChange }: SubscriptionSte
                   htmlFor={plan.id}
                   className={cn(
                     "cursor-pointer block transition-transform",
-                    isSelected && "scale-[1.02]"
+                    isSelected && "scale-[1.02]",
                   )}
                 >
                   <Card
@@ -83,7 +89,7 @@ export const SubscriptionStep = ({ selectedPlan, onPlanChange }: SubscriptionSte
                       "relative p-6 transition-all duration-300 hover:shadow-xl h-full",
                       isSelected
                         ? "border-2 border-primary shadow-lg ring-2 ring-primary/20"
-                        : "border-2 border-border hover:border-primary/50"
+                        : "border-2 border-border hover:border-primary/50",
                     )}
                   >
                     {/* Radio button positioned at top right */}

@@ -2,23 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, ExternalLink, ArrowRight, Mail, Clock, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 
 const PaymentDeposit = () => {
   const navigate = useNavigate();
-  const [transactionNumber, setTransactionNumber] = useState("");
   const [isConfirmed, setIsConfirmed] = useState(false);
 
   // Données fictives
   const depositAmount = 30; // €
   const paypalMeLink = "https://paypal.me/bookngleow/30";
 
-  const handleConfirmTransaction = () => {
-    if (transactionNumber.trim()) {
-      setIsConfirmed(true);
-    }
+  const handlePaymentDone = () => {
+    setIsConfirmed(true);
   };
 
   if (isConfirmed) {
@@ -37,7 +32,7 @@ const PaymentDeposit = () => {
                 Rendez-vous confirmé ! 🎉
               </h1>
               <p className="text-muted-foreground text-lg max-w-md mx-auto">
-                Votre rendez-vous est maintenant confirmé sous réserve de vérification du paiement de l'acompte.
+                Votre demande de rendez-vous est bien transmise. Le prestataire est notifié et peut annuler le rendez-vous si aucun paiement n'est effectué sous 15 minutes.
               </p>
             </div>
 
@@ -127,7 +122,7 @@ const PaymentDeposit = () => {
                   Email de pré-confirmation envoyé
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Vous trouverez également le lien PayPal.me et le formulaire de saisie dans cet email.
+                  Vous trouverez également le lien PayPal.me dans cet email.
                 </p>
               </div>
             </div>
@@ -141,8 +136,8 @@ const PaymentDeposit = () => {
                   Délai de 15 minutes
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Vous avez 15 minutes pour effectuer le paiement et saisir le numéro de transaction. 
-                  Passé ce délai, votre rendez-vous sera automatiquement annulé.
+                  Vous avez 15 minutes pour effectuer le paiement sur la page PayPal.me du prestataire.
+                  Passé ce délai, le prestataire pourra annuler le rendez-vous si le paiement n'a pas été effectué.
                 </p>
               </div>
             </div>
@@ -178,36 +173,17 @@ const PaymentDeposit = () => {
                 <ExternalLink className="w-5 h-5" />
               </Button>
               <p className="text-xs text-muted-foreground text-center">
-                Vous serez redirigé vers PayPal pour effectuer le paiement
-              </p>
-            </div>
-
-            {/* Transaction Number Input */}
-            <div className="space-y-3 pt-4 border-t">
-              <Label htmlFor="transaction" className="text-base font-medium">
-                Étape 2 : Saisir le numéro de transaction
-              </Label>
-              <Input
-                id="transaction"
-                type="text"
-                placeholder="Ex: 1AB23456C7890123D"
-                value={transactionNumber}
-                onChange={(e) => setTransactionNumber(e.target.value)}
-                className="text-base"
-              />
-              <p className="text-xs text-muted-foreground">
-                Vous trouverez ce numéro dans l'email de confirmation PayPal
+                Vous serez redirigé vers la page PayPal.me du prestataire avec le montant à payer
               </p>
             </div>
 
             {/* Confirm Button */}
             <Button
-              onClick={handleConfirmTransaction}
-              disabled={!transactionNumber.trim()}
+              onClick={handlePaymentDone}
               size="lg"
               className="w-full mt-4"
             >
-              Confirmer la transaction
+              J'ai effectué le paiement
             </Button>
           </CardContent>
         </Card>
@@ -215,7 +191,7 @@ const PaymentDeposit = () => {
         {/* Info Note */}
         <div className="bg-background-light border border-border rounded-lg p-4 text-sm">
           <p className="text-foreground text-center mb-3">
-            💡 Votre rendez-vous sera confirmé après vérification du paiement de l'acompte
+            💡 Le prestataire validera votre rendez-vous une fois le paiement reçu.
           </p>
           <p className="text-xs text-muted-foreground text-center">
             Vous pouvez également retrouver le lien de paiement et effectuer cette action depuis votre onglet <span className="font-medium">Mes réservations</span>

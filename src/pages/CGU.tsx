@@ -611,13 +611,18 @@ export default function CGU() {
                     la période de facturation.
                   </p>
                   <p>
-                    Le Prestataire pourra bénéficier du mode de paiement en
-                    ligne (PayPalMe) lorsqu'il aura souscrit à un abonnement
-                    payant. Une fois l'abonnement payant activé, le Prestataire
-                    peut décider ou non d'accepter les paiements en ligne via
-                    PayPalMe. Les Prestataires n'ayant pas souscrit à un
-                    abonnement payant peuvent prendre des réservations, mais ne
-                    peuvent pas accepter les paiements en ligne via PayPalMe.
+                    Le Prestataire pourra bénéficier du mode de paiement via
+                    redirection PayPal.me lorsqu'il aura souscrit à un
+                    abonnement payant. Une fois l'abonnement payant activé, le
+                    Prestataire peut décider ou non d'activer cette redirection.
+                    Lors de la réservation, le Client est redirigé vers la page
+                    PayPal.me du Prestataire avec le montant à payer. Le Client
+                    dispose d'un délai de quinze (15) minutes pour effectuer le
+                    paiement. À défaut de paiement dans ce délai, le Prestataire
+                    peut annuler le rendez-vous. Les Prestataires n'ayant pas
+                    souscrit à un abonnement payant peuvent prendre des
+                    réservations, mais ne peuvent pas activer le mode de
+                    paiement via redirection PayPal.me.
                   </p>
                 </div>
               </div>
@@ -897,8 +902,11 @@ export default function CGU() {
                       directement chez le Prestataire ;
                     </li>
                     <li>
-                      Soit via PayPalMe si ce mode de paiement est proposé par
-                      le Prestataire.
+                      Soit via redirection PayPal.me si ce mode de paiement est
+                      proposé par le Prestataire, avec un délai de quinze (15)
+                      minutes pour effectuer le paiement, à l'issue duquel le
+                      Prestataire peut annuler le rendez-vous en l'absence de
+                      paiement.
                     </li>
                   </ul>
                   <p>

@@ -137,7 +137,7 @@ const ProviderOnboarding = () => {
       case 4:
         if (data.subscription === "premium") {
           if (data.paymentMethod === "paypal" && !data.paypalUsername.trim()) {
-            toast.error("Veuillez entrer votre nom d'utilisateur PayPal.me");
+            toast.error("Veuillez entrer votre identifiant PayPal.me");
             return false;
           }
           if (data.contactMethod === "phone" && !data.phoneNumber.trim()) {

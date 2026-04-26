@@ -381,7 +381,7 @@ export default function AdminProviderDetail() {
               {provider.paymentMethod === "paypal_me" && (
                 <DetailRow
                   icon={CreditCard}
-                  label="Compte PayPal.me"
+                  label="Lien PayPal.me"
                   value={provider.paypalAccount}
                 />
               )}

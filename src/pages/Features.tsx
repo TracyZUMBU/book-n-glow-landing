@@ -38,7 +38,7 @@ const Features = () => {
             </div>
             <div className="flex items-center gap-3">
               <Check className="w-5 h-5 text-primary shrink-0" />
-              <span>Vérification des acomptes PayPal.me</span>
+              <span>Paiement par redirection PayPal.me</span>
             </div>
           </div>
         </div>
@@ -63,11 +63,11 @@ const Features = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
-                      Vérification PayPal.me intégrée
+                      Redirection PayPal.me intégrée
                     </h3>
                     <p className="text-muted-foreground text-sm">
-                      Vérifiez automatiquement les acomptes PayPal.me pour
-                      sécuriser vos réservations
+                      Le client est redirigé vers votre page PayPal.me avec le
+                      montant à payer pendant la réservation
                     </p>
                   </div>
                 </div>
