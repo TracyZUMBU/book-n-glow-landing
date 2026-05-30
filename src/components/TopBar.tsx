@@ -1,4 +1,5 @@
-import { Briefcase, Menu, User, X } from "lucide-react";
+import { APP_DOWNLOAD_URL, CUSTOMER_SIGN_IN_URL } from "@/lib/constants";
+import { Menu, Smartphone, User, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -43,17 +44,17 @@ const TopBar = () => {
               className="flex items-center gap-2"
             >
               <a
-                href="https://app.book-n-glow.fr/sign-in/prestataire"
+                href={APP_DOWNLOAD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Briefcase className="w-4 h-4" />
-                Je suis prestataire
+                <Smartphone className="w-4 h-4" />
+                Télécharger l'app
               </a>
             </Button>
             <Button asChild className="flex items-center gap-2">
               <a
-                href="https://app.book-n-glow.fr/sign-in/customer"
+                href={CUSTOMER_SIGN_IN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -99,12 +100,12 @@ const TopBar = () => {
                   className="flex items-center gap-2 justify-center"
                 >
                   <a
-                    href="https://app.book-n-glow.fr/sign-in/prestataire"
+                    href={APP_DOWNLOAD_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Briefcase className="w-4 h-4" />
-                    Je suis prestataire
+                    <Smartphone className="w-4 h-4" />
+                    Télécharger l'app
                   </a>
                 </Button>
                 <Button
@@ -112,7 +113,7 @@ const TopBar = () => {
                   className="flex items-center gap-2 justify-center"
                 >
                   <a
-                    href="https://app.book-n-glow.fr/sign-in/customer"
+                    href={CUSTOMER_SIGN_IN_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

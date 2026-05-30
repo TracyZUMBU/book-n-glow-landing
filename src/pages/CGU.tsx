@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import Footer from "@/components/landing/Footer";
 import Navigation from "@/components/landing/Navigation";
 
+// Sections masquées dans le cadre du passage au modèle 100 % gratuit.
+// Mettre à `true` pour réactiver les sections « 20. Paiements via Stripe »
+// et « 21. Programme de carte de fidélité ».
+// Voir docs/deferred/free-only-model.md.
+const SHOW_DEPRECATED_SECTIONS = false;
+
 // Table des matières
 const tableOfContents = [
   { id: "objet", title: "1. Objet" },
@@ -23,9 +29,14 @@ const tableOfContents = [
   { id: "force-majeure", title: "17. Force majeure" },
   { id: "modification", title: "18. Modification des CGU" },
   { id: "droit-applicable", title: "19. Droit applicable et juridiction compétente" },
-  { id: "paiements", title: "20. Paiements par carte bancaire via Stripe" },
-  { id: "fidelite", title: "21. Programme de carte de fidélité" },
-  { id: "contact", title: "22. Contact" },
+  // Entrées masquées dans le cadre du passage au modèle 100 % gratuit.
+  // Code conservé pour réactivation future. Voir docs/deferred/free-only-model.md.
+  // { id: "paiements", title: "20. Paiements par carte bancaire via Stripe" },
+  // { id: "fidelite", title: "21. Programme de carte de fidélité" },
+  // NB : numérotation rétrogradée de 22 → 20 tant que les sections
+  // « Paiements via Stripe » et « Carte de fidélité » sont masquées.
+  // À restaurer en « 22. Contact » lors de la réactivation des sections 20 et 21.
+  { id: "contact", title: "20. Contact" },
 ];
 
 function TableOfContents() {
@@ -509,10 +520,15 @@ export default function CGU() {
                     >
                       contact@book-n-glow
                     </a>
-                    . Pour le Prestataire ayant adhéré à un abonnement payant,
-                    la fin de service prend effet à la fin de la période de
-                    facturation pour le Prestataire. Il n'y a pas de
-                    remboursement ou de crédit pour les mois ou années partiels.
+                    .
+                    {/*
+                      Mention « abonnement payant » masquée — passage au modèle
+                      100 % gratuit. Voir docs/deferred/free-only-model.md.
+                      Pour le Prestataire ayant adhéré à un abonnement payant,
+                      la fin de service prend effet à la fin de la période de
+                      facturation pour le Prestataire. Il n'y a pas de
+                      remboursement ou de crédit pour les mois ou années partiels.
+                    */}{" "}
                     Les Parties sont liées par les présentes à compter du jour
                     de leur acceptation par l'Utilisateur, lors de la création
                     de son compte.
@@ -604,26 +620,32 @@ export default function CGU() {
                     Services et à ne permettre à aucun tiers de les utiliser à
                     sa place ou pour son compte.
                   </p>
-                  <p>
-                    Pour les Prestataires ayant souscrit à un abonnement payant,
-                    le Prestataire autorise par avance sa banque à prélever son
-                    compte bancaire du montant de l'abonnement correspondant à
-                    la période de facturation.
-                  </p>
-                  <p>
-                    Le Prestataire pourra bénéficier du mode de paiement via
-                    redirection PayPal.me lorsqu'il aura souscrit à un
-                    abonnement payant. Une fois l'abonnement payant activé, le
-                    Prestataire peut décider ou non d'activer cette redirection.
-                    Lors de la réservation, le Client est redirigé vers la page
-                    PayPal.me du Prestataire avec le montant à payer. Le Client
-                    dispose d'un délai de quinze (15) minutes pour effectuer le
-                    paiement. À défaut de paiement dans ce délai, le Prestataire
-                    peut annuler le rendez-vous. Les Prestataires n'ayant pas
-                    souscrit à un abonnement payant peuvent prendre des
-                    réservations, mais ne peuvent pas activer le mode de
-                    paiement via redirection PayPal.me.
-                  </p>
+                  {/*
+                    Paragraphes masqués — passage au modèle 100 % gratuit.
+                    Code conservé pour réactivation future.
+                    Voir docs/deferred/free-only-model.md.
+
+                    <p>
+                      Pour les Prestataires ayant souscrit à un abonnement payant,
+                      le Prestataire autorise par avance sa banque à prélever son
+                      compte bancaire du montant de l'abonnement correspondant à
+                      la période de facturation.
+                    </p>
+                    <p>
+                      Le Prestataire pourra bénéficier du mode de paiement via
+                      redirection PayPal.me lorsqu'il aura souscrit à un
+                      abonnement payant. Une fois l'abonnement payant activé, le
+                      Prestataire peut décider ou non d'activer cette redirection.
+                      Lors de la réservation, le Client est redirigé vers la page
+                      PayPal.me du Prestataire avec le montant à payer. Le Client
+                      dispose d'un délai de quinze (15) minutes pour effectuer le
+                      paiement. À défaut de paiement dans ce délai, le Prestataire
+                      peut annuler le rendez-vous. Les Prestataires n'ayant pas
+                      souscrit à un abonnement payant peuvent prendre des
+                      réservations, mais ne peuvent pas activer le mode de
+                      paiement via redirection PayPal.me.
+                    </p>
+                  */}
                 </div>
               </div>
             </div>
@@ -821,24 +843,29 @@ export default function CGU() {
               <div className="space-y-4 text-muted-foreground">
                 <p>
                   <strong className="text-foreground">Book n Glow</strong> est
-                  actuellement ouvert et accessible pour l'abonnement gratuit.
-                  Les utilisateurs peuvent créer un compte et utiliser la
-                  plateforme avec les fonctionnalités disponibles dans le cadre
-                  de l'abonnement gratuit.
+                  actuellement ouvert et accessible. Les utilisateurs peuvent
+                  créer un compte et utiliser la plateforme avec l'ensemble des
+                  fonctionnalités disponibles.
                 </p>
-                <p>
-                  Concernant l'abonnement payant, l'accès s'ouvre par vagues
-                  successives. Pour être informé de l'ouverture d'une nouvelle
-                  vague et pouvoir souscrire à l'abonnement payant, il est
-                  nécessaire de s'inscrire sur la liste d'attente via le Site.
-                </p>
-                <p>
-                  L'ouverture de chaque vague pour l'abonnement payant sera
-                  communiquée aux personnes inscrites à la liste d'attente.
-                  Aucune garantie n'est donnée quant à la date d'ouverture
-                  effective de chaque vague ou quant à la disponibilité des
-                  places pour l'abonnement payant.
-                </p>
+                {/*
+                  Paragraphes masqués — passage au modèle 100 % gratuit.
+                  Code conservé pour réactivation future.
+                  Voir docs/deferred/free-only-model.md.
+
+                  <p>
+                    Concernant l'abonnement payant, l'accès s'ouvre par vagues
+                    successives. Pour être informé de l'ouverture d'une nouvelle
+                    vague et pouvoir souscrire à l'abonnement payant, il est
+                    nécessaire de s'inscrire sur la liste d'attente via le Site.
+                  </p>
+                  <p>
+                    L'ouverture de chaque vague pour l'abonnement payant sera
+                    communiquée aux personnes inscrites à la liste d'attente.
+                    Aucune garantie n'est donnée quant à la date d'ouverture
+                    effective de chaque vague ou quant à la disponibilité des
+                    places pour l'abonnement payant.
+                  </p>
+                */}
               </div>
             </div>
 
@@ -1140,12 +1167,18 @@ export default function CGU() {
                     résiliation du compte
                   </li>
                 </ul>
-                <p>
-                  En cas d'abonnement payant, la résiliation demandée par
-                  l'utilisateur prendra effet à la date de fin de l'abonnement
-                  mensuel en cours. Aucun remboursement ne sera effectué pour la
-                  période d'abonnement déjà payée et en cours.
-                </p>
+                {/*
+                  Paragraphe masqué — passage au modèle 100 % gratuit.
+                  Code conservé pour réactivation future.
+                  Voir docs/deferred/free-only-model.md.
+
+                  <p>
+                    En cas d'abonnement payant, la résiliation demandée par
+                    l'utilisateur prendra effet à la date de fin de l'abonnement
+                    mensuel en cours. Aucun remboursement ne sera effectué pour la
+                    période d'abonnement déjà payée et en cours.
+                  </p>
+                */}
                 <p>
                   Le client ou le prestataire peut demander la suppression de
                   son compte en contactant{" "}
@@ -1466,7 +1499,12 @@ export default function CGU() {
               </div>
             </div>
 
-            {/* Paiements par carte bancaire via Stripe */}
+            {/*
+              Section 20 masquée — passage au modèle 100 % gratuit.
+              Code conservé pour réactivation future.
+              Voir docs/deferred/free-only-model.md.
+            */}
+            {SHOW_DEPRECATED_SECTIONS && (
             <div id="paiements" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 20. Paiements par carte bancaire via Stripe
@@ -1754,8 +1792,14 @@ export default function CGU() {
                 </div>
               </div>
             </div>
+            )}
 
-            {/* Programme de fidélité */}
+            {/*
+              Section 21 masquée — passage au modèle 100 % gratuit.
+              Code conservé pour réactivation future.
+              Voir docs/deferred/free-only-model.md.
+            */}
+            {SHOW_DEPRECATED_SECTIONS && (
             <div id="fidelite" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
                 21. Programme de carte de fidélité – Book n Glow
@@ -2049,11 +2093,13 @@ export default function CGU() {
                 </div>
               </div>
             </div>
+            )}
 
             {/* Contact */}
             <div id="contact" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
               <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                22. Contact
+                {/* Restaurer « 22. Contact » lors de la réactivation des sections 20 et 21 */}
+                20. Contact
               </h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>

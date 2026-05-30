@@ -7,21 +7,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Calendar, 
-  Clock, 
-  ChevronLeft, 
-  ChevronRight, 
-  User, 
-  Mail, 
+import {
+  Calendar,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  User,
+  Mail,
   Phone,
   CreditCard,
   CheckCircle2,
-  Pencil
+  ExternalLink,
+  Pencil,
 } from "lucide-react";
 import Navigation from "@/components/landing/Navigation";
 
-type BookingStep = "service" | "slot" | "info" | "payment-info" | "payment" | "confirmation";
+type BookingStep = "service" | "slot" | "info" | "payment-info" | "confirmation";
+type PaymentMethod = "paypal" | "onsite";
 
 const Booking = () => {
   const { serviceId } = useParams();
@@ -31,13 +33,14 @@ const Booking = () => {
   const [selectedTime, setSelectedTime] = useState<string>("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "onsite" | null>(null);
-  
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
+
   // Track which steps are completed and which is active
   const [completedSteps, setCompletedSteps] = useState<BookingStep[]>([]);
   const [activeStep, setActiveStep] = useState<BookingStep>("service");
 
-  // Mock service data
+  // Mock service data — lien PayPal.me du prestataire renseigné depuis son profil.
+  // En réalité, il sera lu via `providers.paypal_account` côté Supabase.
   const service = {
     name: "Maquillage marié",
     duration: 90,
@@ -46,6 +49,11 @@ const Booking = () => {
       { id: "1", name: "Retouche durant l'événement", price: 100 },
       { id: "2", name: "Essai maquillage préalable", price: 50 }
     ]
+  };
+
+  const provider = {
+    name: "Sophie Maquilleuse",
+    paypalAccount: "sophiemaquilleuse",
   };
 
   const timeSlots = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"];
@@ -75,6 +83,10 @@ const Booking = () => {
     });
     return total;
   };
+
+  const paypalMeUrl = provider.paypalAccount
+    ? `https://paypal.me/${provider.paypalAccount}/${calculateTotal()}`
+    : null;
 
   // Handle step completion and progression
   const completeStep = (step: BookingStep, nextStep: BookingStep) => {
@@ -114,18 +126,10 @@ const Booking = () => {
     }
   }, [isAuthenticated, activeStep]);
 
-  // When payment method selected, auto-advance
-  useEffect(() => {
-    if (paymentMethod && activeStep === "payment-info") {
-      const timer = setTimeout(() => {
-        if (paymentMethod === "card") {
-          completeStep("payment-info", "payment");
-        }
-        // For onsite, we stay on payment-info until user confirms
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [paymentMethod, activeStep]);
+  // Note : avec les 2 modes restants (PayPal.me / sur place), on reste sur
+  // l'étape payment-info jusqu'à ce que l'utilisateur confirme manuellement.
+  // L'étape intermédiaire « payment » (saisie carte bancaire) a été retirée
+  // dans le cadre du passage au modèle 100 % gratuit.
 
   const getSelectedDateFull = () => {
     const day = weekDays.find(d => d.date === selectedDate);
@@ -456,7 +460,11 @@ const Booking = () => {
         <MinimizedStep
           title="Mode de paiement"
           icon={CreditCard}
-          summary={paymentMethod === "card" ? "Paiement par carte bancaire" : "Paiement sur place en espèces"}
+          summary={
+            paymentMethod === "paypal"
+              ? "Paiement via PayPal.me"
+              : "Paiement sur place"
+          }
           onEdit={() => handleEdit("payment-info")}
           step="payment-info"
         />
@@ -475,56 +483,74 @@ const Booking = () => {
         </div>
 
         <div className="space-y-4">
-          {/* Card Payment Option */}
-          <div 
-            onClick={() => setPaymentMethod("card")}
-            className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-              paymentMethod === "card" 
-                ? "border-primary bg-primary/5" 
-                : "border-border hover:border-primary/50"
-            }`}
-          >
-            <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                paymentMethod === "card" 
-                  ? "bg-gradient-to-br from-primary to-secondary" 
-                  : "bg-muted"
-              }`}>
-                <CreditCard className={`w-6 h-6 ${paymentMethod === "card" ? "text-primary-foreground" : "text-muted-foreground"}`} />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-foreground">Paiement par carte bancaire</h3>
-                <p className="text-sm text-muted-foreground">Paiement sécurisé en ligne</p>
-              </div>
-              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                paymentMethod === "card" ? "border-primary" : "border-muted-foreground"
-              }`}>
-                {paymentMethod === "card" && (
-                  <div className="w-3 h-3 rounded-full bg-primary" />
-                )}
+          {/* PayPal.me Payment Option — affichée seulement si le presta a renseigné son lien */}
+          {paypalMeUrl && (
+            <div
+              onClick={() => setPaymentMethod("paypal")}
+              className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                paymentMethod === "paypal"
+                  ? "border-primary bg-primary/5"
+                  : "border-border hover:border-primary/50"
+              }`}
+            >
+              <div className="flex items-center gap-4">
+                <div
+                  className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                    paymentMethod === "paypal"
+                      ? "bg-gradient-to-br from-primary to-secondary"
+                      : "bg-muted"
+                  }`}
+                >
+                  <CreditCard
+                    className={`w-6 h-6 ${
+                      paymentMethod === "paypal"
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground"
+                    }`}
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground">
+                    Paiement via PayPal.me
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Vous serez redirigé vers le lien PayPal.me du prestataire.
+                  </p>
+                </div>
+                <div
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                    paymentMethod === "paypal"
+                      ? "border-primary"
+                      : "border-muted-foreground"
+                  }`}
+                >
+                  {paymentMethod === "paypal" && (
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* On-site Payment Option */}
-          <div 
+          <div
             onClick={() => setPaymentMethod("onsite")}
             className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-              paymentMethod === "onsite" 
-                ? "border-primary bg-primary/5" 
+              paymentMethod === "onsite"
+                ? "border-primary bg-primary/5"
                 : "border-border hover:border-primary/50"
             }`}
           >
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                paymentMethod === "onsite" 
-                  ? "bg-gradient-to-br from-primary to-secondary" 
+                paymentMethod === "onsite"
+                  ? "bg-gradient-to-br from-primary to-secondary"
                   : "bg-muted"
               }`}>
-                <svg 
+                <svg
                   className={`w-6 h-6 ${paymentMethod === "onsite" ? "text-primary-foreground" : "text-muted-foreground"}`}
-                  fill="none" 
-                  viewBox="0 0 24 24" 
+                  fill="none"
+                  viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -532,7 +558,7 @@ const Booking = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-foreground">Paiement sur place</h3>
-                <p className="text-sm text-muted-foreground">En espèces le jour du rendez-vous</p>
+                <p className="text-sm text-muted-foreground">Le jour du rendez-vous</p>
               </div>
               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                 paymentMethod === "onsite" ? "border-primary" : "border-muted-foreground"
@@ -585,9 +611,9 @@ const Booking = () => {
           </p>
         </div>
 
-        {paymentMethod === "onsite" && (
-          <Button 
-            variant="hero" 
+        {paymentMethod && (
+          <Button
+            variant="hero"
             className="w-full mt-6"
             onClick={() => {
               completeStep("payment-info", "confirmation");
@@ -596,62 +622,6 @@ const Booking = () => {
             Confirmer la réservation
           </Button>
         )}
-      </Card>
-    );
-  };
-
-  // Payment step (card only)
-  const renderPaymentStep = () => {
-    const isActive = activeStep === "payment";
-
-    if (!isActive) return null;
-
-    return (
-      <Card className="p-6 border-2 border-primary bg-card">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-            <CreditCard className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <h2 className="text-2xl font-display font-semibold text-foreground">Paiement</h2>
-        </div>
-
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="card-number">Numéro de carte</Label>
-            <Input id="card-number" placeholder="1234 5678 9012 3456" />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="expiry">Date d'expiration</Label>
-              <Input id="expiry" placeholder="MM/AA" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="cvv">CVV</Label>
-              <Input id="cvv" placeholder="123" />
-            </div>
-          </div>
-          <div className="p-4 bg-background-light rounded-lg flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5 text-primary" />
-            <span className="text-sm text-muted-foreground">Paiement sécurisé SSL</span>
-          </div>
-
-          <div className="pt-4 border-t border-border">
-            <div className="flex justify-between items-center text-lg font-bold mb-4">
-              <span className="text-foreground">Total à payer</span>
-              <span className="text-primary">{calculateTotal()}€</span>
-            </div>
-          </div>
-
-          <Button 
-            variant="hero" 
-            className="w-full"
-            onClick={() => {
-              completeStep("payment", "confirmation");
-            }}
-          >
-            Confirmer et payer {calculateTotal()}€
-          </Button>
-        </div>
       </Card>
     );
   };
@@ -683,6 +653,14 @@ const Booking = () => {
               <span className="text-muted-foreground">Heure</span>
               <span className="font-semibold text-foreground">{selectedTime}</span>
             </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Paiement</span>
+              <span className="font-semibold text-foreground">
+                {paymentMethod === "paypal"
+                  ? "PayPal.me"
+                  : "Sur place"}
+              </span>
+            </div>
             <Separator />
             <div className="flex justify-between text-lg">
               <span className="font-semibold text-foreground">Total</span>
@@ -690,7 +668,32 @@ const Booking = () => {
             </div>
           </div>
         </div>
-        <Button variant="hero" size="lg" onClick={() => navigate("/")}>
+
+        {paymentMethod === "paypal" && paypalMeUrl && (
+          <div className="max-w-md mx-auto space-y-3">
+            <Button variant="hero" size="lg" asChild className="w-full">
+              <a
+                href={paypalMeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <CreditCard className="w-5 h-5 mr-2" />
+                Payer {calculateTotal()}€ via PayPal.me
+                <ExternalLink className="w-4 h-4 ml-2" />
+              </a>
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Vous serez redirigé vers la page PayPal du prestataire dans un
+              nouvel onglet.
+            </p>
+          </div>
+        )}
+
+        <Button
+          variant={paymentMethod === "paypal" ? "outline" : "hero"}
+          size="lg"
+          onClick={() => navigate("/")}
+        >
           Retour à l'accueil
         </Button>
       </div>
@@ -715,7 +718,6 @@ const Booking = () => {
             {renderSlotStep()}
             {renderInfoStep()}
             {renderPaymentInfoStep()}
-            {renderPaymentStep()}
             {renderConfirmation()}
           </div>
         </div>
