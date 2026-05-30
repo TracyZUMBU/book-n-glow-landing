@@ -22,6 +22,7 @@ import MentionsLegales from "./pages/MentionsLegales";
 import ModalPreview from "./pages/ModalPreview";
 import NotFound from "./pages/NotFound";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
 
