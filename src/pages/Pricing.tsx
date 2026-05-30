@@ -1,184 +1,159 @@
 import Footer from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
-import { Check, Crown, Sparkles } from "lucide-react";
+import { APP_DOWNLOAD_URL } from "@/lib/constants";
+import {
+  ArrowRight,
+  Check,
+  Sparkles,
+  Wallet,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
-const plans = [
+const includedFeatures = [
+  "Page de réservation personnalisée",
+  "Affichage de vos services et tarifs",
+  "Gestion des rendez-vous en temps réel",
+  "Rappels email automatiques aux clientes",
+  "Notifications de nouvelles réservations",
+  "Lien bio Instagram dédié",
+  "Suivi de vos clientes",
+  "Aucune commission sur vos prestations",
+];
+
+const paymentMethods = [
   {
-    name: "Basic",
-    icon: Sparkles,
-    price: "0€",
-    period: "/mois",
-    description: "Site vitrine pour présenter vos services",
-    features: [
-      "Page de présentation personnalisée",
-      "Affichage de vos services",
-      "Informations de contact",
-      "Design professionnel",
-      "Lien bio Instagram",
-    ],
-    cta: "Commencer gratuitement",
-    popular: false,
-    free: true,
+    icon: Wallet,
+    title: "Sur place",
+    description:
+      "Vos clientes règlent directement le jour du rendez-vous, en espèces ou par tout autre moyen que vous acceptez.",
   },
   {
-    name: "Premium",
-    icon: Crown,
-    price: "19€",
-    period: "/mois",
-    description: "Solution complète pour gérer votre activité",
-    features: [
-      "Réservations illimitées",
-      "Rappels email automatiques",
-      "Dashboard",
-      "Support prioritaire",
-      "Gestion des rendez-vous",
-      "Notifications de réservations",
-      "Paiement et acomptes (dont PayPal.Me)",
-      "Avis clients",
-      "Programme de fidélité",
-      "Publications de photos",
-      "Suivi clients",
-      "Analyses et statistiques",
-    ],
-    cta: "Choisir Premium",
-    popular: true,
-    free: false,
+    icon: Sparkles,
+    title: "PayPal.me",
+    description:
+      "Renseignez votre lien PayPal.me dans votre profil. Vos clientes sont redirigées au moment de la réservation pour vous régler en quelques clics.",
   },
 ];
 
 const Pricing = () => {
-  const handlePlanSelection = (plan: "Basic" | "Premium") => {
-    const baseUrl = "https://app.book-n-glow.fr/inscription-prestataire";
-    const planParam = plan === "Basic" ? "?plan=free" : "?plan=premium";
-    window.location.href = `${baseUrl}${planParam}`;
-  };
-
   return (
     <>
       {/* Hero Section */}
       <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 text-center">
         <div className="container-mobile max-w-4xl animate-fade-in">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <Sparkles className="w-4 h-4" />
+            <span>Sans commission · Sans engagement</span>
+          </div>
           <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6">
-            <span className="text-gradient">Tarifs</span>
+            <span className="text-gradient">100 % gratuit.</span>
+            <br />
+            Vraiment.
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Commencez gratuitement ou optez pour la solution complète. Offre de
-            lancement : 19€/mois à vie,{" "}
-            <span className="line-through">(29,99€/mois)</span>.
+            Toutes les fonctionnalités essentielles pour gérer votre activité,
+            offertes. Pas d'abonnement, pas de commission, pas de carte
+            bancaire requise.
           </p>
         </div>
       </section>
 
-      {/* Pricing Plans */}
-      <section className="py-10 md:py-20 px-4">
-        <div className="container-mobile max-w-7xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-bold mb-4">
-              Choisissez votre plan
+      {/* Single plan card */}
+      <section className="pb-10 md:pb-20 px-4">
+        <div className="container-mobile max-w-3xl">
+          <div className="relative bg-card rounded-3xl p-8 md:p-12 border-2 border-primary shadow-xl animate-fade-in-up">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-secondary text-primary-foreground px-6 py-2 rounded-full text-sm font-semibold shadow-lg whitespace-nowrap">
+              Le plan Book N' Glow ✨
+            </div>
+
+            <div className="text-center mb-8 pt-4">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center">
+                <Sparkles className="w-8 h-8 text-primary-foreground" />
+              </div>
+              <div className="flex items-end justify-center gap-2 mb-2">
+                <span className="text-6xl md:text-7xl font-bold text-gradient">
+                  0€
+                </span>
+                <span className="text-muted-foreground mb-3 text-lg">
+                  /toujours
+                </span>
+              </div>
+              <p className="text-muted-foreground">
+                Aucun frais caché. Vous gardez 100 % de vos revenus.
+              </p>
+            </div>
+
+            <ul className="space-y-3 mb-10 max-w-xl mx-auto">
+              {includedFeatures.map((feature) => (
+                <li key={feature} className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                  <span className="text-base">{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div className="text-center space-y-3">
+              <Button variant="hero" size="lg" asChild className="group w-full sm:w-auto min-w-[280px]">
+                <a
+                  href={APP_DOWNLOAD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Télécharger l'app
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                Inscription via l'application mobile. Disponible bientôt sur
+                iOS et Android.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Payment methods */}
+      <section className="py-10 md:py-20 px-4 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
+        <div className="container-mobile max-w-5xl">
+          <div className="text-center mb-12 space-y-4">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold">
+              Vos clientes paient comme elles veulent
             </h2>
-            <p className="text-lg text-muted-foreground">
-              Sans engagement • Annulation à tout moment • 19€/mois à vie pour
-              les premiers abonnés
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Deux options simples, sans intermédiaire bancaire ni commission
+              prélevée par la plateforme.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {plans.map((plan, index) => {
-              const Icon = plan.icon;
+          <div className="grid md:grid-cols-2 gap-6">
+            {paymentMethods.map((method) => {
+              const Icon = method.icon;
               return (
                 <div
-                  key={index}
-                  className={`relative bg-card rounded-3xl p-8 border-2 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 animate-fade-in-up ${
-                    plan.popular
-                      ? "border-primary shadow-xl scale-105"
-                      : "border-border"
-                  }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  key={method.title}
+                  className="bg-card p-8 rounded-2xl border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg"
                 >
-                  {plan.popular && (
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-secondary text-primary-foreground px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
-                      Le plus populaire{" "}
-                      <span className="hidden sm:inline">✨</span>
-                    </div>
-                  )}
-
-                  <div className="text-center mb-6">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center">
-                      <Icon className="w-8 h-8 text-primary-foreground" />
-                    </div>
-                    <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                    <p className="text-muted-foreground text-sm mb-4">
-                      {plan.description}
-                    </p>
-                    <div className="flex items-end justify-center gap-1">
-                      <span className="text-5xl font-bold text-gradient">
-                        {plan.price}
-                      </span>
-                      <span className="text-muted-foreground mb-2">
-                        {plan.period}
-                      </span>
-                    </div>
+                  <div className="w-14 h-14 mb-5 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                    <Icon className="w-7 h-7 text-primary-foreground" />
                   </div>
-
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Badge offre de lancement pour le plan Premium */}
-                  {plan.name === "Premium" && (
-                    <div className="mb-6 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl border border-primary/20">
-                      <div className="text-center">
-                        <p className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
-                          🚀 Offre de lancement
-                        </p>
-                        <p className="text-sm text-foreground mb-1">
-                          19€/mois à vie
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          <span className="line-through">
-                            (Prix futur : 29,99€/mois)
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  <Button
-                    variant={
-                      plan.popular
-                        ? "hero"
-                        : plan.free
-                          ? "secondary"
-                          : "outline"
-                    }
-                    size="lg"
-                    className="w-full"
-                    onClick={() =>
-                      handlePlanSelection(plan.name as "Basic" | "Premium")
-                    }
-                  >
-                    {plan.cta}
-                  </Button>
+                  <h3 className="text-xl font-semibold mb-3">{method.title}</h3>
+                  <p className="text-muted-foreground">{method.description}</p>
                 </div>
               );
             })}
           </div>
+        </div>
+      </section>
 
-          <div className="mt-16 text-center">
-            <p className="text-muted-foreground mb-6">
-              Des questions sur nos tarifs ? Notre équipe est là pour vous
-              aider.
-            </p>
-            <Button variant="ghost" size="lg">
-              <Link to="/contact">Contactez notre support</Link>
-            </Button>
-          </div>
+      {/* Contact CTA */}
+      <section className="py-10 md:py-16 px-4">
+        <div className="container-mobile max-w-3xl text-center space-y-4">
+          <p className="text-muted-foreground">
+            Une question ? Notre équipe est là pour vous aider.
+          </p>
+          <Button variant="ghost" size="lg" asChild>
+            <Link to="/contact">Contactez notre support</Link>
+          </Button>
         </div>
       </section>
 

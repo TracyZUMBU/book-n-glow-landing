@@ -1,6 +1,7 @@
 import Footer from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { trackClick } from "@/lib/analytics";
+import { APP_DOWNLOAD_URL } from "@/lib/constants";
 import {
   Calendar,
   Check,
@@ -299,13 +300,15 @@ const Features = () => {
             automatiser leurs réservations
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8">
-              <Link
-                to="https://app.book-n-glow.fr/inscription-prestataire"
+            <Button size="lg" className="text-lg px-8" asChild>
+              <a
+                href={APP_DOWNLOAD_URL}
                 target="_blank"
+                rel="noopener noreferrer"
               >
-                Commencer gratuitement
-              </Link>
+                <Smartphone className="w-5 h-5 mr-1" />
+                Télécharger l'app
+              </a>
             </Button>
             <Button
               size="lg"

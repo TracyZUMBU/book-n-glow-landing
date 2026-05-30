@@ -4,7 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail } from "lucide-react";
+import { APP_DOWNLOAD_URL } from "@/lib/constants";
+import { ArrowRight, Mail, Smartphone } from "lucide-react";
 
 const Auth = () => {
   const [loginData, setLoginData] = useState({
@@ -28,11 +29,42 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
-      <Card className="w-full max-w-md">
+      <div className="w-full max-w-md space-y-6">
+        {/* Bloc prestataire : redirection vers l'app mobile */}
+        <div className="rounded-2xl border-2 border-primary/30 bg-card p-5 shadow-sm">
+          <div className="flex items-start gap-4">
+            <div className="w-11 h-11 shrink-0 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <Smartphone className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <div className="flex-1 space-y-3">
+              <div className="space-y-1">
+                <p className="font-semibold text-foreground">
+                  Vous êtes prestataire&nbsp;?
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  La gestion de votre compte se fait désormais depuis
+                  l'application mobile Book N' Glow.
+                </p>
+              </div>
+              <Button variant="outline" size="sm" asChild className="group">
+                <a
+                  href={APP_DOWNLOAD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Télécharger l'app
+                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <Card className="w-full">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Book N' Glow</CardTitle>
           <CardDescription className="text-center">
-            Connectez-vous ou créez votre compte
+            Espace client&nbsp;— connectez-vous ou créez votre compte
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -192,7 +224,8 @@ const Auth = () => {
             </TabsContent>
           </Tabs>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 };

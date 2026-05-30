@@ -1,9 +1,9 @@
 import TopBar from "@/components/TopBar";
+import AppDownloadCTA from "@/components/landing/AppDownloadCTA";
 import Features from "@/components/landing/Features";
 import Footer from "@/components/landing/Footer";
 import Hero from "@/components/landing/Hero";
 import HowItWorks from "@/components/landing/HowItWorks";
-import SubscriptionSelection from "@/components/landing/SubscriptionSelection";
 import TargetAudience from "@/components/landing/TargetAudience";
 import Testimonials from "@/components/landing/Testimonials";
 
@@ -16,7 +16,7 @@ const Index = () => {
       <HowItWorks />
       <TargetAudience />
       <Testimonials />
-      <SubscriptionSelection />
+      <AppDownloadCTA />
       <Footer />
     </div>
   );

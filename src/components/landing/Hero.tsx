@@ -27,7 +27,7 @@ const Hero = () => {
           <div className="text-center lg:text-left space-y-8 animate-fade-in">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
               <Sparkles className="w-4 h-4 hidden md:block" />
-              <span>Pour les prestataires beauté d'Instagram</span>
+              <span>100 % gratuit · Pour les prestataires beauté d'Instagram</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
@@ -39,7 +39,7 @@ const Hero = () => {
               Tes clientes voient tes disponibilités en temps réel, réservent en
               ligne et reçoivent des rappels automatiques. Fini les DM, les
               stories à mettre à jour et les confirmations la veille — tout
-              s'automatise. ✨
+              s'automatise, et c'est 100&nbsp;% gratuit. ✨
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">

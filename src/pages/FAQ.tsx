@@ -24,27 +24,30 @@ interface FAQItem {
 }
 
 const faqData: FAQItem[] = [
-  {
-    id: "1",
-    question: "Puis-je changer de plan à tout moment ?",
-    reponse:
-      "Oui, vous pouvez passer à un plan supérieur ou inférieur à tout moment. Les changements prennent effet à la fin de votre abonnement actuel.",
-    categorie: CATEGORY_LABELS["Abonnement"],
-    destinataire: "prestataire",
-  },
-  {
-    id: "2",
-    question: "Book N Glow prend-il une commission sur les prestations ?",
-    reponse:
-      "Non, Book N Glow ne prend aucune commission sur les prestations. Les prestataires reçoivent 100% du montant de leurs prestations. Book N Glow est une plateforme de mise en relation qui fonctionne uniquement grâce aux abonnements des prestataires.",
-    categorie: CATEGORY_LABELS["Paiement"],
-    destinataire: "prestataire",
-  },
+  // Questions masquées dans le cadre du passage au modèle 100 % gratuit.
+  // Code conservé pour réactivation future.
+  // Voir docs/deferred/free-only-model.md.
+  // {
+  //   id: "1",
+  //   question: "Puis-je changer de plan à tout moment ?",
+  //   reponse:
+  //     "Oui, vous pouvez passer à un plan supérieur ou inférieur à tout moment. Les changements prennent effet à la fin de votre abonnement actuel.",
+  //   categorie: CATEGORY_LABELS["Abonnement"],
+  //   destinataire: "prestataire",
+  // },
+  // {
+  //   id: "2",
+  //   question: "Book N Glow prend-il une commission sur les prestations ?",
+  //   reponse:
+  //     "Non, Book N Glow ne prend aucune commission sur les prestations. Les prestataires reçoivent 100% du montant de leurs prestations. Book N Glow est une plateforme de mise en relation qui fonctionne uniquement grâce aux abonnements des prestataires.",
+  //   categorie: CATEGORY_LABELS["Paiement"],
+  //   destinataire: "prestataire",
+  // },
   {
     id: "3",
     question: "Quels sont les moyens de paiement disponibles ?",
     reponse:
-      "Plusieurs moyens de paiement sont disponibles : paiement sur place directement chez le prestataire, PayPal.me (le client est redirigé vers la page du prestataire avec le montant à payer pendant la réservation), et le paiement par carte bancaire sera bientôt disponible.",
+      "Deux moyens de paiement sont disponibles : paiement sur place directement chez le prestataire, et PayPal.me (le client est redirigé vers la page PayPal du prestataire avec le montant à payer pendant la réservation).",
     categorie: CATEGORY_LABELS["Paiement"],
     destinataire: ["client", "prestataire", "general"],
   },

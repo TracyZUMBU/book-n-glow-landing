@@ -1,12 +1,12 @@
-import { UserPlus, Settings, Share2, Calendar } from "lucide-react";
+import { Calendar, Settings, Share2, Smartphone } from "lucide-react";
 
 const steps = [
   {
-    icon: UserPlus,
+    icon: Smartphone,
     number: "01",
-    title: "Créez votre compte",
+    title: "Téléchargez l'app",
     description:
-      "Inscription simple et rapide. Commencez en moins de 2 minutes.",
+      "Inscription gratuite depuis l'application mobile Book N' Glow, en moins de 2 minutes.",
   },
   {
     icon: Settings,

@@ -14,7 +14,6 @@ import AdminProviders from "./pages/AdminProviders";
 import Auth from "./pages/Auth";
 import Booking from "./pages/Booking";
 import CGU from "./pages/CGU";
-import ClientLoyalty from "./pages/ClientLoyalty";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
 import Features from "./pages/Features";
@@ -22,22 +21,9 @@ import Index from "./pages/Index";
 import MentionsLegales from "./pages/MentionsLegales";
 import ModalPreview from "./pages/ModalPreview";
 import NotFound from "./pages/NotFound";
-import PaymentDeposit from "./pages/PaymentDeposit";
-import PaymentSuccess from "./pages/PaymentSuccess";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Pricing from "./pages/Pricing";
-import ProviderAnalytics from "./pages/ProviderAnalytics";
-import ProviderAvailability from "./pages/ProviderAvailability";
-import ProviderBookingDetail from "./pages/ProviderBookingDetail";
-import ProviderClientDetail from "./pages/ProviderClientDetail";
-import ProviderClients from "./pages/ProviderClients";
-import ProviderDashboard from "./pages/ProviderDashboard";
-import ProviderOnboarding from "./pages/ProviderOnboarding";
 import ProviderProfile from "./pages/ProviderProfile";
-import ProviderProfileEdit from "./pages/ProviderProfileEdit";
-import ProviderPromotions from "./pages/ProviderPromotions";
-import ProviderRevenue from "./pages/ProviderRevenue";
-import ProviderSettings from "./pages/ProviderSettings";
 
 const queryClient = new QueryClient();
 
@@ -111,36 +97,46 @@ const App = () => (
               </div>
             }
           />
-          <Route path="/profil/:id" element={<ProviderProfile />} />
-          <Route path="/reserver/:serviceId" element={<Booking />} />
-          <Route path="/paiement-reussi" element={<PaymentSuccess />} />
-          <Route path="/acompte-paiement" element={<PaymentDeposit />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/inscription-prestataire" element={<ProviderOnboarding />} />
-          <Route path="/modal-preview" element={<ModalPreview />} />
-          <Route path="/fidelite/:providerId" element={<ClientLoyalty />} />
-          
-          {/* Provider Dashboard with nested routes */}
-          <Route path="/prestataire" element={<ProviderDashboard />}>
+          {/* <Route path="/profil/:id" element={<ProviderProfile />} /> */}
+          {/* <Route path="/reserver/:serviceId" element={<Booking />} /> */}
+
+          {/* <Route path="/auth" element={<Auth />} /> */}
+          {/* <Route path="/modal-preview" element={<ModalPreview />} /> */}
+          {/*
+            Routes provisoirement conservées en interne (dashboard prestataire)
+            jusqu'à la release de l'app mobile.
+            Voir docs/deferred/free-only-model.md
+          */}
+          {/* <Route path="/prestataire" element={<ProviderDashboard />}>
             <Route path="revenus" element={<ProviderRevenue />} />
             <Route path="analyses" element={<ProviderAnalytics />} />
             <Route path="clients" element={<ProviderClients />} />
-            <Route path="clients/:clientId" element={<ProviderClientDetail />} />
-            <Route path="reservations/:bookingId" element={<ProviderBookingDetail />} />
+            <Route
+              path="clients/:clientId"
+              element={<ProviderClientDetail />}
+            />
+            <Route
+              path="reservations/:bookingId"
+              element={<ProviderBookingDetail />}
+            />
             <Route path="profil" element={<ProviderProfileEdit />} />
             <Route path="promotions" element={<ProviderPromotions />} />
             <Route path="disponibilites" element={<ProviderAvailability />} />
             <Route path="parametres" element={<ProviderSettings />} />
-          </Route>
-          
+          </Route> */}
           {/* Admin Dashboard with nested routes */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="bookings" element={<AdminBookings />} />
-            <Route path="bookings/:bookingId" element={<AdminBookingDetail />} />
+            <Route
+              path="bookings/:bookingId"
+              element={<AdminBookingDetail />}
+            />
             <Route path="prestataires" element={<AdminProviders />} />
-            <Route path="prestataires/:providerId" element={<AdminProviderDetail />} />
+            <Route
+              path="prestataires/:providerId"
+              element={<AdminProviderDetail />}
+            />
           </Route>
-          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
