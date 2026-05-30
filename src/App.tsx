@@ -22,6 +22,7 @@ import MentionsLegales from "./pages/MentionsLegales";
 import ModalPreview from "./pages/ModalPreview";
 import NotFound from "./pages/NotFound";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
 
@@ -97,6 +98,7 @@ const App = () => (
               </div>
             }
           />
+          <Route path="/login" element={<Login />} />
           {/* <Route path="/profil/:id" element={<ProviderProfile />} /> */}
           {/* <Route path="/reserver/:serviceId" element={<Booking />} /> */}
 
