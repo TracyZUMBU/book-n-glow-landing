@@ -97,6 +97,7 @@ const App = () => (
               </div>
             }
           />
+          <Route path="/login" element={<Login />} />
           {/* <Route path="/profil/:id" element={<ProviderProfile />} /> */}
           {/* <Route path="/reserver/:serviceId" element={<Booking />} /> */}
 
