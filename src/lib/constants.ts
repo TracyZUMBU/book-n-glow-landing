@@ -8,6 +8,16 @@
 export const APP_DOWNLOAD_URL = "#";
 
 /**
+ * URL de téléchargement de l'app sur l'App Store (iOS).
+ */
+export const APP_STORE_URL = "#";
+
+/**
+ * URL de téléchargement de l'app sur le Google Play Store (Android).
+ */
+export const PLAY_STORE_URL = "#";
+
+/**
  * URL de connexion client (compte client) sur le site web.
  */
 export const CUSTOMER_SIGN_IN_URL =
