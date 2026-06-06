@@ -1,8 +1,7 @@
 import Footer from "@/components/landing/Footer";
+import StoreButtons from "@/components/StoreButtons";
 import { Button } from "@/components/ui/button";
-import { APP_DOWNLOAD_URL } from "@/lib/constants";
 import {
-  ArrowRight,
   Check,
   Sparkles,
   Wallet,

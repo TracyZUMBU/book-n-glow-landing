@@ -1,7 +1,7 @@
 import Footer from "@/components/landing/Footer";
+import StoreButtons from "@/components/StoreButtons";
 import { Button } from "@/components/ui/button";
 import { trackClick } from "@/lib/analytics";
-import { APP_DOWNLOAD_URL } from "@/lib/constants";
 import {
   Calendar,
   Check,
@@ -9,7 +9,6 @@ import {
   CreditCard,
   MessageSquare,
   Shield,
-  Smartphone,
   Users,
 } from "lucide-react";
 import { Link } from "react-router-dom";

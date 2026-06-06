@@ -1,6 +1,6 @@
+import StoreButtons from "@/components/StoreButtons";
 import { Button } from "@/components/ui/button";
-import { APP_DOWNLOAD_URL } from "@/lib/constants";
-import { ArrowRight, Check, Smartphone } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 
 const benefits = [
   "Page de réservation personnalisée",
