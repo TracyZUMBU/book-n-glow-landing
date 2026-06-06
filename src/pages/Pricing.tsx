@@ -1,5 +1,5 @@
 import Footer from "@/components/landing/Footer";
-import StoreButtons from "@/components/StoreButtons";
+import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Check,
@@ -92,7 +92,16 @@ const Pricing = () => {
             </ul>
 
             <div className="text-center space-y-3">
-              <StoreButtons size="lg" variant="default" className="justify-center" />
+              <Button
+                asChild
+                size="lg"
+                className="bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90 rounded-xl"
+              >
+                <Link to="/telecharger" className="flex items-center gap-2">
+                  <Download className="w-4 h-4" />
+                  Télécharger l'app
+                </Link>
+              </Button>
               <p className="text-xs text-muted-foreground">
                 Inscription via l'application mobile. Disponible bientôt sur
                 iOS et Android.

@@ -1,5 +1,5 @@
 import Footer from "@/components/landing/Footer";
-import StoreButtons from "@/components/StoreButtons";
+
 import { Button } from "@/components/ui/button";
 import { trackClick } from "@/lib/analytics";
 import {
@@ -300,8 +300,15 @@ const Features = () => {
             automatiser leurs réservations
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <StoreButtons size="lg" variant="default" />
             <Button
+              asChild
+              size="lg"
+              className="text-lg px-8 bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90"
+            >
+              <Link to="/telecharger">Télécharger l'app</Link>
+            </Button>
+            <Button
+              asChild
               size="lg"
               variant="outline"
               className="text-lg px-8"
