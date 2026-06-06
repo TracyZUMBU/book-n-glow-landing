@@ -1,11 +1,11 @@
 import { useState } from "react";
-import StoreButtons from "@/components/StoreButtons";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Smartphone } from "lucide-react";
+import { Download, Mail, Smartphone } from "lucide-react";
 
 const Auth = () => {
   const [loginData, setLoginData] = useState({
@@ -46,7 +46,16 @@ const Auth = () => {
                   l'application mobile Book N' Glow.
                 </p>
               </div>
-              <StoreButtons size="sm" />
+              <Button
+                asChild
+                size="sm"
+                className="bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90 rounded-xl"
+              >
+                <Link to="/telecharger" className="flex items-center gap-2">
+                  <Download className="w-4 h-4" />
+                  Télécharger l'app
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
