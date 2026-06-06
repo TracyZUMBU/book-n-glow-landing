@@ -10,7 +10,8 @@ export const APP_DOWNLOAD_URL = "#";
 /**
  * URL de téléchargement de l'app sur l'App Store (iOS).
  */
-export const APP_STORE_URL = "#";
+export const APP_STORE_URL =
+  "https://apps.apple.com/fr/app/book-n-glow-pro/id6774599235";
 
 /**
  * URL de téléchargement de l'app sur le Google Play Store (Android).
