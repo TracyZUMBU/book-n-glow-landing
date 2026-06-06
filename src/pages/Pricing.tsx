@@ -1,8 +1,7 @@
 import Footer from "@/components/landing/Footer";
+import StoreButtons from "@/components/StoreButtons";
 import { Button } from "@/components/ui/button";
-import { APP_DOWNLOAD_URL } from "@/lib/constants";
 import {
-  ArrowRight,
   Check,
   Sparkles,
   Wallet,
@@ -93,16 +92,7 @@ const Pricing = () => {
             </ul>
 
             <div className="text-center space-y-3">
-              <Button variant="hero" size="lg" asChild className="group w-full sm:w-auto min-w-[280px]">
-                <a
-                  href={APP_DOWNLOAD_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Télécharger l'app
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
+              <StoreButtons size="lg" variant="default" className="justify-center" />
               <p className="text-xs text-muted-foreground">
                 Inscription via l'application mobile. Disponible bientôt sur
                 iOS et Android.

@@ -1,11 +1,11 @@
 import { useState } from "react";
+import StoreButtons from "@/components/StoreButtons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { APP_DOWNLOAD_URL } from "@/lib/constants";
-import { ArrowRight, Mail, Smartphone } from "lucide-react";
+import { Mail, Smartphone } from "lucide-react";
 
 const Auth = () => {
   const [loginData, setLoginData] = useState({
@@ -46,16 +46,7 @@ const Auth = () => {
                   l'application mobile Book N' Glow.
                 </p>
               </div>
-              <Button variant="outline" size="sm" asChild className="group">
-                <a
-                  href={APP_DOWNLOAD_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Télécharger l'app
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
+              <StoreButtons size="sm" />
             </div>
           </div>
         </div>
