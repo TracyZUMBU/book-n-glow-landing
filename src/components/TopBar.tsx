@@ -1,5 +1,6 @@
-import { APP_DOWNLOAD_URL, CUSTOMER_SIGN_IN_URL } from "@/lib/constants";
-import { Menu, Smartphone, User, X } from "lucide-react";
+import { CUSTOMER_SIGN_IN_URL } from "@/lib/constants";
+import { Menu, User, X } from "lucide-react";
+import StoreButtons from "./StoreButtons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
