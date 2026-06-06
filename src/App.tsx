@@ -23,6 +23,7 @@ import ModalPreview from "./pages/ModalPreview";
 import NotFound from "./pages/NotFound";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Login from "./pages/Login";
+import Download from "./pages/Download";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
 
@@ -99,6 +100,7 @@ const App = () => (
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/telecharger" element={<Download />} />
           {/* <Route path="/profil/:id" element={<ProviderProfile />} /> */}
           {/* <Route path="/reserver/:serviceId" element={<Booking />} /> */}
 

@@ -1,6 +1,5 @@
 import { CUSTOMER_SIGN_IN_URL } from "@/lib/constants";
-import { Menu, User, X } from "lucide-react";
-import StoreButtons from "./StoreButtons";
+import { Download, Menu, User, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
@@ -39,7 +38,12 @@ const TopBar = () => {
           </nav>
           {/* Auth Buttons Desktop */}
           <div className="hidden md:flex items-center gap-3">
-            <StoreButtons size="sm" />
+            <Button asChild variant="outline" className="flex items-center gap-2">
+              <Link to="/telecharger">
+                <Download className="w-4 h-4" />
+                Télécharger l'app
+              </Link>
+            </Button>
             <Button asChild className="flex items-center gap-2">
               <a
                 href={CUSTOMER_SIGN_IN_URL}
@@ -82,7 +86,16 @@ const TopBar = () => {
               </nav>
               {/* Auth Buttons Mobile */}
               <div className="flex flex-col gap-2 pt-4 border-t">
-                <StoreButtons size="sm" vertical />
+                <Button
+                  asChild
+                  variant="outline"
+                  className="flex items-center gap-2 justify-center"
+                >
+                  <Link to="/telecharger" onClick={() => setIsMenuOpen(false)}>
+                    <Download className="w-4 h-4" />
+                    Télécharger l'app
+                  </Link>
+                </Button>
                 <Button
                   asChild
                   className="flex items-center gap-2 justify-center"
