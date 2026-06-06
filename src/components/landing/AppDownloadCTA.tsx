@@ -1,6 +1,6 @@
 import StoreButtons from "@/components/StoreButtons";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
+import { Check, Smartphone } from "lucide-react";
 
 const benefits = [
   "Page de réservation personnalisée",
@@ -45,18 +45,7 @@ const AppDownloadCTA = () => {
                 ))}
               </ul>
 
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <Button variant="hero" size="lg" asChild className="group">
-                  <a
-                    href={APP_DOWNLOAD_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Télécharger l'app
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </Button>
-              </div>
+              <StoreButtons size="lg" variant="default" className="pt-2" />
 
               <p className="text-xs text-muted-foreground">
                 Disponible bientôt sur iOS et Android.
