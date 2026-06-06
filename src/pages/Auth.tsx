@@ -46,16 +46,7 @@ const Auth = () => {
                   l'application mobile Book N' Glow.
                 </p>
               </div>
-              <Button variant="outline" size="sm" asChild className="group">
-                <a
-                  href={APP_DOWNLOAD_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Télécharger l'app
-                  <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </Button>
+              <StoreButtons size="sm" />
             </div>
           </div>
         </div>
