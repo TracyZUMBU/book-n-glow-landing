@@ -102,6 +102,8 @@ const App = () => (
           />
           <Route path="/login" element={<Login />} />
           <Route path="/telecharger" element={<Download />} />
+          <Route path="/avis/:providerId" element={<ReviewSubmit />} />
+          <Route path="/avis" element={<ReviewSubmit />} />
           {/* <Route path="/profil/:id" element={<ProviderProfile />} /> */}
           {/* <Route path="/reserver/:serviceId" element={<Booking />} /> */}
 
