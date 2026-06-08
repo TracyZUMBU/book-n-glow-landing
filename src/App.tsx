@@ -26,6 +26,7 @@ import Login from "./pages/Login";
 import Download from "./pages/Download";
 import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
+import ReviewSubmit from "./pages/ReviewSubmit";
 
 const queryClient = new QueryClient();
 
@@ -101,6 +102,8 @@ const App = () => (
           />
           <Route path="/login" element={<Login />} />
           <Route path="/telecharger" element={<Download />} />
+          <Route path="/avis/:providerId" element={<ReviewSubmit />} />
+          <Route path="/avis" element={<ReviewSubmit />} />
           {/* <Route path="/profil/:id" element={<ProviderProfile />} /> */}
           {/* <Route path="/reserver/:serviceId" element={<Booking />} /> */}
 
