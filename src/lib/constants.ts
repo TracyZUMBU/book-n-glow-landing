@@ -16,7 +16,8 @@ export const APP_STORE_URL =
 /**
  * URL de téléchargement de l'app sur le Google Play Store (Android).
  */
-export const PLAY_STORE_URL = "#";
+export const PLAY_STORE_URL =
+  "https://play.google.com/store/apps/details?id=com.pblv14.booknglowpro";
 
 /**
  * URL de connexion client (compte client) sur le site web.
