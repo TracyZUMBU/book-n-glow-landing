@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 const benefits = [
   "Page de réservation personnalisée",
+  "Aucune commission sur vos rendez-vous",
   "Gestion des rendez-vous en temps réel",
   "Rappels automatiques aux clientes",
   "Paiement sur place ou via PayPal.me",
@@ -57,7 +58,7 @@ const AppDownloadCTA = () => {
               </Button>
 
               <p className="text-xs text-muted-foreground">
-                Disponible bientôt sur iOS et Android.
+                Disponible sur l'App Store et Google Play.
               </p>
             </div>
 

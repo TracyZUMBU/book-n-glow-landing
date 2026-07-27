@@ -38,7 +38,7 @@ const Download = () => {
 
               <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
                 Gérez vos réservations, vos clientes et vos revenus depuis votre
-                téléphone. Disponible bientôt sur iOS et Android.
+                téléphone. Disponible sur iOS et Android.
               </p>
 
               <div className="pt-4 flex justify-center">
@@ -46,7 +46,7 @@ const Download = () => {
               </div>
 
               <p className="text-xs text-muted-foreground">
-                Disponible bientôt sur l'App Store et Google Play.
+                Disponible sur l'App Store et Google Play.
               </p>
             </div>
           </div>

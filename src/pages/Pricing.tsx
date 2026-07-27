@@ -103,8 +103,8 @@ const Pricing = () => {
                 </Link>
               </Button>
               <p className="text-xs text-muted-foreground">
-                Inscription via l'application mobile. Disponible bientôt sur
-                iOS et Android.
+                Inscription via l'application mobile. Disponible sur l'App
+                Store et Google Play.
               </p>
             </div>
           </div>

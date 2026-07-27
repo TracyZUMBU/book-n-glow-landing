@@ -1,11 +1,7 @@
 /**
- * URL de téléchargement de l'app mobile Book N' Glow.
- *
- * Placeholder en attendant la publication des stores.
- * À remplacer par une vraie URL (App Store / Play Store ou page intermédiaire)
- * au moment de la release. Voir docs/deferred/free-only-model.md.
+ * URL de la page de téléchargement de l'app mobile Book N' Glow.
  */
-export const APP_DOWNLOAD_URL = "#";
+export const APP_DOWNLOAD_URL = "/telecharger";
 
 /**
  * URL de téléchargement de l'app sur l'App Store (iOS).
