@@ -1,14 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { INCLUDED_FEATURES } from "@/data/includedFeatures";
 import { Check, Download, Smartphone } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const benefits = [
-  "Page de réservation personnalisée",
-  "Aucune commission sur vos rendez-vous",
-  "Gestion des rendez-vous en temps réel",
-  "Rappels automatiques aux clientes",
-  "Paiement sur place ou via PayPal.me",
-];
 
 const AppDownloadCTA = () => {
   return (
@@ -38,10 +31,10 @@ const AppDownloadCTA = () => {
               </p>
 
               <ul className="space-y-3">
-                {benefits.map((benefit) => (
-                  <li key={benefit} className="flex items-start gap-3">
+                {INCLUDED_FEATURES.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
                     <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                    <span className="text-sm md:text-base">{benefit}</span>
+                    <span className="text-sm md:text-base">{feature}</span>
                   </li>
                 ))}
               </ul>

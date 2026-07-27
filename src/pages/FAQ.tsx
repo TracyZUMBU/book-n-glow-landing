@@ -115,6 +115,14 @@ const faqData: FAQItem[] = [
     categorie: "Fonctionnement",
     destinataire: "prestataire",
   },
+  {
+    id: "12",
+    question: "Comment fonctionne la messagerie in-app ?",
+    reponse:
+      "La cliente initie la conversation depuis votre profil (aucune réservation préalable n'est requise). Une fois la conversation créée, vous pouvez tous les deux échanger à tout moment depuis l'onglet Messages. Les messages sont uniquement textuels, et chaque nouveau message déclenche une notification par e-mail pour le client et une notification push pour le prestataire.",
+    categorie: "Fonctionnement",
+    destinataire: ["client", "prestataire"],
+  },
 ];
 
 export default function FAQ() {

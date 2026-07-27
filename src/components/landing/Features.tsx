@@ -4,6 +4,7 @@ import {
   Calendar,
   Clock,
   CreditCard,
+  MessageSquare,
   Zap,
 } from "lucide-react";
 
@@ -26,6 +27,12 @@ const features = [
     title: "Visibilité en temps réel",
     description:
       "Ta page montre les créneaux disponibles en temps réel — finis le stories manuelles.",
+  },
+  {
+    icon: MessageSquare,
+    title: "Messagerie in-app",
+    description:
+      "Vos clientes vous contactent directement dans l'app pour poser une question ou parler d'un RDV — sans repasser par Instagram.",
   },
   {
     icon: BellRing,
@@ -66,9 +73,9 @@ const Features = () => {
 
           <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
             <span className="text-gradient">Book N' Glow</span> centralise tout
-            : page de réservation personnalisée, gestion des prestations et
-            tarifs, règles d'annulation et notifications automatisées — visibles
-            en temps réel par tes clientes.
+            : page de réservation personnalisée, messagerie in-app, gestion des
+            prestations et tarifs, règles d'annulation et notifications
+            automatisées — visibles en temps réel par tes clientes.
           </p>
         </div>
 

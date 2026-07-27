@@ -1,15 +1,8 @@
 import Footer from "@/components/landing/Footer";
 import Navigation from "@/components/landing/Navigation";
 import StoreButtons from "@/components/StoreButtons";
+import { INCLUDED_FEATURES } from "@/data/includedFeatures";
 import { Check, Heart, Smartphone, Sparkles } from "lucide-react";
-
-const highlights = [
-  "Inscription 100 % gratuite, sans engagement",
-  "Aucune commission sur vos rendez-vous",
-  "Gestion des réservations en temps réel",
-  "Rappels automatiques pour vos clientes",
-  "Paiement sur place ou via PayPal.me",
-];
 
 const Download = () => {
   return (
@@ -85,10 +78,10 @@ const Download = () => {
                 </p>
 
                 <ul className="space-y-3">
-                  {highlights.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
+                  {INCLUDED_FEATURES.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
                       <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                      <span className="text-sm md:text-base">{item}</span>
+                      <span className="text-sm md:text-base">{feature}</span>
                     </li>
                   ))}
                 </ul>

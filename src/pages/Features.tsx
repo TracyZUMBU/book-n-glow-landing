@@ -3,6 +3,7 @@ import Footer from "@/components/landing/Footer";
 import { Button } from "@/components/ui/button";
 import { trackClick } from "@/lib/analytics";
 import {
+  Bell,
   Calendar,
   Check,
   Clock,
@@ -35,11 +36,11 @@ const Features = () => {
             </div>
             <div className="flex items-center gap-3">
               <Check className="w-5 h-5 text-primary shrink-0" />
-              <span>Réservations 24/7 en autonomie</span>
+              <span>Messagerie in-app incluse</span>
             </div>
             <div className="flex items-center gap-3">
               <Check className="w-5 h-5 text-primary shrink-0" />
-              <span>Paiement par redirection PayPal.me</span>
+              <span>Réservations 24/7 en autonomie</span>
             </div>
           </div>
         </div>
@@ -75,6 +76,18 @@ const Features = () => {
                 <div className="flex items-start gap-4">
                   <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-1">
                     <MessageSquare className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Messagerie in-app</h3>
+                    <p className="text-muted-foreground text-sm">
+                      Vos clientes vous écrivent directement dans l'app pour
+                      poser une question ou parler d'un RDV.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-1">
+                    <Bell className="w-4 h-4 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">
@@ -158,7 +171,7 @@ const Features = () => {
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center shrink-0 mt-1">
-                    <MessageSquare className="w-4 h-4 text-primary" />
+                    <Bell className="w-4 h-4 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">

@@ -1,23 +1,8 @@
 import Footer from "@/components/landing/Footer";
-import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Check,
-  Sparkles,
-  Wallet,
-} from "lucide-react";
+import { INCLUDED_FEATURES } from "@/data/includedFeatures";
+import { Check, Download, Sparkles, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
-
-const includedFeatures = [
-  "Page de réservation personnalisée",
-  "Affichage de vos services et tarifs",
-  "Gestion des rendez-vous en temps réel",
-  "Rappels email automatiques aux clientes",
-  "Notifications de nouvelles réservations",
-  "Lien bio Instagram dédié",
-  "Suivi de vos clientes",
-  "Aucune commission sur vos prestations",
-];
 
 const paymentMethods = [
   {
@@ -83,7 +68,7 @@ const Pricing = () => {
             </div>
 
             <ul className="space-y-3 mb-10 max-w-xl mx-auto">
-              {includedFeatures.map((feature) => (
+              {INCLUDED_FEATURES.map((feature) => (
                 <li key={feature} className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <span className="text-base">{feature}</span>
