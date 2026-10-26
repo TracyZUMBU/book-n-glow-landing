@@ -50,6 +50,10 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
+## Variables d'environnement
+
+En local, `npm run dev` pointe sur le Supabase local (book-n-glow-backend, `supabase start`) via `.env.development.local`. La production est configurée uniquement dans Netlify. Le détail est dans [.env.example](.env.example).
+
 ## What technologies are used for this project?
 
 This project is built with:
