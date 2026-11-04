@@ -192,7 +192,7 @@ Le script place les rendez-vous du jour après l'heure de lancement : on peut le
 
 ### Défauts relevés pendant les captures
 
-- **App pro : les emojis s'affichent comme des carrés dans la messagerie** (les données en base sont correctes). Une cliente qui envoie 💅 verra un carré.
+- App pro : des emojis se sont affichés une fois comme des carrés dans la messagerie (simulateur, 4 novembre). Le défaut n'a pas pu être reproduit ensuite ; mis de côté.
 - **Site client : image cassée** quand la prestataire n'a pas de photo de couverture (il faudrait un visuel par défaut).
 - **App pro : tutoiement et vouvoiement mélangés** (« Tu as 4 RDV » sur l'accueil, « Configurez vos options » dans la politique de réservation).
 
