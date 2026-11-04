@@ -1,42 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Link } from "react-router-dom";
 import Footer from "@/components/landing/Footer";
 import Navigation from "@/components/landing/Navigation";
 
-// Sections masquées dans le cadre du passage au modèle 100 % gratuit.
-// Mettre à `true` pour réactiver les sections « 20. Paiements via Stripe »
-// et « 21. Programme de carte de fidélité ».
-// Voir docs/deferred/free-only-model.md.
-const SHOW_DEPRECATED_SECTIONS = false;
+// Date de la version en vigueur. À changer à chaque modification du texte
+// (et prévenir les Prestataires 15 jours avant, cf. section 22).
+const LAST_UPDATED = "4 novembre 2026";
+
+const CONTACT_EMAIL = "contact@book-n-glow.fr";
+
+// Médiateur de la consommation (art. L612-1 et L616-1 du Code de la
+// consommation). À renseigner dès l'adhésion à un médiateur.
+const CONSUMER_MEDIATOR: { name: string; url: string; address: string } | null =
+  null;
 
 // Table des matières
 const tableOfContents = [
-  { id: "objet", title: "1. Objet" },
-  { id: "acceptation", title: "2. Acceptation des CGU" },
-  { id: "definitions", title: "3. Définitions" },
-  { id: "identification", title: "4. Identification" },
-  { id: "acces", title: "5. Accès au site" },
-  { id: "utilisation", title: "6. Utilisation du site" },
-  { id: "propriete", title: "7. Propriété intellectuelle" },
-  { id: "donnees", title: "8. Données personnelles" },
-  { id: "inscription", title: "9. Inscription" },
-  { id: "liens", title: "10. Liens hypertextes" },
-  { id: "responsabilite", title: "11. Limitation de responsabilité" },
-  { id: "plateforme", title: "12. Limitation de responsabilité de la Plateforme" },
-  { id: "disponibilite", title: "13. Disponibilité du service" },
-  { id: "obligations", title: "14. Obligations de l'Utilisateur" },
-  { id: "resiliation", title: "15. Résiliation" },
-  { id: "droits", title: "16. Droits et obligations de Book n Glow" },
-  { id: "force-majeure", title: "17. Force majeure" },
-  { id: "modification", title: "18. Modification des CGU" },
-  { id: "droit-applicable", title: "19. Droit applicable et juridiction compétente" },
-  // Entrées masquées dans le cadre du passage au modèle 100 % gratuit.
-  // Code conservé pour réactivation future. Voir docs/deferred/free-only-model.md.
-  // { id: "paiements", title: "20. Paiements par carte bancaire via Stripe" },
-  // { id: "fidelite", title: "21. Programme de carte de fidélité" },
-  // NB : numérotation rétrogradée de 22 → 20 tant que les sections
-  // « Paiements via Stripe » et « Carte de fidélité » sont masquées.
-  // À restaurer en « 22. Contact » lors de la réactivation des sections 20 et 21.
-  { id: "contact", title: "20. Contact" },
+  { id: "objet", title: "1. Objet et champ d'application" },
+  { id: "definitions", title: "2. Définitions" },
+  { id: "acceptation", title: "3. Acceptation et documents applicables" },
+  { id: "services", title: "4. Description des Services" },
+  { id: "role", title: "5. Rôle de Book N' Glow" },
+  { id: "comptes", title: "6. Création et sécurité des comptes" },
+  { id: "reservation", title: "7. Réservation" },
+  { id: "paiement", title: "8. Paiement des prestations" },
+  { id: "annulation", title: "9. Annulation, absence et remboursement" },
+  { id: "retractation", title: "10. Droit de rétractation" },
+  { id: "messagerie", title: "11. Messagerie" },
+  { id: "avis", title: "12. Avis clients" },
+  { id: "prestataires", title: "13. Engagements des Prestataires" },
+  { id: "clients", title: "14. Engagements des Clients" },
+  { id: "interdits", title: "15. Comportements interdits" },
+  { id: "signalement", title: "16. Signalement de contenus illicites" },
+  { id: "suspension", title: "17. Suspension et suppression de compte" },
+  { id: "propriete", title: "18. Propriété intellectuelle" },
+  { id: "donnees", title: "19. Données personnelles" },
+  { id: "disponibilite", title: "20. Disponibilité et évolution" },
+  { id: "responsabilite", title: "21. Responsabilité" },
+  { id: "modification", title: "22. Modification des CGU" },
+  { id: "litiges", title: "23. Réclamations, médiation et droit applicable" },
+  { id: "contact", title: "24. Contact" },
 ];
 
 function TableOfContents() {
@@ -185,6 +188,55 @@ function TableOfContents() {
   );
 }
 
+function Section({
+  id,
+  title,
+  children,
+}: {
+  id: string;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      id={id}
+      className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24"
+    >
+      <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
+        {title}
+      </h2>
+      <div className="space-y-6 text-muted-foreground">{children}</div>
+    </div>
+  );
+}
+
+function Subsection({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="space-y-4">
+      <h3 className="text-xl font-serif font-semibold text-foreground">
+        {title}
+      </h3>
+      {children}
+    </div>
+  );
+}
+
+function List({ children }: { children: ReactNode }) {
+  return <ul className="list-disc pl-6 space-y-2">{children}</ul>;
+}
+
+function Strong({ children }: { children: ReactNode }) {
+  return <strong className="text-foreground">{children}</strong>;
+}
+
+function Mail() {
+  return (
+    <a href={`mailto:${CONTACT_EMAIL}`} className="text-primary hover:underline">
+      {CONTACT_EMAIL}
+    </a>
+  );
+}
+
 export default function CGU() {
   return (
     <>
@@ -198,1925 +250,1033 @@ export default function CGU() {
             <span className="text-gradient">Utilisation</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Dernière mise à jour : {new Date().toLocaleDateString("fr-FR")}
+            Version en vigueur au {LAST_UPDATED}
           </p>
         </div>
       </section>
 
       {/* Content */}
       <section className="pt-10 pb-20 md:pt-20 md:pb-32 px-4 bg-background-light">
-        <div className="container-mobile max-w-4xl lg:ml-[280px] lg:mr-4">
+        <div className="container-mobile max-w-4xl lg:max-w-[min(56rem,calc(100vw-300px))] lg:ml-[280px] lg:mr-4">
           <div className="space-y-8">
-            {/* Objet */}
-            <div id="objet" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                1. Objet
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Les présentes Conditions Générales d'Utilisation (ci-après
-                  "CGU") ont pour objet de définir les modalités et conditions
-                  d'utilisation du site web{" "}
-                  <strong className="text-foreground">Book n Glow</strong>{" "}
-                  (ci-après "le Site").
-                </p>
-                <p>
-                  Le Site est édité par{" "}
-                  <strong className="text-foreground">Book n Glow</strong>,
-                  auto-entrepreneur, dont le responsable de publication est{" "}
-                  <strong className="text-foreground">Tracy Garcia</strong>.
-                </p>
-                <p>
-                  Toute utilisation du Site implique l'acceptation pleine et
-                  entière des présentes CGU.
-                </p>
-              </div>
-            </div>
+            <Section id="objet" title="1. Objet et champ d'application">
+              <p>
+                Les présentes Conditions Générales d'Utilisation (ci-après les
+                « CGU ») définissent les conditions dans lesquelles toute
+                personne utilise la plateforme <Strong>Book N' Glow</Strong>,
+                composée :
+              </p>
+              <List>
+                <li>du site vitrine accessible à l'adresse www.book-n-glow.fr ;</li>
+                <li>
+                  du site de réservation accessible à l'adresse
+                  app.book-n-glow.fr, utilisé par les Clients ;
+                </li>
+                <li>
+                  de l'application mobile « Book N' Glow Pro », disponible sur
+                  l'App Store et le Google Play Store, utilisée par les
+                  Prestataires ;
+                </li>
+              </List>
+              <p>(ensemble, la « Plateforme »).</p>
+              <p>
+                La Plateforme est éditée par Tracy Z. Garcia, entrepreneure
+                individuelle (EI) exerçant sous le nom commercial Book N' Glow,
+                immatriculée sous le numéro SIRET 833 077 266 00025, dont le
+                siège est situé 1 allée du Furet, 77186 Noisiel, France
+                (ci-après « Book N' Glow »). Les autres informations légales
+                figurent dans les{" "}
+                <Link to="/mentions-legales" className="text-primary hover:underline">
+                  mentions légales
+                </Link>
+                .
+              </p>
+            </Section>
 
-            {/* Acceptation */}
-            <div id="acceptation" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                2. Acceptation des CGU
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  En accédant et en utilisant le Site, vous reconnaissez avoir
-                  lu, compris et accepté d'être lié par les présentes CGU. Si
-                  vous n'acceptez pas ces conditions, veuillez ne pas utiliser
-                  le Site.
-                </p>
-                <p>
-                  Nous nous réservons le droit de modifier ces CGU à tout
-                  moment. Les modifications prennent effet dès leur publication
-                  sur le Site. Il est de votre responsabilité de consulter
-                  régulièrement les CGU pour prendre connaissance des
-                  éventuelles modifications.
-                </p>
-              </div>
-            </div>
+            <Section id="definitions" title="2. Définitions">
+              <List>
+                <li>
+                  <Strong>« Utilisateur »</Strong> : toute personne qui utilise
+                  la Plateforme, qu'elle soit Client, Prestataire ou simple
+                  visiteur.
+                </li>
+                <li>
+                  <Strong>« Prestataire »</Strong> : professionnel de la beauté
+                  et du bien-être (coiffure, esthétique, onglerie, maquillage,
+                  etc.) qui utilise la Plateforme pour proposer ses prestations
+                  et gérer ses rendez-vous.
+                </li>
+                <li>
+                  <Strong>« Client »</Strong> : personne physique qui réserve
+                  une Prestation auprès d'un Prestataire via la Plateforme, à
+                  des fins personnelles.
+                </li>
+                <li>
+                  <Strong>« Prestation »</Strong> : service proposé par un
+                  Prestataire et réservable via la Plateforme.
+                </li>
+                <li>
+                  <Strong>« Réservation »</Strong> ou{" "}
+                  <Strong>« Rendez-vous »</Strong> : créneau réservé pour une
+                  Prestation, par le Client ou par le Prestataire.
+                </li>
+                <li>
+                  <Strong>« Compte »</Strong> : espace personnel créé par un
+                  Utilisateur, accessible avec ses identifiants.
+                </li>
+                <li>
+                  <Strong>« Page de réservation »</Strong> : page publique du
+                  Prestataire présentant ses Prestations, ses tarifs et ses
+                  disponibilités.
+                </li>
+                <li>
+                  <Strong>« Conditions du Prestataire »</Strong> : conditions
+                  propres à chaque Prestataire (délai d'annulation, acompte,
+                  mode de paiement, informations pratiques), affichées avant la
+                  validation de la Réservation.
+                </li>
+                <li>
+                  <Strong>« Contenu »</Strong> : tout texte, photo, avis,
+                  message ou autre élément publié ou transmis via la Plateforme.
+                </li>
+              </List>
+            </Section>
 
-            {/* Définitions */}
-            <div id="definitions" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                3. Définitions
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Aux fins des présentes CGU, les termes suivants ont la
-                  signification qui leur est attribuée ci-dessous :
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>
-                    <strong className="text-foreground">"Site"</strong> :
-                    désigne le site web accessible à l'adresse
-                    www.book-n-glow.fr et toutes ses pages associées.
-                  </li>
-                  <li>
-                    <strong className="text-foreground">"Service"</strong> :
-                    désigne l'ensemble des services proposés par{" "}
-                    <strong className="text-foreground">Book n Glow</strong> via
-                    le Site, notamment la mise en relation entre Clients et
-                    Prestataires.
-                  </li>
-                  <li>
-                    <strong className="text-foreground">"Utilisateur"</strong> :
-                    désigne toute personne physique ou morale accédant au Site,
-                    qu'elle soit Client ou Prestataire.
-                  </li>
-                  <li>
-                    <strong className="text-foreground">"Client"</strong> :
-                    désigne toute personne physique utilisant le Site pour
-                    rechercher et réserver des prestations auprès des
-                    Prestataires.
-                  </li>
-                  <li>
-                    <strong className="text-foreground">"Prestataire"</strong> :
-                    désigne toute personne physique ou morale proposant des
-                    prestations de services via le Site.
-                  </li>
-                  <li>
-                    <strong className="text-foreground">"Prestation"</strong> :
-                    désigne tout service proposé par un Prestataire et
-                    réservable via le Site.
-                  </li>
-                  <li>
-                    <strong className="text-foreground">"Compte"</strong> :
-                    désigne l'espace personnel créé par l'Utilisateur lors de
-                    son inscription sur le Site.
-                  </li>
-                  <li>
-                    <strong className="text-foreground">"Contenu"</strong> :
-                    désigne l'ensemble des informations, données, textes,
-                    images, vidéos et autres éléments accessibles sur le Site.
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Identification */}
-            <div id="identification" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                4. Identification
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Pour accéder à certaines fonctionnalités du Site, notamment
-                  pour réserver une Prestation ou proposer des services,
-                  l'Utilisateur doit créer un Compte en suivant la procédure
-                  d'inscription décrite à la section 9 des présentes CGU.
-                </p>
-                <p>
-                  L'Utilisateur s'engage à fournir des informations exactes,
-                  complètes et à jour lors de la création de son Compte et à les
-                  maintenir à jour tout au long de son utilisation du Site.
-                </p>
-                <p>
-                  L'Utilisateur est responsable de la confidentialité de ses
-                  identifiants (adresse e-mail, nom d'utilisateur) et de son mot
-                  de passe. Il s'engage à ne pas les divulguer à des tiers et à
-                  informer immédiatement{" "}
-                  <strong className="text-foreground">Book n Glow</strong> en
-                  cas de perte, vol ou utilisation non autorisée de son Compte.
-                </p>
-                <p>
-                  Toute utilisation du Site effectuée à partir du Compte de
-                  l'Utilisateur est présumée avoir été effectuée par
-                  l'Utilisateur lui-même. L'Utilisateur est responsable de
-                  toutes les actions effectuées depuis son Compte.
-                </p>
-              </div>
-            </div>
-
-            {/* Accès au site */}
-            <div id="acces" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                5. Accès au site
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Le Site est accessible gratuitement à tout utilisateur
-                  disposant d'un accès à Internet. Tous les coûts liés à l'accès
-                  au Site (matériel, connexion Internet, etc.) sont à la charge
-                  de l'utilisateur.
-                </p>
-                <p>
-                  Nous nous efforçons de permettre l'accès au Site 24 heures sur
-                  24 et 7 jours sur 7, mais ne pouvons garantir une
-                  disponibilité ininterrompue. L'accès au Site peut être
-                  interrompu pour des raisons de maintenance, de mise à jour ou
-                  en cas de force majeure.
-                </p>
-                <p>
-                  Nous nous réservons le droit de modifier, suspendre ou
-                  interrompre l'accès au Site, ou à une partie de celui-ci, à
-                  tout moment et sans préavis.
-                </p>
-              </div>
-            </div>
-
-            {/* Utilisation du site */}
-            <div id="utilisation" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                6. Utilisation du site
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Vous vous engagez à utiliser le Site conformément à la loi et
-                  aux présentes CGU. Vous vous engagez notamment à ne pas :
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>
-                    Utiliser le Site à des fins illégales ou non autorisées
-                  </li>
-                  <li>
-                    Transmettre ou diffuser des contenus illicites,
-                    diffamatoires, injurieux, obscènes, offensants ou contraires
-                    aux bonnes mœurs
-                  </li>
-                  <li>
-                    Violer les droits de propriété intellectuelle ou les droits
-                    de tiers
-                  </li>
-                  <li>
-                    Perturber le fonctionnement du Site ou des serveurs associés
-                  </li>
-                  <li>
-                    Tenter d'accéder de manière non autorisée à une partie du
-                    Site ou aux systèmes informatiques liés
-                  </li>
-                  <li>
-                    Collecter ou stocker des données personnelles concernant
-                    d'autres utilisateurs
-                  </li>
-                  <li>
-                    Utiliser des robots, scripts ou autres moyens automatisés
-                    pour accéder au Site
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Propriété intellectuelle */}
-            <div id="propriete" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                7. Propriété intellectuelle
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  L'ensemble des éléments du Site (textes, images, vidéos,
-                  logos, icônes, graphismes, mise en page, structure, etc.) sont
-                  protégés par les lois relatives à la propriété intellectuelle
-                  et sont la propriété exclusive de{" "}
-                  <strong className="text-foreground">Book n Glow</strong> ou de
-                  ses partenaires.
-                </p>
-                <p>
-                  Toute reproduction, représentation, modification, publication,
-                  adaptation de tout ou partie des éléments du Site, quel que
-                  soit le moyen ou le procédé utilisé, est interdite, sauf
-                  autorisation écrite préalable de{" "}
-                  <strong className="text-foreground">Book n Glow</strong>.
-                </p>
-                <p>
-                  Toute exploitation non autorisée du Site ou de son contenu
-                  engage la responsabilité civile et/ou pénale de l'utilisateur.
-                </p>
-                <p>
-                  Les marques, logos et signes distinctifs présents sur le Site
-                  sont la propriété de{" "}
-                  <strong className="text-foreground">Book n Glow</strong> ou de
-                  leurs propriétaires respectifs. Toute reproduction ou
-                  utilisation non autorisée de ces signes distinctifs est
-                  interdite.
-                </p>
-              </div>
-            </div>
-
-            {/* Données utilisateur */}
-            <div id="donnees" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                8. Données personnelles
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  La collecte et le traitement de vos données personnelles sont
-                  régis par notre{" "}
-                  <a
-                    href="/politique-de-confidentialite"
+            <Section id="acceptation" title="3. Acceptation et documents applicables">
+              <p>
+                L'utilisation de la Plateforme suppose l'acceptation des
+                présentes CGU. Le Client les accepte en cochant la case prévue
+                à cet effet avant de valider une Réservation ou lors de la
+                création de son Compte. Le Prestataire les accepte lors de son
+                inscription dans l'application. La simple consultation du site
+                vitrine est soumise aux seules stipulations qui la concernent.
+              </p>
+              <p>Les documents suivants s'appliquent également :</p>
+              <List>
+                <li>
+                  la{" "}
+                  <Link
+                    to="/politique-de-confidentialite"
                     className="text-primary hover:underline"
                   >
-                    Politique de confidentialité
-                  </a>
-                  , qui fait partie intégrante des présentes CGU.
+                    politique de confidentialité
+                  </Link>
+                  , qui décrit le traitement des données personnelles ;
+                </li>
+                <li>
+                  les Conditions du Prestataire, qui régissent la relation entre
+                  le Client et le Prestataire ;
+                </li>
+                <li>
+                  pour les Prestataires qui activent le paiement par carte,
+                  l'accord de compte connecté de Stripe (Stripe Connected
+                  Account Agreement) et les conditions de Stripe.
+                </li>
+              </List>
+              <p>
+                En cas de contradiction, les présentes CGU prévalent sur les
+                Conditions du Prestataire pour tout ce qui concerne
+                l'utilisation de la Plateforme. La version des CGU applicable
+                est celle en vigueur à la date de la Réservation ou de
+                l'utilisation concernée. Les CGU sont accessibles à tout
+                moment depuis le pied de page du site et peuvent être
+                enregistrées ou imprimées.
+              </p>
+            </Section>
+
+            <Section id="services" title="4. Description des Services">
+              <Subsection title="4.1 Services proposés aux Prestataires">
+                <p>Via l'application Book N' Glow Pro, le Prestataire peut notamment :</p>
+                <List>
+                  <li>
+                    créer sa Page de réservation et un lien dédié (par exemple
+                    pour sa bio Instagram) ;
+                  </li>
+                  <li>
+                    présenter ses Prestations, options, photos, tarifs et
+                    promotions ;
+                  </li>
+                  <li>définir ses disponibilités et gérer son agenda ;</li>
+                  <li>
+                    recevoir des Réservations en ligne et créer lui-même des
+                    Rendez-vous pour ses clients ;
+                  </li>
+                  <li>
+                    choisir le mode de paiement proposé à ses Clients (sur
+                    place, PayPal.me ou carte bancaire en ligne) et, le cas
+                    échéant, exiger un acompte ;
+                  </li>
+                  <li>
+                    suivre ses clients, ses Rendez-vous, ses absences et son
+                    chiffre d'affaires ;
+                  </li>
+                  <li>
+                    échanger avec ses Clients via la messagerie et consulter
+                    les avis laissés par ses Clients ;
+                  </li>
+                  <li>recevoir des notifications.</li>
+                </List>
+              </Subsection>
+              <Subsection title="4.2 Services proposés aux Clients">
+                <p>Via le site de réservation, le Client peut notamment :</p>
+                <List>
+                  <li>
+                    consulter la Page de réservation d'un Prestataire et ses
+                    disponibilités ;
+                  </li>
+                  <li>
+                    réserver une Prestation et, si le Prestataire le propose,
+                    la payer en ligne ;
+                  </li>
+                  <li>
+                    retrouver, confirmer ou annuler ses Rendez-vous depuis son
+                    Compte ;
+                  </li>
+                  <li>
+                    recevoir des confirmations et rappels par e-mail ou SMS ;
+                  </li>
+                  <li>contacter le Prestataire via la messagerie ;</li>
+                  <li>laisser un avis après sa Prestation.</li>
+                </List>
+              </Subsection>
+              <Subsection title="4.3 Gratuité">
+                <p>
+                  L'utilisation de la Plateforme est gratuite pour les Clients
+                  et pour les Prestataires. Book N' Glow ne facture ni
+                  abonnement ni commission sur les Prestations. Seuls les frais
+                  de traitement du prestataire de paiement Stripe sont déduits
+                  des sommes payées par carte et reversées au Prestataire (voir
+                  section 8.4). Si Book N' Glow introduit à l'avenir des
+                  services payants, ils feront l'objet de conditions
+                  spécifiques acceptées au préalable, et les fonctionnalités
+                  gratuites existantes ne deviendront pas payantes sans
+                  information préalable.
+                </p>
+              </Subsection>
+              <p>
+                La Plateforme est ouverte aux Prestataires établis en France,
+                en Belgique, en Suisse, au Luxembourg et à Monaco. Le paiement
+                par carte en ligne n'est disponible, à ce jour, que pour les
+                Prestataires établis en France.
+              </p>
+            </Section>
+
+            <Section id="role" title="5. Rôle de Book N' Glow">
+              <p>
+                Book N' Glow est un opérateur de plateforme en ligne au sens de
+                l'article L111-7 du Code de la consommation. Elle fournit aux
+                Prestataires un outil de prise de rendez-vous et met les
+                Clients en relation avec eux.
+              </p>
+              <p>
+                <Strong>Book N' Glow n'est pas partie au contrat de
+                Prestation.</Strong>{" "}
+                Ce contrat est conclu directement entre le Client et le
+                Prestataire, qui fixe librement ses Prestations, ses prix et
+                ses Conditions. Le Prestataire est seul responsable de la
+                réalisation de la Prestation, de sa qualité et de sa
+                conformité à la réglementation.
+              </p>
+              <p>
+                Les Prestataires utilisant la Plateforme agissent en qualité de
+                professionnels. Le Client bénéficie donc, dans sa relation avec
+                eux, des droits que le Code de la consommation reconnaît aux
+                consommateurs.
+              </p>
+              <p>
+                Chaque Page de réservation est accessible via le lien propre au
+                Prestataire. À la date des présentes, la Plateforme ne propose
+                ni annuaire, ni classement des Prestataires, ni référencement
+                payant. Si un tel service était mis en place, ses critères de
+                classement seraient décrits dans les CGU.
+              </p>
+              <p>
+                Book N' Glow intervient dans l'encaissement des paiements par
+                carte uniquement en qualité de mandataire du Prestataire, dans
+                les conditions décrites à la section 8.4.
+              </p>
+            </Section>
+
+            <Section id="comptes" title="6. Création et sécurité des comptes">
+              <Subsection title="6.1 Compte Client">
+                <p>
+                  Le Client doit être âgé d'au moins 15 ans pour créer un
+                  Compte. Un Client mineur ne peut réserver ou payer une
+                  Prestation qu'avec l'accord de son représentant légal. Le
+                  Client renseigne notamment ses nom, prénom, adresse e-mail et
+                  numéro de téléphone, ce qui permet au Prestataire et à Book
+                  N' Glow de le contacter au sujet de ses Rendez-vous.
+                </p>
+              </Subsection>
+              <Subsection title="6.2 Compte Prestataire">
+                <p>
+                  Le Prestataire doit être majeur, juridiquement capable, et
+                  exercer une activité professionnelle régulièrement déclarée
+                  (numéro SIREN/SIRET ou équivalent dans son pays). Il crée son
+                  Compte dans l'application après vérification de son numéro de
+                  téléphone par un code envoyé par SMS. Il s'inscrit en son nom
+                  et pour son activité professionnelle, et n'utilise pas son
+                  Compte pour le compte d'un tiers.
                 </p>
                 <p>
-                  En utilisant le Site, vous acceptez le traitement de vos
-                  données personnelles conformément à cette politique.
+                  Book N' Glow peut demander tout justificatif utile pour
+                  vérifier l'identité ou l'activité du Prestataire, notamment
+                  pour prévenir la fraude ou respecter ses obligations légales
+                  (voir section 13.4).
                 </p>
-              </div>
-            </div>
+              </Subsection>
+              <Subsection title="6.3 Sécurité">
+                <p>
+                  L'Utilisateur fournit des informations exactes et les tient à
+                  jour. Ses identifiants sont personnels et confidentiels. Toute
+                  action réalisée depuis son Compte est présumée faite par lui.
+                  En cas de perte, de vol ou d'utilisation non autorisée de ses
+                  identifiants, il prévient Book N' Glow sans délai à l'adresse{" "}
+                  <Mail />.
+                </p>
+              </Subsection>
+            </Section>
 
-            {/* Inscription */}
-            <div id="inscription" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                9. Inscription
-              </h2>
-              <div className="space-y-6 text-muted-foreground">
-                {/* Obligation d'information */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    9.1 Obligation d'information
-                  </h3>
-                  <p>
-                    L'Utilisateur reconnaît avoir vérifié l'adéquation du
-                    Service à ses besoins et avoir reçu toutes les informations
-                    et conseils nécessaires pour s'inscrire en toute
-                    connaissance de cause.
-                  </p>
-                  <p>
-                    À des fins de transparence, d'amélioration de la confiance,
-                    ou de prévention ou détection des fraudes,{" "}
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve le droit de procéder à toute vérification et de
-                    demander à l'Utilisateur de lui fournir tout document utile
-                    pour justifier les informations fournies lors de
-                    l'inscription.
-                  </p>
-                </div>
+            <Section id="reservation" title="7. Réservation">
+              <Subsection title="7.1 Informations affichées avant la Réservation">
+                <p>
+                  Avant de valider, le Client voit la Prestation choisie, ses
+                  options, sa durée, son prix toutes taxes comprises fixé par le
+                  Prestataire, la date et l'heure du créneau, le mode de
+                  paiement, le montant éventuel de l'acompte et les Conditions
+                  du Prestataire, notamment son délai d'annulation.
+                </p>
+              </Subsection>
+              <Subsection title="7.2 Conclusion de la Réservation">
+                <p>
+                  La Réservation est conclue lorsque le Client la valide (et, en
+                  cas de paiement par carte, lorsque le paiement est accepté).
+                  Le Client reçoit alors une confirmation par e-mail
+                  récapitulant le Rendez-vous. Le Prestataire est prévenu par
+                  notification.
+                </p>
+                <p>
+                  Lorsque le Prestataire l'exige pour les Réservations payées
+                  sur place, le Client doit confirmer sa présence avant
+                  l'échéance indiquée dans l'e-mail de confirmation. À défaut,
+                  la Réservation est automatiquement annulée et le créneau est
+                  libéré.
+                </p>
+                <p>
+                  Lorsque l'adresse du Prestataire n'est pas publique, elle est
+                  communiquée au Client par e-mail 24 heures avant le
+                  Rendez-vous, ou dès la confirmation si le Rendez-vous a lieu
+                  moins de 24 heures plus tard.
+                </p>
+              </Subsection>
+              <Subsection title="7.3 Rendez-vous créés par le Prestataire">
+                <p>
+                  Le Prestataire peut créer un Rendez-vous pour un client,
+                  notamment à la suite d'une prise de contact par téléphone ou
+                  sur les réseaux sociaux. Il s'engage à n'enregistrer que des
+                  clients qui le lui ont demandé et à les informer de
+                  l'utilisation de Book N' Glow. Le client reçoit une
+                  confirmation par e-mail. Ces Rendez-vous ne sont jamais payés
+                  par carte via la Plateforme.
+                </p>
+              </Subsection>
+            </Section>
 
-                {/* Durée */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    9.2 Durée
-                  </h3>
-                  <p>
-                    L'inscription au Service est valable pour une durée
-                    indéterminée, l'Utilisateur pouvant mettre fin à
-                    l'utilisation du Site à tout moment, en faisant une demande
-                    par mail à{" "}
+            <Section id="paiement" title="8. Paiement des prestations">
+              <p>
+                Le prix des Prestations est fixé par le Prestataire et payé par
+                le Client au Prestataire. Selon le choix du Prestataire, le
+                paiement se fait selon l'un des modes suivants.
+              </p>
+              <Subsection title="8.1 Paiement sur place">
+                <p>
+                  Le Client règle la Prestation directement au Prestataire, le
+                  jour du Rendez-vous, selon les moyens acceptés par ce
+                  dernier. Book N' Glow n'intervient pas dans ce paiement.
+                </p>
+              </Subsection>
+              <Subsection title="8.2 Acompte via PayPal.me">
+                <p>
+                  Le Client est redirigé vers la page PayPal.me du Prestataire
+                  pour verser l'acompte demandé. Il dispose de quinze (15)
+                  minutes pour effectuer ce paiement. À défaut, le Prestataire
+                  peut annuler le Rendez-vous. Ce paiement est effectué
+                  directement entre le Client et le Prestataire, hors
+                  Plateforme, et est soumis aux conditions de PayPal. Book N'
+                  Glow n'encaisse pas ces sommes et ne peut pas les
+                  rembourser. Le Prestataire peut signaler dans l'application
+                  un acompte qu'il n'a pas reçu.
+                </p>
+              </Subsection>
+              <Subsection title="8.3 Paiement par carte en ligne">
+                <p>
+                  Lorsque le Prestataire l'a activé, le Client paie en ligne
+                  par carte bancaire, au moment de réserver, la totalité de la
+                  Prestation ou un acompte de 20 %, selon le choix du
+                  Prestataire. Le solde éventuel est réglé sur place.
+                </p>
+                <List>
+                  <li>
+                    Le créneau est réservé pendant cinq (5) minutes pendant le
+                    paiement. Si le paiement n'aboutit pas dans ce délai, la
+                    Réservation n'est pas créée et le créneau est libéré.
+                  </li>
+                  <li>
+                    La Réservation n'est confirmée qu'une fois le paiement
+                    accepté.
+                  </li>
+                  <li>
+                    Si le montant à payer en ligne est inférieur à 0,50 €, la
+                    Réservation est confirmée sans paiement en ligne et la
+                    totalité est réglée sur place.
+                  </li>
+                </List>
+                <p>
+                  Le paiement est traité par Stripe Payments Europe Ltd,
+                  établissement agréé. Les données de carte sont saisies
+                  directement auprès de Stripe : Book N' Glow n'y a jamais
+                  accès et ne les conserve pas. Seuls la marque de la carte et
+                  ses quatre derniers chiffres sont conservés, pour les reçus.
+                </p>
+              </Subsection>
+              <Subsection title="8.4 Mandat d'encaissement et reversement au Prestataire">
+                <p>
+                  En activant le paiement par carte, le Prestataire donne
+                  mandat à Book N' Glow d'encaisser, en son nom et pour son
+                  compte, les sommes payées par carte par ses Clients, puis de
+                  les lui reverser. Le paiement effectué par le Client via la
+                  Plateforme vaut paiement au Prestataire à hauteur du montant
+                  payé : le Client est libéré de son obligation de paiement à
+                  hauteur de ce montant.
+                </p>
+                <p>Le Prestataire :</p>
+                <List>
+                  <li>
+                    crée un compte Stripe Express et accepte l'accord de compte
+                    connecté de Stripe ; Stripe peut lui demander des
+                    informations pour vérifier son identité et son activité ;
+                  </li>
+                  <li>
+                    ne peut proposer le paiement par carte que si son compte
+                    Stripe est en mesure de recevoir des fonds ;
+                  </li>
+                  <li>
+                    peut demander le reversement des sommes encaissées pour un
+                    Rendez-vous à partir de quarante-huit (48) heures après la
+                    fin de celui-ci, délai qui permet de traiter les
+                    réclamations des Clients ;
+                  </li>
+                  <li>
+                    reçoit le montant payé par le Client, diminué des seuls
+                    frais de traitement facturés par Stripe ; Book N' Glow ne
+                    prélève aucune commission.
+                  </li>
+                </List>
+                <p>
+                  En cas de contestation d'un paiement par le Client auprès de
+                  sa banque (litige ou « chargeback »), le reversement de la
+                  somme concernée est suspendu jusqu'à l'issue du litige. Si le
+                  litige est perdu alors que la somme a déjà été reversée, Book
+                  N' Glow peut récupérer auprès du Prestataire le montant
+                  correspondant et les frais facturés par Stripe, y compris par
+                  compensation avec des reversements à venir. Le Prestataire
+                  fournit les éléments utiles pour répondre au litige.
+                </p>
+                <p>
+                  Les sommes payées par carte sont, jusqu'à leur reversement,
+                  détenues par Stripe sur le compte de la Plateforme. Book N'
+                  Glow ne les utilise pas pour son propre compte.
+                </p>
+              </Subsection>
+            </Section>
+
+            <Section id="annulation" title="9. Annulation, absence et remboursement">
+              <Subsection title="9.1 Annulation par le Client">
+                <p>
+                  Le Client peut annuler son Rendez-vous depuis son Compte
+                  jusqu'à l'expiration du délai d'annulation fixé par le
+                  Prestataire et affiché avant la Réservation.
+                </p>
+                <List>
+                  <li>
+                    <Strong>Annulation dans le délai :</Strong> le montant payé
+                    par carte est remboursé automatiquement. L'acompte versé
+                    via PayPal.me est remboursé par le Prestataire,
+                    directement, hors Plateforme.
+                  </li>
+                  <li>
+                    <Strong>Après l'expiration du délai :</Strong> le
+                    Rendez-vous ne peut plus être annulé en ligne et l'acompte
+                    ou le montant payé en ligne reste acquis au Prestataire,
+                    sauf geste commercial de sa part.
+                  </li>
+                </List>
+              </Subsection>
+              <Subsection title="9.2 Annulation par le Prestataire">
+                <p>
+                  Le Prestataire peut annuler un Rendez-vous à tout moment. Le
+                  Client en est informé par e-mail. Le montant payé par carte
+                  lui est alors intégralement remboursé, quel que soit le
+                  délai. Un acompte versé via PayPal.me doit lui être remboursé
+                  intégralement par le Prestataire. Le Prestataire s'engage à
+                  n'annuler qu'en cas de nécessité et à prévenir le Client le
+                  plus tôt possible.
+                </p>
+              </Subsection>
+              <Subsection title="9.3 Absence du Client">
+                <p>
+                  Si le Client ne se présente pas, le Prestataire peut le
+                  signaler dans l'application dans les 24 heures qui suivent la
+                  fin du Rendez-vous. Le Client en est informé par e-mail.
+                  L'acompte ou le montant payé en ligne reste alors acquis au
+                  Prestataire. Le Prestataire s'engage à ne signaler une
+                  absence que si elle est réelle. Le Client qui conteste ce
+                  signalement peut contacter Book N' Glow (section 9.5).
+                </p>
+              </Subsection>
+              <Subsection title="9.4 Délais de remboursement">
+                <p>
+                  Les remboursements par carte sont déclenchés automatiquement
+                  après l'annulation. Le Client reçoit un e-mail lorsque Stripe
+                  a effectué le remboursement. Le délai d'apparition sur son
+                  compte bancaire dépend de sa banque, généralement de 5 à 10
+                  jours ouvrés.
+                </p>
+              </Subsection>
+              <Subsection title="9.5 Réclamations du Client">
+                <p>
+                  Toute réclamation relative à une Prestation (qualité,
+                  absence, déroulement) est adressée en priorité au
+                  Prestataire, par exemple via la messagerie. Si la Prestation
+                  a été payée par carte, le Client peut aussi écrire à Book N'
+                  Glow à l'adresse <Mail />, de préférence dans les 24 heures
+                  qui suivent la fin du Rendez-vous afin que sa réclamation
+                  puisse être examinée avant le reversement au Prestataire. Ce
+                  délai ne prive pas le Client des recours que la loi lui
+                  reconnaît ensuite.
+                </p>
+              </Subsection>
+            </Section>
+
+            <Section id="retractation" title="10. Droit de rétractation">
+              <p>
+                Les services de Book N' Glow étant fournis gratuitement, aucun
+                droit de rétractation ne s'applique à l'utilisation de la
+                Plateforme.
+              </p>
+              <p>
+                Le contrat de Prestation est conclu à distance entre le Client
+                et le Prestataire, professionnel. En choisissant un créneau, le
+                Client demande expressément que la Prestation soit exécutée à
+                la date choisie, le cas échéant avant l'expiration du délai de
+                rétractation de quatorze (14) jours prévu par l'article L221-18
+                du Code de la consommation. Conformément aux articles L221-25
+                et L221-28 1° du même code, le droit de rétractation ne peut
+                plus être exercé une fois la Prestation pleinement exécutée.
+              </p>
+              <p>
+                Le Client peut exercer son droit de rétractation, avant
+                l'exécution de la Prestation, en annulant le Rendez-vous
+                depuis son Compte ou en adressant une déclaration dénuée
+                d'ambiguïté au Prestataire ou à Book N' Glow (<Mail />).
+              </p>
+            </Section>
+
+            <Section id="messagerie" title="11. Messagerie">
+              <p>
+                La messagerie permet au Client de contacter un Prestataire et à
+                celui-ci de lui répondre. Seul le Client peut ouvrir une
+                conversation. Le Client est prévenu par e-mail des réponses du
+                Prestataire, et le Prestataire par notification.
+              </p>
+              <p>
+                La messagerie est réservée aux échanges liés aux Prestations et
+                aux Rendez-vous. Il est interdit d'y envoyer des contenus
+                illicites, injurieux, harcelants, discriminatoires, à caractère
+                sexuel, des messages publicitaires non sollicités, ou de
+                demander des données de carte bancaire.
+              </p>
+              <p>
+                Le Prestataire peut signaler un message. Le message signalé est
+                masqué et examiné par Book N' Glow, qui accède alors à son
+                contenu pour les seuls besoins de la modération. Book N' Glow
+                peut également envoyer des messages d'information aux
+                Prestataires dans un fil « Book N' Glow » non modifiable.
+              </p>
+            </Section>
+
+            <Section id="avis" title="12. Avis clients">
+              <p>
+                Conformément aux articles L111-7-2 et D111-16 et suivants du
+                Code de la consommation, Book N' Glow informe les Utilisateurs
+                des règles suivantes.
+              </p>
+              <List>
+                <li>
+                  <Strong>Qui peut publier :</Strong> seul un Client ayant
+                  effectivement réservé une Prestation via la Plateforme peut
+                  laisser un avis. Une invitation personnelle et unique lui est
+                  envoyée par e-mail environ 25 heures après la fin du
+                  Rendez-vous. Aucune invitation n'est envoyée si le Client a
+                  été signalé absent ou si le Rendez-vous a été annulé.
+                </li>
+                <li>
+                  <Strong>Contrôle :</Strong> les avis sont donc vérifiés, au
+                  sens où ils proviennent d'un Client ayant eu un Rendez-vous
+                  avec le Prestataire. Book N' Glow ne vérifie pas
+                  l'exactitude des appréciations portées.
+                </li>
+                <li>
+                  <Strong>Contrepartie :</Strong> aucun avis n'est sollicité ou
+                  publié en échange d'une contrepartie. Il est interdit au
+                  Prestataire d'offrir un avantage en échange d'un avis, ou de
+                  publier ou faire publier de faux avis.
+                </li>
+                <li>
+                  <Strong>Contenu :</Strong> un avis comprend une note globale,
+                  des notes par critère et un commentaire facultatif. Il est
+                  daté de sa publication.
+                </li>
+                <li>
+                  <Strong>Affichage :</Strong> les avis sont affichés par ordre
+                  chronologique, du plus récent au plus ancien, sans être
+                  classés selon leur note. Le Prestataire ne peut ni les
+                  modifier ni les supprimer.
+                </li>
+                <li>
+                  <Strong>Refus ou retrait :</Strong> Book N' Glow peut refuser
+                  ou retirer un avis manifestement illicite, injurieux, sans
+                  rapport avec la Prestation, contenant des données
+                  personnelles, ou émanant d'une personne en conflit
+                  d'intérêts. L'auteur est informé du motif de ce retrait.
+                </li>
+                <li>
+                  <Strong>Signalement :</Strong> tout Utilisateur peut signaler
+                  un avis à l'adresse <Mail />. L'auteur d'un avis peut en
+                  demander la modification ou la suppression à la même
+                  adresse.
+                </li>
+              </List>
+            </Section>
+
+            <Section id="prestataires" title="13. Engagements des Prestataires">
+              <Subsection title="13.1 Exercice de l'activité">
+                <p>Le Prestataire s'engage à :</p>
+                <List>
+                  <li>
+                    disposer des qualifications, diplômes, déclarations et
+                    autorisations exigés pour son activité, et respecter la
+                    réglementation applicable, notamment en matière d'hygiène et
+                    de sécurité ;
+                  </li>
+                  <li>
+                    disposer d'une assurance de responsabilité civile
+                    professionnelle couvrant son activité ;
+                  </li>
+                  <li>
+                    publier des informations exactes et loyales sur ses
+                    Prestations, ses photos, ses prix toutes taxes comprises,
+                    ses disponibilités et ses Conditions, et les tenir à jour ;
+                  </li>
+                  <li>
+                    honorer les Rendez-vous confirmés et respecter les
+                    Conditions qu'il affiche ;
+                  </li>
+                  <li>
+                    remettre au Client, lorsque la loi l'exige, une note ou une
+                    facture.
+                  </li>
+                </List>
+              </Subsection>
+              <Subsection title="13.2 Données de ses clients">
+                <p>
+                  Le Prestataire accède aux coordonnées et à l'historique de
+                  ses clients. Il ne les utilise que pour la gestion de ses
+                  Rendez-vous et de sa relation avec eux, dans le respect du
+                  RGPD. Il est responsable des informations qu'il saisit
+                  lui-même (notes, clients ajoutés manuellement) et s'abstient
+                  d'y enregistrer des données sensibles, notamment de santé,
+                  sauf si elles sont strictement nécessaires à la Prestation et
+                  que le client y a consenti. Il ne les exporte pas à des fins
+                  de prospection sans le consentement de ses clients.
+                </p>
+              </Subsection>
+              <Subsection title="13.3 Contenus publiés">
+                <p>
+                  Le Prestataire garantit détenir les droits sur les photos et
+                  textes qu'il publie et que ceux-ci ne portent atteinte à
+                  aucun droit de tiers (droit à l'image des personnes
+                  photographiées notamment). Il concède à Book N' Glow, pour la
+                  durée de son inscription et pour le monde entier, une licence
+                  gratuite et non exclusive pour reproduire et afficher ces
+                  contenus sur la Plateforme, dans la seule mesure nécessaire à
+                  son fonctionnement.
+                </p>
+              </Subsection>
+              <Subsection title="13.4 Obligations fiscales et sociales">
+                <p>
+                  Le Prestataire est seul responsable de ses obligations
+                  fiscales et sociales (déclaration de ses revenus, TVA le cas
+                  échéant, cotisations sociales). Conformément à l'article 242
+                  bis du Code général des impôts, Book N' Glow l'informe que
+                  les revenus perçus via la Plateforme sont imposables et
+                  soumis à cotisations sociales dans les conditions de droit
+                  commun. Des informations sont disponibles sur les sites
+                  impots.gouv.fr et urssaf.fr.
+                </p>
+                <p>
+                  En application de l'article 1649 ter A du Code général des
+                  impôts (directive européenne « DAC7 »), Book N' Glow peut être
+                  tenue de collecter certaines informations sur le Prestataire
+                  (identité, adresse, numéro d'identification fiscale,
+                  coordonnées bancaires, montants perçus) et de les transmettre
+                  à l'administration fiscale. Le Prestataire s'engage à fournir
+                  ces informations sur demande. À défaut, Book N' Glow peut
+                  suspendre son Compte après deux relances, comme la loi le
+                  prévoit.
+                </p>
+              </Subsection>
+            </Section>
+
+            <Section id="clients" title="14. Engagements des Clients">
+              <p>Le Client s'engage à :</p>
+              <List>
+                <li>fournir des coordonnées exactes et joignables ;</li>
+                <li>
+                  n'utiliser la Plateforme que pour réserver des Prestations
+                  pour lui-même ou, avec leur accord, pour ses proches, à des
+                  fins personnelles ;
+                </li>
+                <li>
+                  se présenter à l'heure à ses Rendez-vous, confirmer sa
+                  présence lorsque cela lui est demandé, et annuler dans les
+                  délais s'il ne peut pas venir ;
+                </li>
+                <li>
+                  informer le Prestataire de toute information utile à la
+                  bonne réalisation de la Prestation (allergie, contre-indication,
+                  etc.) ;
+                </li>
+                <li>
+                  se comporter avec respect envers le Prestataire, dans ses
+                  messages comme lors du Rendez-vous ;
+                </li>
+                <li>ne laisser que des avis sincères et fondés sur une expérience réelle.</li>
+              </List>
+            </Section>
+
+            <Section id="interdits" title="15. Comportements interdits">
+              <p>Il est interdit à tout Utilisateur :</p>
+              <List>
+                <li>
+                  d'utiliser la Plateforme à des fins illicites, frauduleuses ou
+                  contraires aux présentes CGU ;
+                </li>
+                <li>
+                  de publier ou transmettre des contenus illicites,
+                  diffamatoires, injurieux, haineux, discriminatoires, violents,
+                  pornographiques ou portant atteinte à la vie privée ou aux
+                  droits de tiers ;
+                </li>
+                <li>
+                  d'usurper l'identité d'un tiers ou de créer de faux Comptes,
+                  de fausses Réservations ou de faux avis ;
+                </li>
+                <li>
+                  d'envoyer de la publicité ou de la prospection non sollicitée
+                  aux autres Utilisateurs ;
+                </li>
+                <li>
+                  de contourner la Plateforme pour obtenir le paiement d'une
+                  Réservation payée par carte, ou de demander à un Client de
+                  payer une seconde fois ;
+                </li>
+                <li>
+                  d'accéder ou de tenter d'accéder sans autorisation aux
+                  systèmes de la Plateforme, d'en perturber le fonctionnement,
+                  ou d'en extraire les données de façon automatisée (robots,
+                  scraping) ;
+                </li>
+                <li>
+                  de copier, décompiler ou exploiter commercialement tout ou
+                  partie de la Plateforme sans autorisation écrite.
+                </li>
+              </List>
+            </Section>
+
+            <Section id="signalement" title="16. Signalement de contenus illicites">
+              <p>
+                Conformément au règlement (UE) 2022/2065 sur les services
+                numériques (DSA), tout Utilisateur ou tiers peut signaler un
+                contenu qu'il estime illicite (avis, message, photo, Page de
+                réservation, etc.) :
+              </p>
+              <List>
+                <li>par e-mail à l'adresse <Mail /> ;</li>
+                <li>
+                  pour les Prestataires, directement depuis la messagerie de
+                  l'application.
+                </li>
+              </List>
+              <p>
+                Le signalement indique, dans la mesure du possible, le contenu
+                concerné et son emplacement, les raisons pour lesquelles il est
+                jugé illicite, ainsi que le nom et l'adresse e-mail de son
+                auteur. Book N' Glow accuse réception du signalement, l'examine
+                avec diligence et objectivité, et informe son auteur de la
+                décision prise.
+              </p>
+              <p>
+                Lorsque Book N' Glow retire un contenu ou restreint un Compte,
+                elle en informe l'Utilisateur concerné en indiquant les motifs
+                de sa décision, sauf obligation légale contraire. L'Utilisateur
+                peut la contester en écrivant à <Mail />. Book N' Glow
+                n'utilise pas de système automatisé pour prendre ces décisions.
+              </p>
+              <p>
+                L'adresse <Mail /> constitue le point de contact unique des
+                Utilisateurs et des autorités au sens des articles 11 et 12 du
+                DSA. Les échanges peuvent avoir lieu en français.
+              </p>
+            </Section>
+
+            <Section id="suspension" title="17. Suspension et suppression de compte">
+              <Subsection title="17.1 Suppression à l'initiative de l'Utilisateur">
+                <p>
+                  L'Utilisateur peut supprimer son Compte à tout moment : le
+                  Prestataire depuis son profil dans l'application, le Client
+                  depuis son espace client, ou l'un et l'autre en écrivant à{" "}
+                  <Mail />. Le Client doit au préalable annuler ses
+                  Rendez-vous à venir. Lorsque le Prestataire supprime son
+                  Compte, ses Rendez-vous à venir sont annulés et les Clients
+                  concernés sont prévenus et, le cas échéant, remboursés.
+                </p>
+                <p>
+                  La suppression est définitive. Les données personnelles sont
+                  supprimées ou anonymisées, à l'exception de celles que Book
+                  N' Glow doit conserver pour respecter ses obligations légales
+                  (comptables, fiscales) ou pour la gestion d'un litige en
+                  cours, dans les conditions prévues par la politique de
+                  confidentialité. L'historique des Rendez-vous passés est
+                  conservé sous forme anonymisée.
+                </p>
+              </Subsection>
+              <Subsection title="17.2 Mesures prises par Book N' Glow">
+                <p>
+                  En cas de manquement aux présentes CGU, d'informations
+                  fausses, de comportement frauduleux ou portant atteinte aux
+                  autres Utilisateurs, ou d'absences répétées d'un Client,
+                  Book N' Glow peut, de manière proportionnée : adresser un
+                  avertissement, retirer un contenu, restreindre certaines
+                  fonctionnalités (réservation, messagerie, paiement par
+                  carte), suspendre ou supprimer le Compte.
+                </p>
+                <p>
+                  Book N' Glow motive sa décision et la notifie à l'Utilisateur
+                  au plus tard au moment où elle prend effet. Pour un
+                  Prestataire, la résiliation définitive de son Compte est
+                  notifiée avec un préavis de trente (30) jours, sauf
+                  manquement grave ou répété, obligation légale, ou atteinte à
+                  la sécurité des Clients, auxquels cas elle peut être
+                  immédiate. L'Utilisateur peut contester la mesure en
+                  écrivant à <Mail />.
+                </p>
+              </Subsection>
+              <Subsection title="17.3 Arrêt du service">
+                <p>
+                  Book N' Glow peut cesser d'exploiter la Plateforme ou la
+                  céder à un tiers. Elle en informe alors les Utilisateurs au
+                  moins trente (30) jours à l'avance et leur permet de
+                  récupérer leurs données.
+                </p>
+              </Subsection>
+            </Section>
+
+            <Section id="propriete" title="18. Propriété intellectuelle">
+              <p>
+                La Plateforme, ses logiciels, sa structure, ses textes, ses
+                visuels, ses bases de données, le nom et le logo « Book N'
+                Glow » sont la propriété de Book N' Glow ou de ses partenaires
+                et sont protégés par le droit de la propriété intellectuelle.
+                Book N' Glow concède à l'Utilisateur un droit personnel, non
+                exclusif et non transférable d'utiliser la Plateforme
+                conformément aux présentes CGU, pendant la durée de son
+                inscription. Toute autre utilisation est interdite sans
+                autorisation écrite préalable.
+              </p>
+              <p>
+                Les Contenus publiés par les Utilisateurs restent leur
+                propriété, sous réserve de la licence prévue à la section 13.3.
+              </p>
+            </Section>
+
+            <Section id="donnees" title="19. Données personnelles">
+              <p>
+                Book N' Glow traite les données personnelles des Utilisateurs
+                conformément au règlement (UE) 2016/679 (RGPD) et à la loi
+                Informatique et Libertés, comme décrit dans sa{" "}
+                <Link
+                  to="/politique-de-confidentialite"
+                  className="text-primary hover:underline"
+                >
+                  politique de confidentialité
+                </Link>
+                .
+              </p>
+              <p>
+                Pour fonctionner, la Plateforme envoie des e-mails, des SMS et
+                des notifications liés aux Rendez-vous (confirmation, rappel,
+                annulation, messages, demande d'avis). Ces envois font partie
+                du service et ne constituent pas de la prospection
+                commerciale. Le Prestataire peut gérer les notifications de
+                l'application dans les réglages de son téléphone.
+              </p>
+              <p>
+                Chaque Prestataire est responsable des traitements qu'il
+                réalise lui-même avec les données de ses clients, dans les
+                conditions de la section 13.2.
+              </p>
+            </Section>
+
+            <Section id="disponibilite" title="20. Disponibilité et évolution">
+              <p>
+                Book N' Glow s'efforce de rendre la Plateforme accessible 24
+                heures sur 24 et 7 jours sur 7, mais ne peut garantir une
+                disponibilité sans interruption. L'accès peut être suspendu
+                pour maintenance, mise à jour, ou en cas de panne d'un
+                prestataire technique. Book N' Glow s'efforce de prévenir les
+                Prestataires des interruptions programmées.
+              </p>
+              <p>
+                Book N' Glow peut faire évoluer les fonctionnalités de la
+                Plateforme. Certaines mises à jour de l'application peuvent
+                être nécessaires pour continuer à l'utiliser. Book N' Glow
+                informe les Prestataires de toute évolution qui modifie de
+                manière importante l'usage du service.
+              </p>
+              <p>
+                Apple et Google, qui distribuent l'application, ne sont pas
+                parties aux présentes CGU et n'assument aucune obligation de
+                maintenance ou d'assistance à son égard.
+              </p>
+            </Section>
+
+            <Section id="responsabilite" title="21. Responsabilité">
+              <p>
+                Book N' Glow est tenue d'une obligation de moyens dans la
+                fourniture de la Plateforme. Elle répond des dommages causés
+                par ses propres manquements, dans les conditions du droit
+                commun.
+              </p>
+              <p>
+                N'étant pas partie au contrat de Prestation, Book N' Glow
+                n'est pas responsable de la réalisation, de la qualité ou de la
+                sécurité des Prestations, ni du comportement des Prestataires
+                et des Clients entre eux, ni des paiements effectués hors
+                Plateforme (sur place ou via PayPal.me). Chaque Utilisateur est
+                responsable des Contenus qu'il publie.
+              </p>
+              <p>
+                Book N' Glow n'est pas responsable des dommages résultant d'une
+                utilisation de la Plateforme non conforme aux CGU, d'un cas de
+                force majeure au sens de l'article 1218 du Code civil, ou du
+                fait d'un tiers.
+              </p>
+              <p>
+                À l'égard des Prestataires, qui utilisent la Plateforme à titre
+                professionnel et gratuitement, la responsabilité de Book N'
+                Glow est limitée aux dommages directs et prouvés, et exclut les
+                pertes de chiffre d'affaires ou de clientèle. Aucune stipulation
+                des présentes ne limite la responsabilité de Book N' Glow en cas
+                de faute lourde ou intentionnelle, ni les droits que la loi
+                reconnaît aux consommateurs.
+              </p>
+              <p>
+                Le Prestataire garantit Book N' Glow contre toute réclamation
+                d'un tiers résultant de ses Prestations, de ses Contenus ou
+                d'un manquement à ses obligations légales ou aux présentes CGU.
+              </p>
+            </Section>
+
+            <Section id="modification" title="22. Modification des CGU">
+              <p>
+                Book N' Glow peut modifier les présentes CGU, notamment pour
+                tenir compte d'une évolution de la Plateforme ou de la loi. La
+                date de la version en vigueur figure en haut de cette page.
+              </p>
+              <p>
+                Les Prestataires sont informés par e-mail ou dans
+                l'application au moins quinze (15) jours avant l'entrée en
+                vigueur des modifications, sauf obligation légale ou
+                réglementaire imposant un délai plus court. Ils peuvent
+                supprimer leur Compte avant cette date s'ils refusent les
+                modifications. Les Clients disposant d'un Compte sont informés
+                de toute modification importante.
+              </p>
+              <p>
+                Les Réservations déjà conclues restent soumises à la version
+                des CGU en vigueur au moment de leur conclusion.
+              </p>
+            </Section>
+
+            <Section id="litiges" title="23. Réclamations, médiation et droit applicable">
+              <p>
+                Toute réclamation relative à la Plateforme peut être adressée à
+                Book N' Glow à l'adresse <Mail />. Book N' Glow s'efforce d'y
+                répondre dans un délai de quinze (15) jours.
+              </p>
+              <p>
+                Conformément aux articles L612-1 et suivants du Code de la
+                consommation, le Client consommateur peut recourir
+                gratuitement à un médiateur de la consommation en vue de la
+                résolution amiable d'un litige avec Book N' Glow, après avoir
+                tenté de le résoudre directement par une réclamation écrite.
+                {CONSUMER_MEDIATOR ? (
+                  <>
+                    {" "}
+                    Le médiateur compétent est {CONSUMER_MEDIATOR.name},{" "}
+                    {CONSUMER_MEDIATOR.address} (
                     <a
-                      href="mailto:contact@book-n-glow"
+                      href={CONSUMER_MEDIATOR.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="text-primary hover:underline"
                     >
-                      contact@book-n-glow
+                      {CONSUMER_MEDIATOR.url}
                     </a>
-                    .
-                    {/*
-                      Mention « abonnement payant » masquée — passage au modèle
-                      100 % gratuit. Voir docs/deferred/free-only-model.md.
-                      Pour le Prestataire ayant adhéré à un abonnement payant,
-                      la fin de service prend effet à la fin de la période de
-                      facturation pour le Prestataire. Il n'y a pas de
-                      remboursement ou de crédit pour les mois ou années partiels.
-                    */}{" "}
-                    Les Parties sont liées par les présentes à compter du jour
-                    de leur acceptation par l'Utilisateur, lors de la création
-                    de son compte.
-                  </p>
-                </div>
+                    ).
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    Les coordonnées du médiateur compétent sont communiquées
+                    sur simple demande à l'adresse <Mail />.
+                  </>
+                )}{" "}
+                Pour un litige portant sur une Prestation, le Client s'adresse
+                au médiateur du Prestataire concerné.
+              </p>
+              <p>
+                Les présentes CGU sont soumises au droit français. Le Client
+                consommateur bénéficie en outre des dispositions impératives de
+                la loi de son pays de résidence. À défaut d'accord amiable, les
+                litiges avec un consommateur sont portés devant la juridiction
+                compétente selon les règles de droit commun. Les litiges avec
+                un Prestataire relèvent de la compétence des tribunaux du
+                ressort du siège de Book N' Glow.
+              </p>
+            </Section>
 
-                {/* Inscription Client */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    9.3 Inscription Client
-                  </h3>
-                  <p>
-                    Afin de pouvoir créer un compte, le Client doit avoir l'âge
-                    de 15 ans. Il reconnaît s'inscrire en son nom et pour son
-                    compte personnel.
-                  </p>
-                  <p>
-                    Le Client doit fournir à{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    l'ensemble des informations demandées. Le client est seul
-                    responsable de l'exactitude des informations fournies.
-                  </p>
-                  <p>
-                    Lors de la création de compte, le Client doit renseigner les
-                    informations suivantes : numéro de téléphone portable,
-                    prénom, nom, adresse e-mail et mot de passe.
-                  </p>
-                  <p>
-                    Lors de son inscription sur le Site, le Client doit indiquer
-                    son nom d'utilisateur (pseudonyme), son adresse de courrier
-                    électronique et son mot de passe, ce qui permet au Site
-                    d'identifier le Client à chaque fois qu'il accède au Site.
-                    Seul le nom d'utilisateur (pseudonyme) est visible pour les
-                    autres Utilisateurs.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut procéder à la demande de confirmation concernant votre
-                    compte à des fins de sécurité. De telles confirmations
-                    peuvent notamment inclure les démarches suivantes :
-                    confirmer votre numéro de téléphone ; vous fournir un code
-                    PIN à usage unique ; ou toutes autres démarches que{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    pourrait mettre en place. Toutes les données collectées
-                    seront utilisées conformément à notre Politique de
-                    Confidentialité qui fait partie intégrante de l'accord
-                    conclu entre{" "}
-                    <strong className="text-foreground">Book n Glow</strong> et
-                    les Utilisateurs.
-                  </p>
-                </div>
-
-                {/* Inscription Prestataire */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    9.4 Inscription Prestataire
-                  </h3>
-                  <p>
-                    Afin de pouvoir créer un compte, le Prestataire doit avoir
-                    la capacité de contracter (majeur, capable). Il reconnaît
-                    s'inscrire en son nom et pour son compte professionnel.
-                  </p>
-                  <p>
-                    L'inscription au Service est réalisée directement par le
-                    Prestataire.
-                  </p>
-                  <p>
-                    Lors de la création de compte, le Prestataire doit fournir
-                    les informations nécessaires à son identification. Le compte
-                    ne peut être utilisé que par le Prestataire inscrit. L'accès
-                    au compte se fait par le biais d'identifiants et mots de
-                    passe qui sont strictement personnels et confidentiels. Le
-                    Prestataire s'engage à les garder secrets et à ne pas les
-                    divulguer.
-                  </p>
-                  <p>
-                    En cas de perte ou de vol de l'identifiant ou mot de passe,
-                    le Prestataire doit en avertir{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    sans délai.
-                  </p>
-                  <p>
-                    Le Prestataire certifie que les informations le concernant
-                    sont exactes et s'engage à les maintenir à jour via son
-                    compte.
-                  </p>
-                  <p>
-                    Le Prestataire s'engage à utiliser personnellement les
-                    Services et à ne permettre à aucun tiers de les utiliser à
-                    sa place ou pour son compte.
-                  </p>
-                  {/*
-                    Paragraphes masqués — passage au modèle 100 % gratuit.
-                    Code conservé pour réactivation future.
-                    Voir docs/deferred/free-only-model.md.
-
-                    <p>
-                      Pour les Prestataires ayant souscrit à un abonnement payant,
-                      le Prestataire autorise par avance sa banque à prélever son
-                      compte bancaire du montant de l'abonnement correspondant à
-                      la période de facturation.
-                    </p>
-                    <p>
-                      Le Prestataire pourra bénéficier du mode de paiement via
-                      redirection PayPal.me lorsqu'il aura souscrit à un
-                      abonnement payant. Une fois l'abonnement payant activé, le
-                      Prestataire peut décider ou non d'activer cette redirection.
-                      Lors de la réservation, le Client est redirigé vers la page
-                      PayPal.me du Prestataire avec le montant à payer. Le Client
-                      dispose d'un délai de quinze (15) minutes pour effectuer le
-                      paiement. À défaut de paiement dans ce délai, le Prestataire
-                      peut annuler le rendez-vous. Les Prestataires n'ayant pas
-                      souscrit à un abonnement payant peuvent prendre des
-                      réservations, mais ne peuvent pas activer le mode de
-                      paiement via redirection PayPal.me.
-                    </p>
-                  */}
-                </div>
-              </div>
-            </div>
-
-            {/* Liens hypertextes */}
-            <div id="liens" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                10. Liens hypertextes
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Le Site peut contenir des liens vers d'autres sites web. Nous
-                  ne contrôlons pas ces sites externes et ne sommes pas
-                  responsables de leur contenu, de leurs pratiques de
-                  confidentialité ou de leurs politiques.
-                </p>
-                <p>
-                  L'inclusion de liens vers des sites externes ne constitue pas
-                  une approbation de ces sites. Vous accédez à ces sites à vos
-                  propres risques.
-                </p>
-                <p>
-                  Il est interdit de créer un lien hypertexte vers le Site sans
-                  autorisation écrite préalable de{" "}
-                  <strong className="text-foreground">Book n Glow</strong>.
-                </p>
-              </div>
-            </div>
-
-            {/* Responsabilité */}
-            <div id="responsabilite" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                11. Limitation de responsabilité
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Book n Glow</strong>{" "}
-                  s'efforce de fournir des informations exactes et à jour sur le
-                  Site. Cependant, nous ne pouvons garantir l'exactitude, la
-                  complétude ou l'actualité des informations diffusées.
-                </p>
-                <p>
-                  Le Site est fourni "en l'état" et "selon disponibilité". Nous
-                  ne garantissons pas que le Site sera ininterrompu, sécurisé ou
-                  exempt d'erreurs.
-                </p>
-                <p>
-                  <strong className="text-foreground">Book n Glow</strong> ne
-                  saurait être tenu responsable :
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>
-                    Des dommages directs ou indirects résultant de l'utilisation
-                    ou de l'impossibilité d'utiliser le Site
-                  </li>
-                  <li>Des erreurs ou omissions dans le contenu du Site</li>
-                  <li>
-                    Des interruptions, bugs, erreurs techniques ou problèmes de
-                    sécurité
-                  </li>
-                  <li>De l'utilisation faite du Site par les utilisateurs</li>
-                  <li>
-                    Des contenus des sites tiers accessibles via des liens
-                    depuis le Site
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Limitation de responsabilité de la Plateforme */}
-            <div id="plateforme" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                12. Limitation de responsabilité de la Plateforme
-              </h2>
-              <div className="space-y-6 text-muted-foreground">
-                {/* Fonction d'intermédiation */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    Fonction d'intermédiation
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">Book N Glow</strong> est
-                    une plateforme de mise en relation entre des prestataires de
-                    services (fournisseurs) et des clients. La plateforme met
-                    uniquement en relation les deux parties — ce sont ces
-                    parties qui concluent un contrat de prestation entre elles.{" "}
-                    <strong className="text-foreground">Book N Glow</strong>{" "}
-                    n'intervient pas en tant que prestataire de service pour la
-                    réalisation des prestations proposées.
-                  </p>
-                </div>
-
-                {/* Litiges de paiement */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    Litiges de paiement
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">Book N Glow</strong>{" "}
-                    n'est pas responsable des litiges de paiement entre clients
-                    et prestataires. La plateforme ne garantit pas le paiement
-                    des prestataires : toute réclamation liée au paiement doit
-                    être adressée directement au prestataire concerné.
-                  </p>
-                </div>
-
-                {/* Qualité des services */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    Qualité des services
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">Book N Glow</strong> ne
-                    peut être tenu responsable :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      de la qualité des services fournis par les prestataires,
-                    </li>
-                    <li>
-                      du non-respect par un prestataire de ses obligations
-                      contractuelles vis-à-vis du client,
-                    </li>
-                    <li>
-                      du comportement, des manquements ou des dégradations
-                      causés par un prestataire pendant l'exécution des
-                      prestations.
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Comportement des clients */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    Comportement des clients
-                  </h3>
-                  <p>
-                    De même,{" "}
-                    <strong className="text-foreground">Book N Glow</strong>{" "}
-                    décline toute responsabilité :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      en cas de dégradations commises par un client chez un
-                      prestataire,
-                    </li>
-                    <li>
-                      pour tout manquement contractuel ou faute d'un client
-                      vis-à-vis d'un prestataire,
-                    </li>
-                    <li>
-                      pour tout préjudice lié au comportement d'un client
-                      (non-paiement, annulation, réclamation, etc.).
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Obligation de moyens */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    Obligation de moyens
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">Book N Glow</strong>{" "}
-                    s'engage à faire ses meilleurs efforts en tant
-                    qu'intermédiaire, mais n'assume qu'une obligation de moyens,
-                    et non de résultat, quant à la mise à disposition du service
-                    de mise en relation, à la disponibilité de la plateforme, ou
-                    à la vérification des prestataires.
-                  </p>
-                </div>
-
-                {/* Clause d'indemnisation */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    Clause d'indemnisation
-                  </h3>
-                  <p>
-                    Le client et le prestataire s'engagent à indemniser{" "}
-                    <strong className="text-foreground">Book N Glow</strong> de
-                    toute réclamation, condamnation ou frais (y compris
-                    honoraires d'avocat) résultant d'un litige qui les
-                    opposerait, tant que ce litige résulte de leur relation
-                    contractuelle directe.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Disponibilité du service */}
-            <div id="disponibilite" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                13. Disponibilité du service
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Book n Glow</strong> est
-                  actuellement ouvert et accessible. Les utilisateurs peuvent
-                  créer un compte et utiliser la plateforme avec l'ensemble des
-                  fonctionnalités disponibles.
-                </p>
-                {/*
-                  Paragraphes masqués — passage au modèle 100 % gratuit.
-                  Code conservé pour réactivation future.
-                  Voir docs/deferred/free-only-model.md.
-
-                  <p>
-                    Concernant l'abonnement payant, l'accès s'ouvre par vagues
-                    successives. Pour être informé de l'ouverture d'une nouvelle
-                    vague et pouvoir souscrire à l'abonnement payant, il est
-                    nécessaire de s'inscrire sur la liste d'attente via le Site.
-                  </p>
-                  <p>
-                    L'ouverture de chaque vague pour l'abonnement payant sera
-                    communiquée aux personnes inscrites à la liste d'attente.
-                    Aucune garantie n'est donnée quant à la date d'ouverture
-                    effective de chaque vague ou quant à la disponibilité des
-                    places pour l'abonnement payant.
-                  </p>
-                */}
-              </div>
-            </div>
-
-            {/* Obligations de l'Utilisateur */}
-            <div id="obligations" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                14. Obligations de l'Utilisateur
-              </h2>
-              <div className="space-y-6 text-muted-foreground">
-                {/* Utilisation du Service */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    14.1 Utilisation du Service
-                  </h3>
-                  <p>
-                    Le Client s'engage à ne pas utiliser le Service à d'autres
-                    fins que celles précisées au sein des présentes CGU, et en
-                    particulier à ne pas l'utiliser à des fins professionnelles,
-                    commerciales ou illicites.
-                  </p>
-                  <p>
-                    Une fois le Prestataire sélectionné, le Client choisit une
-                    Prestation, puis un créneau de réservation pour la
-                    prestation sélectionnée.
-                  </p>
-                  <p>
-                    En cas d'empêchement du Client de se présenter au
-                    rendez-vous, il est possible d'annuler la réservation, dans
-                    les conditions prévues par les Conditions Générales de
-                    Prestation de Service du Prestataire.
-                  </p>
-                  <p>
-                    L'Utilisateur est seul responsable de son utilisation des
-                    Services et notamment des relations qu'il pourra nouer avec
-                    les autres Utilisateurs et des informations qu'il leur
-                    communique dans le cadre des Services. Il lui appartient
-                    d'exercer la prudence et le discernement appropriés dans ces
-                    relations et communications. L'Utilisateur s'engage en
-                    outre, dans ses échanges avec les autres Utilisateurs, à
-                    agir de bonne foi.
-                  </p>
-                </div>
-
-                {/* Règlement de la prestation */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    14.2 Règlement de la prestation
-                  </h3>
-                  <p>
-                    Le Service n'est qu'un moyen de mise en relation entre les
-                    Utilisateurs. Ni{" "}
-                    <strong className="text-foreground">Book n Glow</strong>, ni
-                    ses sous-traitants n'interviennent dans la relation
-                    contractuelle entre le Client et le Prestataire. Le prix de
-                    la Prestation est donc fixé par le Prestataire. Le prix de
-                    la Prestation doit être payé par le Client :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      Soit au jour de la réalisation de la prestation,
-                      directement chez le Prestataire ;
-                    </li>
-                    <li>
-                      Soit via redirection PayPal.me si ce mode de paiement est
-                      proposé par le Prestataire, avec un délai de quinze (15)
-                      minutes pour effectuer le paiement, à l'issue duquel le
-                      Prestataire peut annuler le rendez-vous en l'absence de
-                      paiement.
-                    </li>
-                  </ul>
-                  <p>
-                    Les Clients sont informés qu'un droit de rétractation
-                    s'applique en principe aux contrats de prestations de
-                    services conclus à distance entre un professionnel et un
-                    consommateur, ce droit étant à exercer dans les quatorze
-                    (14) jours à compter de la conclusion du contrat. Ils sont
-                    toutefois expressément informés et acceptent que les
-                    Services leur soient fournis dès leur inscription et soient
-                    ainsi pleinement exécutés avant la fin du délai de
-                    rétractation visé ci-dessus. En conséquence, ils renoncent
-                    expressément à leur droit de rétractation, qui ne pourra
-                    donc pas être exercé, conformément à l'article L.121-21-8 du
-                    Code de la consommation.
-                  </p>
-                  <p>
-                    Toute autre condition d'annulation ou de modification de la
-                    commande sera soumise aux Conditions Générales de Prestation
-                    de Service du Prestataire.
-                  </p>
-                </div>
-
-                {/* Respect des droits de propriété */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    14.3 Respect des droits de propriété de Book n Glow
-                  </h3>
-                  <p>
-                    Sauf mention contraire, les éléments accessibles sur le Site
-                    tels que les bases de données, les outils de gestion, les
-                    textes et plus généralement l'ensemble des informations
-                    mises à la disposition de l'Utilisateur sont la propriété
-                    pleine, entière et exclusive de{" "}
-                    <strong className="text-foreground">Book n Glow</strong>.
-                  </p>
-                  <p>L'Utilisateur s'interdit notamment :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      De copier ou de reproduire, décompiler, en tout ou partie
-                      le Site par n'importe quel moyens et sous n'importe quelle
-                      forme ;
-                    </li>
-                    <li>
-                      D'utiliser le Site autrement que selon les stipulations
-                      strictement interprétées des présentes CGU ;
-                    </li>
-                    <li>
-                      De procéder à des extractions par transfert temporaire ou
-                      permanent, ou d'utiliser par la mise à disposition au
-                      public, la totalité ou une partie substantielle en termes
-                      quantitatifs ou qualitatifs du Site et autres bases de
-                      données visibles sur le Site, que ce soit à des fins
-                      commerciales ou autres ;
-                    </li>
-                    <li>
-                      Extraire ou d'utiliser de façon répétée et systématique
-                      tout ou partie des informations visibles sur le Site,
-                      lorsqu'une telle opération excède manifestement une
-                      utilisation normale et à titre privé du service offert par{" "}
-                      <strong className="text-foreground">Book n Glow</strong> ;
-                    </li>
-                    <li>
-                      Exploiter, commercialiser ou distribuer tout élément
-                      constitutif du Site, notamment les informations visibles
-                      sur le Site et toute autre base de données ;
-                    </li>
-                    <li>
-                      Utiliser des logiciels ou procédés manuels pour copier les
-                      pages web de{" "}
-                      <strong className="text-foreground">Book n Glow</strong>{" "}
-                      ou pour enregistrer ou collecter les informations sur ces
-                      pages sans le consentement exprès préalable et écrit de{" "}
-                      <strong className="text-foreground">Book n Glow</strong> ;
-                    </li>
-                    <li>
-                      Utiliser des dispositifs ou logiciels aux fins de
-                      perturber ou tenter de perturber le bon fonctionnement du
-                      Service ; ou mettre en œuvre des actions qui imposeraient
-                      une charge disproportionnée sur ses infrastructures.
-                    </li>
-                  </ul>
-                  <p>
-                    L'Inscription de l'Utilisateur ne lui confère qu'un droit
-                    d'usage privé personnel, non transmissible et non exclusif.
-                  </p>
-                </div>
-
-                {/* Utilisations interdites */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    14.4 Utilisations interdites
-                  </h3>
-                  <p>
-                    Il est strictement interdit d'utiliser les Services aux fins
-                    suivantes :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      l'exercice d'activités illégales, frauduleuses ou portant
-                      atteinte aux droits ou à la sécurité des tiers
-                    </li>
-                    <li>
-                      l'atteinte à l'ordre public ou la violation des lois et
-                      règlements en vigueur
-                    </li>
-                    <li>
-                      l'intrusion dans le système informatique d'un tiers ou
-                      toute activité de nature à nuire, contrôler, interférer,
-                      ou intercepter tout ou partie du système informatique d'un
-                      tiers, en violer l'intégrité ou la sécurité
-                    </li>
-                    <li>
-                      l'envoi d'emails non sollicités et/ou de prospection ou
-                      sollicitation commerciale
-                    </li>
-                    <li>
-                      les manipulations destinées à améliorer le référencement
-                      d'une application ou d'un site tiers
-                    </li>
-                    <li>
-                      l'aide ou l'incitation, sous quelque forme et de quelque
-                      manière que ce soit, à un ou plusieurs des actes et
-                      activités décrits ci-dessus et plus généralement toute
-                      pratique détournant les Services à des fins autres que
-                      celles pour lesquelles ils ont été conçus
-                    </li>
-                  </ul>
-                  <p>
-                    Il est strictement interdit aux Utilisateurs de copier et/ou
-                    de détourner à leurs fins ou à celles de tiers le concept,
-                    les technologies ou tout autre élément de{" "}
-                    <strong className="text-foreground">Book n Glow</strong>. Il
-                    est à ce titre notamment interdit d'insérer sur un site
-                    miroir une quelconque partie de{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    sans accord préalable écrit de{" "}
-                    <strong className="text-foreground">Book n Glow</strong>, ou
-                    d'utiliser n'importe quel meta tag ou code ou autre
-                    dispositif contenant une quelconque référence à{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    dans le but de diriger une personne vers une autre
-                    application ou un autre site internet, quelle qu'en soit la
-                    raison.
-                  </p>
-                  <p>Sont également strictement interdits :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      tous comportements de nature à interrompre, suspendre,
-                      ralentir ou empêcher la continuité des Services
-                    </li>
-                    <li>
-                      toutes intrusions ou tentatives d'intrusions dans les
-                      systèmes de{" "}
-                      <strong className="text-foreground">Book n Glow</strong>
-                    </li>
-                    <li>
-                      tous détournements des ressources système de{" "}
-                      <strong className="text-foreground">Book n Glow</strong>{" "}
-                      ou du Site
-                    </li>
-                    <li>
-                      toutes actions de nature à imposer une charge
-                      disproportionnée sur les infrastructures de ces derniers
-                    </li>
-                    <li>
-                      toutes atteintes aux mesures de sécurité et
-                      d'authentification
-                    </li>
-                    <li>
-                      tous actes de nature à porter atteinte aux droits et
-                      intérêts financiers, commerciaux ou moraux de{" "}
-                      <strong className="text-foreground">Book n Glow</strong>{" "}
-                      ou des usagers de son Site, et enfin plus généralement
-                      tout manquement aux présentes conditions générales
-                    </li>
-                  </ul>
-                  <p>
-                    Il est strictement interdit de monnayer, vendre ou concéder
-                    tout ou partie de l'accès aux Services ou à{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    ainsi qu'aux informations qui y sont hébergées et/ou
-                    partagées.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve expressément tous les droits sur le nom de domaine
-                    www.book-n-glow.fr et domaines et sous-domaines liés, la
-                    dénomination{" "}
-                    <strong className="text-foreground">Book n Glow</strong>,
-                    son logo, ses marques de service, noms commerciaux et/ou
-                    marques de fabrique. Les autres marques de fabrique,
-                    produits et dénominations de société mentionnés sur le Site
-                    peuvent être des marques de leurs propriétaires ou
-                    concédants respectifs et les droits sur ces marques sont
-                    réservés à leurs propriétaires ou concédants respectifs.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Résiliation */}
-            <div id="resiliation" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                15. Résiliation
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Le client ou le prestataire peut demander à{" "}
-                  <strong className="text-foreground">Book n Glow</strong> de
-                  supprimer son compte à tout moment. De même,{" "}
-                  <strong className="text-foreground">Book n Glow</strong> peut
-                  cesser de fournir le Service sans préavis ou décider de
-                  suspendre le compte d'un utilisateur (client ou prestataire)
-                  pour l'une des raisons suivantes, sans avoir à verser
-                  d'indemnités ni de dommages et intérêts :
-                </p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li>
-                    Violation des présentes Conditions Générales d'Utilisation
-                  </li>
-                  <li>
-                    Comportement inapproprié ou contraire aux bonnes mœurs
-                  </li>
-                  <li>
-                    Pour les clients : absences répétées aux rendez-vous
-                    réservés (no-shows)
-                  </li>
-                  <li>
-                    Toute autre raison légitime justifiant la suspension ou la
-                    résiliation du compte
-                  </li>
-                </ul>
-                {/*
-                  Paragraphe masqué — passage au modèle 100 % gratuit.
-                  Code conservé pour réactivation future.
-                  Voir docs/deferred/free-only-model.md.
-
-                  <p>
-                    En cas d'abonnement payant, la résiliation demandée par
-                    l'utilisateur prendra effet à la date de fin de l'abonnement
-                    mensuel en cours. Aucun remboursement ne sera effectué pour la
-                    période d'abonnement déjà payée et en cours.
-                  </p>
-                */}
-                <p>
-                  Le client ou le prestataire peut demander la suppression de
-                  son compte en contactant{" "}
-                  <strong className="text-foreground">Book n Glow</strong> à
-                  l'adresse{" "}
-                  <a
-                    href="mailto:contact@book-n-glow"
-                    className="text-primary hover:underline"
-                  >
-                    contact@book-n-glow
-                  </a>
-                  . Dans ce cas, ses données seront intégralement effacées dans
-                  un délai de 1 mois, sans possibilité ultérieure de les
-                  récupérer.
-                </p>
-              </div>
-            </div>
-
-            {/* Droits et obligations */}
-            <div id="droits" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                16. Droits et obligations de Book n Glow
-              </h2>
-              <div className="space-y-6 text-muted-foreground">
-                {/* Blocage et limitation d'accès */}
-                <div className="space-y-4">
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut interdire en tout ou partie l'utilisation du Site (en
-                    indiquant les conditions de limitation) ou mettre fin à la
-                    possibilité que le Client et le Prestataire utilisent le
-                    Site, notamment en supprimant le Contenu mis en ligne sur le
-                    Site, en annulant le compte de l'Utilisateur et en empêchant
-                    l'Utilisateur de se réinscrire sur le Site ou en empêchant
-                    le visiteur de se rendre sur le Site, sous réserve que{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    envoie une notification officielle préalable à cet
-                    Utilisateur ou Visiteur, s'il :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      enfreint ou manque à ses obligations découlant des
-                      Conditions Générales, de la Politique de Confidentialité
-                      ou d'autres règlements du Site ;
-                    </li>
-                    <li>
-                      fournit des informations incorrectes, trompeuses et/ou
-                      incomplètes selon les Conditions Générales au moment de
-                      son inscription sur le Site ou de son utilisation du Site
-                      ;
-                    </li>
-                    <li>
-                      divulgue délibérément et intentionnellement des
-                      informations erronées sur le Site, insulte d'autres
-                      personnes ou agit de manière inappropriée ;
-                    </li>
-                    <li>
-                      utilise l'identité d'autres Utilisateurs ou agit par
-                      ailleurs de manière illégale ;
-                    </li>
-                    <li>
-                      se connecte à partir de la même adresse IP ou du même
-                      ordinateur que celle ou celui qui a été bloqué(e) en
-                      raison de violations ; ou
-                    </li>
-                    <li>
-                      a reçu au moins un avertissement de{" "}
-                      <strong className="text-foreground">Book n Glow</strong>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Blocage partiel et total */}
-                <div className="space-y-4">
-                  <p>
-                    Sous réserve des mêmes circonstances que celles décrites
-                    ci-dessus,{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut, moyennant l'envoi d'une notification officielle à ce
-                    sujet à l'Utilisateur concerné, limiter, en tout ou partie,
-                    le Compte de l'Utilisateur ou l'accès du Visiteur. Le
-                    blocage partiel signifie que l'Utilisateur ne sera pas en
-                    mesure de réserver une Prestation chez un Prestataire et de
-                    communiquer avec les autres Utilisateurs. Le blocage total
-                    signifie que le compte de l'Utilisateur sera bloqué et/ou
-                    annulé, et que la possibilité de se rendre sur le Site à
-                    partir de l'ordinateur de l'Utilisateur sera bloquée.
-                  </p>
-                  <p>
-                    L'Utilisateur doit savoir qu'après un blocage total, il
-                    n'aura plus le droit de se réinscrire sur le Site.
-                    L'annulation du compte de l'Utilisateur ne signifie pas que{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    supprimera toutes les informations pertinentes du compte,
-                    notamment les données personnelles de l'Utilisateur, dans la
-                    mesure où elles peuvent être stockées pour en savoir plus
-                    sur les circonstances dans lesquelles{" "}
-                    <strong className="text-foreground">Book n Glow</strong> a
-                    pris la décision d'annuler le compte de l'Utilisateur et
-                    pour transférer ces données aux institutions et autorités
-                    chargées de faire appliquer les lois, conformément à la
-                    Politique de Confidentialité.
-                  </p>
-                </div>
-
-                {/* Suppression de contenu illicite */}
-                <div className="space-y-4">
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>,
-                    après en avoir été dûment notifié conformément à l'article
-                    ci-dessus, supprimera tout contenu illicite.
-                  </p>
-                  <p>
-                    Si l'Utilisateur n'accepte pas ce droit de{" "}
-                    <strong className="text-foreground">Book n Glow</strong>, il
-                    doit s'abstenir d'utiliser le Site.{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut enquêter sur toute violation des Conditions Générales,
-                    et en informer les institutions et autorités compétentes
-                    chargées de faire appliquer les lois.
-                  </p>
-                </div>
-
-                {/* Réorganisation et nouveautés */}
-                <div className="space-y-4">
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut, à tout moment, réorganiser les espaces publicitaires
-                    ou les autres informations sur les Prestations, sous réserve
-                    que ces changements ne modifient pas le Contenu fourni par
-                    l'Utilisateur, et ce, afin de rendre le Site plus facile
-                    d'utilisation.{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut publier des nouveautés, en publiant la description, les
-                    instructions ou les règles liées à celles-ci.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut, à tout moment, publier sur le Site des offres à court
-                    et long terme, des concours, des jeux ou des loteries
-                    conformes au droit national pour proposer de nouveaux
-                    Services et, par conséquent, les présentes Conditions
-                    Générales ne seront pas modifiées. Les informations
-                    relatives aux offres, concours, jeux ou loteries conformes
-                    au droit national, seront fournies sur le Site. En cas
-                    d'incohérences entre les Conditions Générales et les
-                    conditions particulières publiées sur le Site (telles que
-                    les règlements, instructions et descriptions portant sur les
-                    nouveautés), ces dernières prévaudront.
-                  </p>
-                </div>
-
-                {/* Cession et arrêt du service */}
-                <div className="space-y-4">
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    peut mettre fin ou suspendre ou céder à des tiers
-                    l'exploitation du Site, sous réserve d'en notifier les
-                    Utilisateurs du Site, en respectant un préavis de trente
-                    (30) jours.
-                  </p>
-                  <p>
-                    Le non-respect par l'Utilisateur des points visés ci-dessus,
-                    entraînera le droit pour{" "}
-                    <strong className="text-foreground">Book n Glow</strong> de
-                    fermer le compte de l'Utilisateur sans préavis, ni indemnité
-                    ou dédommagement quelconque.
-                  </p>
-                </div>
-
-                {/* Mesures en cas de manquement */}
-                <div className="space-y-4">
-                  <p>
-                    En cas de manquement à l'une quelconque des dispositions des
-                    présentes conditions générales ou plus généralement,
-                    d'infraction aux lois et règlements en vigueur par un
-                    Utilisateur,{" "}
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve le droit de prendre toute mesure appropriée et
-                    notamment de :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      supprimer le compte de l'Utilisateur, auteur du manquement
-                      ou de l'infraction, ou y ayant participé
-                    </li>
-                    <li>
-                      publier sur{" "}
-                      <strong className="text-foreground">Book n Glow</strong>{" "}
-                      ou sur le Site tout message d'information que{" "}
-                      <strong className="text-foreground">Book n Glow</strong>{" "}
-                      jugera utile
-                    </li>
-                    <li>avertir toute autorité concernée</li>
-                    <li>
-                      engager toute action judiciaire, et notamment toute action
-                      nécessaire au recouvrement des montants dus au titre de
-                      l'utilisation des Services
-                    </li>
-                  </ul>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve le droit d'engager des poursuites judiciaires contre
-                    l'Utilisateur.
-                  </p>
-                </div>
-
-                {/* Résiliation immédiate */}
-                <div className="space-y-4">
-                  <p>
-                    En cas de manquement de l'Utilisateur à une obligation
-                    essentielle découlant des présentes conditions générales,{" "}
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve le droit de résilier son accès à tout ou partie des
-                    Services, avec effet immédiat, par lettre, fax ou email.
-                  </p>
-                  <p>
-                    La résiliation prend effet de plein droit à la date d'envoi,
-                    par <strong className="text-foreground">Book n Glow</strong>
-                    , de l'écrit adressé à l'Utilisateur en application de la
-                    présente clause. Elle entraîne automatiquement et sans mise
-                    en demeure préalable la suppression du Compte de
-                    l'Utilisateur, sans préjudice des autres conséquences
-                    éventuellement induites en application des présentes
-                    conditions générales.
-                  </p>
-                </div>
-
-                {/* Plaintes des prestataires */}
-                <div className="space-y-4">
-                  <p>
-                    Si plusieurs plaintes des Prestataires concernent le Client
-                    (retard au rendez-vous, non-présentation...), celui-ci en
-                    sera informé. Les Prestataires doivent prendre contact avec{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    pour signaler ces incidents.{" "}
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve la possibilité de limiter l'accès au Service pour
-                    l'Utilisateur concerné.
-                  </p>
-                </div>
-
-                {/* Transactions entre utilisateurs */}
-                <div className="space-y-4">
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    n'est partie à aucune transaction entre les Utilisateurs. En
-                    aucun cas{" "}
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    n'achète, ne vend ou n'échange des services présentés sur le
-                    Site ni ne prétend le faire.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve le droit de proposer tout autre Service utile, sous
-                    une forme et selon les fonctionnalités et moyens techniques
-                    que <strong className="text-foreground">Book n Glow</strong>{" "}
-                    estimera le plus approprié.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Force majeure */}
-            <div id="force-majeure" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                17. Force majeure
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Book n Glow</strong> ne
-                  saurait être tenu responsable en cas d'inexécution ou de
-                  mauvaise exécution de ses obligations résultant d'un cas de
-                  force majeure tel que défini par la jurisprudence française.
-                </p>
-              </div>
-            </div>
-
-            {/* Modification des CGU */}
-            <div id="modification" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                18. Modification des CGU
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  <strong className="text-foreground">Book n Glow</strong> se
-                  réserve le droit de modifier les présentes CGU à tout moment.
-                  Les modifications prennent effet dès leur publication sur le
-                  Site.
-                </p>
-                <p>
-                  Il est de votre responsabilité de consulter régulièrement les
-                  CGU pour prendre connaissance des éventuelles modifications.
-                  Votre utilisation continue du Site après la publication des
-                  modifications constitue votre acceptation des nouvelles CGU.
-                </p>
-              </div>
-            </div>
-
-            {/* Droit applicable */}
-            <div id="droit-applicable" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                19. Droit applicable et juridiction compétente
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Les présentes CGU sont régies par le droit français. En cas de
-                  litige et à défaut d'accord amiable, le litige sera porté
-                  devant les tribunaux français conformément aux règles de
-                  compétence en vigueur.
-                </p>
-                <p>
-                  Conformément à l'article L.612-1 du Code de la consommation,
-                  tout consommateur a le droit de recourir gratuitement à un
-                  médiateur de la consommation en vue de la résolution amiable
-                  d'un litige qui l'oppose à un professionnel.
-                </p>
-              </div>
-            </div>
-
-            {/*
-              Section 20 masquée — passage au modèle 100 % gratuit.
-              Code conservé pour réactivation future.
-              Voir docs/deferred/free-only-model.md.
-            */}
-            {SHOW_DEPRECATED_SECTIONS && (
-            <div id="paiements" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                20. Paiements par carte bancaire via Stripe
-              </h2>
-              <div className="space-y-6 text-muted-foreground">
-                {/* Objet */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.1 Objet
-                  </h3>
-                  <p>
-                    La présente section a pour objet de définir les conditions
-                    applicables aux paiements par carte bancaire effectués via
-                    la plateforme{" "}
-                    <strong className="text-foreground">Book n Glow</strong>,
-                    utilisant la solution de paiement sécurisée Stripe.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong>{" "}
-                    agit en qualité d'intermédiaire technique de paiement entre
-                    le Client et le Prestataire.
-                  </p>
-                </div>
-
-                {/* Rôle de Book n Glow */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.2 Rôle de Book n Glow
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      met à disposition une infrastructure de paiement
-                      sécurisée,
-                    </li>
-                    <li>
-                      collecte les paiements pour le compte des Prestataires via
-                      Stripe,
-                    </li>
-                    <li>
-                      organise le transfert des fonds vers les Prestataires
-                      selon les règles définies ci-après,
-                    </li>
-                    <li>ne fournit aucune prestation de service esthétique.</li>
-                  </ul>
-                  <p>
-                    Le contrat de prestation est conclu directement entre le
-                    Client et le Prestataire.
-                  </p>
-                </div>
-
-                {/* Paiement par carte bancaire */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.3 Paiement par carte bancaire
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">
-                      20.3.1 Modalités de paiement
-                    </strong>
-                  </p>
-                  <p>
-                    Le Client peut régler tout ou partie de sa réservation par
-                    carte bancaire directement depuis la plateforme{" "}
-                    <strong className="text-foreground">Book n Glow</strong>.
-                  </p>
-                  <p>
-                    Les paiements sont traités par Stripe, prestataire de
-                    services de paiement certifié PCI-DSS.
-                  </p>
-                  <p>
-                    À aucun moment{" "}
-                    <strong className="text-foreground">Book n Glow</strong> n'a
-                    accès aux données bancaires du Client.
-                  </p>
-                  <p className="mt-4">
-                    <strong className="text-foreground">
-                      20.3.2 Acompte et paiement total
-                    </strong>
-                  </p>
-                  <p>Selon les paramètres définis par le Prestataire :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>un acompte peut être exigé lors de la réservation,</li>
-                    <li>ou le montant total peut être payé immédiatement.</li>
-                  </ul>
-                  <p>
-                    Le montant dû est clairement indiqué avant validation du
-                    paiement.
-                  </p>
-                </div>
-
-                {/* Conservation et transfert des fonds */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.4 Conservation et transfert des fonds
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">
-                      20.4.1 Conservation temporaire
-                    </strong>
-                  </p>
-                  <p>
-                    Les fonds payés par le Client sont conservés temporairement
-                    par la plateforme via Stripe.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> ne
-                    procède à aucun transfert immédiat vers le Prestataire.
-                  </p>
-                  <p className="mt-4">
-                    <strong className="text-foreground">
-                      20.4.2 Transfert au Prestataire
-                    </strong>
-                  </p>
-                  <p>
-                    Sauf cas exceptionnel (annulation, litige, remboursement),
-                    les fonds sont transférés automatiquement au Prestataire 24
-                    heures après la date et l'heure du rendez-vous.
-                  </p>
-                  <p>Ce délai permet :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>la gestion des annulations,</li>
-                    <li>la résolution d'éventuels litiges,</li>
-                    <li>la sécurisation des paiements.</li>
-                  </ul>
-                </div>
-
-                {/* Annulations et remboursements */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.5 Annulations et remboursements
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">
-                      20.5.1 Annulation par le Client
-                    </strong>
-                  </p>
-                  <p>
-                    Le Client peut annuler sa réservation uniquement avant la
-                    date limite d'annulation indiquée lors de la réservation.
-                  </p>
-                  <p>Si l'annulation intervient dans ce délai :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      le paiement effectué est remboursé automatiquement
-                      (totalement ou selon les conditions du Prestataire).
-                    </li>
-                  </ul>
-                  <p>
-                    Toute annulation hors délai ne donne lieu à aucun
-                    remboursement, sauf décision exceptionnelle du Prestataire
-                    ou de{" "}
-                    <strong className="text-foreground">Book n Glow</strong>.
-                  </p>
-                  <p className="mt-4">
-                    <strong className="text-foreground">
-                      20.5.2 Annulation par le Prestataire
-                    </strong>
-                  </p>
-                  <p>Si le Prestataire annule la réservation :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      le Client est intégralement remboursé, quel que soit le
-                      moment de l'annulation.
-                    </li>
-                  </ul>
-                  <p className="mt-4">
-                    <strong className="text-foreground">
-                      20.5.3 Remboursements après réalisation du rendez-vous
-                    </strong>
-                  </p>
-                  <p>Après la date du rendez-vous :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>aucun remboursement n'est automatique,</li>
-                    <li>
-                      un remboursement partiel ou total peut être accordé à
-                      titre exceptionnel, à l'initiative du Prestataire ou de{" "}
-                      <strong className="text-foreground">Book n Glow</strong>.
-                    </li>
-                  </ul>
-                  <p>
-                    Les remboursements sont toujours traités via la plateforme{" "}
-                    <strong className="text-foreground">Book n Glow</strong>.
-                  </p>
-                </div>
-
-                {/* Modalités de remboursement */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.6 Modalités de remboursement
-                  </h3>
-                  <p>Les remboursements sont effectués :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>exclusivement via Stripe,</li>
-                    <li>
-                      sur le moyen de paiement utilisé lors de la réservation,
-                    </li>
-                    <li>
-                      dans un délai dépendant des délais bancaires (généralement
-                      5 à 10 jours ouvrés).
-                    </li>
-                  </ul>
-                  <p>
-                    En cas de remboursement après transfert des fonds au
-                    Prestataire,{" "}
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve le droit d'effectuer une contre-opération financière
-                    auprès du Prestataire via Stripe.
-                  </p>
-                </div>
-
-                {/* Responsabilité */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.7 Responsabilité
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> ne
-                    saurait être tenue responsable :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      de l'inexécution ou de la mauvaise exécution de la
-                      prestation réalisée par le Prestataire,
-                    </li>
-                    <li>d'un litige lié à la qualité de la prestation,</li>
-                    <li>
-                      d'un refus de remboursement hors conditions prévues.
-                    </li>
-                  </ul>
-                  <p>
-                    Toute réclamation doit être adressée en priorité au
-                    Prestataire concerné.
-                  </p>
-                </div>
-
-                {/* Sécurité et conformité */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.8 Sécurité et conformité
-                  </h3>
-                  <p>
-                    Les paiements sont traités par Stripe conformément aux
-                    normes de sécurité en vigueur.
-                  </p>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    conforme aux obligations réglementaires applicables en
-                    matière de lutte contre la fraude et de protection des
-                    consommateurs.
-                  </p>
-                </div>
-
-                {/* Acceptation */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.9 Acceptation
-                  </h3>
-                  <p>
-                    Le paiement par carte bancaire implique l'acceptation pleine
-                    et entière :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>des présentes conditions,</li>
-                    <li>
-                      des conditions générales de{" "}
-                      <strong className="text-foreground">Book n Glow</strong>,
-                    </li>
-                    <li>des conditions d'utilisation de Stripe.</li>
-                  </ul>
-                </div>
-
-                {/* Modification */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    20.10 Modification
-                  </h3>
-                  <p>
-                    <strong className="text-foreground">Book n Glow</strong> se
-                    réserve le droit de modifier les présentes conditions à tout
-                    moment.
-                  </p>
-                </div>
-              </div>
-            </div>
-            )}
-
-            {/*
-              Section 21 masquée — passage au modèle 100 % gratuit.
-              Code conservé pour réactivation future.
-              Voir docs/deferred/free-only-model.md.
-            */}
-            {SHOW_DEPRECATED_SECTIONS && (
-            <div id="fidelite" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                21. Programme de carte de fidélité – Book n Glow
-              </h2>
-              <div className="space-y-6 text-muted-foreground">
-                {/* Objet */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.1 Objet
-                  </h3>
-                  <p>
-                    Les présentes conditions définissent les règles applicables
-                    au programme de carte de fidélité proposé sur la plateforme
-                    Book n Glow (ci-après la « Plateforme »).
-                  </p>
-                  <p>
-                    Ce programme permet aux prestataires proposant des services
-                    via la Plateforme (ci-après les « Prestataires ») d'offrir à
-                    leurs clients (ci-après les « Clients ») une récompense
-                    après un nombre déterminé de prestations effectuées.
-                  </p>
-                  <p>
-                    Le programme de carte de fidélité est facultatif,
-                    paramétrable par chaque Prestataire, et indépendant de Book
-                    n Glow.
-                  </p>
-                </div>
-
-                {/* Activation et paramétrage du programme */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.2 Activation et paramétrage du programme
-                  </h3>
-                  <p className="font-semibold text-foreground">
-                    21.2.1 Activation facultative
-                  </p>
-                  <p>Chaque Prestataire peut :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      activer ou désactiver un programme de carte de fidélité à
-                      tout moment depuis son espace personnel,
-                    </li>
-                    <li>
-                      choisir librement de ne pas proposer de programme de
-                      fidélité.
-                    </li>
-                  </ul>
-                  <p className="mt-4 font-semibold text-foreground">
-                    21.2.2 Paramétrage par le Prestataire
-                  </p>
-                  <p>Lors de l'activation, le Prestataire définit :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      le nombre de prestations terminées nécessaires pour
-                      débloquer une récompense,
-                    </li>
-                    <li>le type de récompense proposé :</li>
-                    <ul className="list-disc pl-6 space-y-2 mt-2">
-                      <li>réduction fixe (montant en euros),</li>
-                      <li>réduction en pourcentage,</li>
-                      <li>produit offert,</li>
-                      <li>
-                        prestation offerte (avec sélection des prestations
-                        éligibles).
-                      </li>
-                    </ul>
-                  </ul>
-                  <p>
-                    Le nombre de prestations requis est défini par le
-                    Prestataire et n'est pas imposé par Book n Glow.
-                  </p>
-                  <p className="mt-4 font-semibold text-foreground">
-                    21.2.3 Modification du programme
-                  </p>
-                  <p>
-                    Le Prestataire peut modifier les paramètres de son programme
-                    à tout moment. Les nouvelles règles s'appliquent
-                    immédiatement aux Clients, y compris à ceux ayant déjà
-                    commencé une carte de fidélité.
-                  </p>
-                </div>
-
-                {/* Fonctionnement de la carte de fidélité */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.3 Fonctionnement de la carte de fidélité
-                  </h3>
-                  <p className="font-semibold text-foreground">
-                    21.3.1 Attribution des prestations
-                  </p>
-                  <p>Une prestation est comptabilisée uniquement lorsque :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>la prestation est terminée,</li>
-                    <li>la réservation n'est pas annulée.</li>
-                  </ul>
-                  <p>
-                    Chaque prestation terminée valide une unité sur la carte de
-                    fidélité.
-                  </p>
-                  <p className="mt-4 font-semibold text-foreground">
-                    21.3.2 Annulation de prestation
-                  </p>
-                  <p>
-                    Une prestation annulée ne donne droit à aucune unité de
-                    fidélité.
-                  </p>
-                  <p>
-                    Si une prestation est annulée après avoir été comptabilisée,
-                    l'unité correspondante est retirée.
-                  </p>
-                </div>
-
-                {/* Déclenchement et attribution de la récompense */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.4 Déclenchement et attribution de la récompense
-                  </h3>
-                  <p className="font-semibold text-foreground">
-                    21.4.1 Déclenchement automatique
-                  </p>
-                  <p>Lorsque le nombre de prestations requis est atteint :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>la récompense est créée automatiquement,</li>
-                    <li>
-                      le compteur de la carte de fidélité est réinitialisé à
-                      zéro.
-                    </li>
-                  </ul>
-                  <p className="mt-4 font-semibold text-foreground">
-                    21.4.2 Unicité
-                  </p>
-                  <p>
-                    Une seule récompense est attribuée par cycle de carte de
-                    fidélité.
-                  </p>
-                  <p>Il n'existe pas de paliers intermédiaires.</p>
-                </div>
-
-                {/* Utilisation de la récompense */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.5 Utilisation de la récompense
-                  </h3>
-                  <p className="font-semibold text-foreground">
-                    21.5.1 Conditions d'utilisation
-                  </p>
-                  <p>
-                    La récompense peut être utilisée par le Client lors d'une
-                    réservation ultérieure.
-                  </p>
-                  <p>
-                    La récompense est cumulable avec les promotions
-                    éventuellement proposées par le Prestataire.
-                  </p>
-                  <p className="mt-4 font-semibold text-foreground">
-                    21.5.2 Durée de validité
-                  </p>
-                  <p>
-                    Chaque récompense est valable six (6) mois à compter de sa
-                    date de création.
-                  </p>
-                  <p>
-                    La durée de validité est fixe et ne peut pas être prolongée.
-                  </p>
-                </div>
-
-                {/* Annulation après utilisation d'une récompense */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.6 Annulation après utilisation d'une récompense
-                  </h3>
-                  <p className="font-semibold text-foreground">
-                    21.6.1 Annulation de la réservation
-                  </p>
-                  <p>
-                    Si une réservation payée à l'aide d'une récompense est
-                    annulée :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      la récompense est restaurée et redevient disponible,
-                    </li>
-                    <li>la date de validité initiale ne change pas.</li>
-                  </ul>
-                  <p className="mt-4 font-semibold text-foreground">
-                    21.6.2 Récompense expirée
-                  </p>
-                  <p>
-                    Si la récompense était expirée au moment de l'annulation :
-                  </p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>elle reste expirée,</li>
-                    <li>aucune restauration n'est possible.</li>
-                  </ul>
-                </div>
-
-                {/* Suivi et historique */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.7 Suivi et historique
-                  </h3>
-                  <p>
-                    Toutes les actions liées à la carte de fidélité
-                    (attribution, retrait, déclenchement de récompense,
-                    utilisation, annulation) sont enregistrées à des fins de
-                    traçabilité.
-                  </p>
-                  <p>Le Client peut consulter :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>l'état de sa carte de fidélité,</li>
-                    <li>ses récompenses disponibles, utilisées ou expirées.</li>
-                  </ul>
-                </div>
-
-                {/* Responsabilité */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.8 Responsabilité
-                  </h3>
-                  <p className="font-semibold text-foreground">
-                    21.8.1 Responsabilité du Prestataire
-                  </p>
-                  <p>Le Prestataire est seul responsable :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>du contenu de son programme de fidélité,</li>
-                    <li>des récompenses proposées,</li>
-                    <li>
-                      de l'exécution des prestations ou de la remise des
-                      produits offerts.
-                    </li>
-                  </ul>
-                  <p className="mt-4 font-semibold text-foreground">
-                    21.8.2 Rôle de Book n Glow
-                  </p>
-                  <p>
-                    Book n Glow agit exclusivement en tant que fournisseur de
-                    solution technique permettant la gestion du programme de
-                    fidélité.
-                  </p>
-                  <p>Book n Glow ne saurait être tenu responsable :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      de la modification ou suppression d'un programme par un
-                      Prestataire,
-                    </li>
-                    <li>du refus d'un Prestataire d'honorer une récompense,</li>
-                    <li>
-                      de tout litige entre un Prestataire et un Client relatif
-                      au programme de fidélité.
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Modification ou suppression du programme */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.9 Modification ou suppression du programme
-                  </h3>
-                  <p>
-                    Le Prestataire peut désactiver son programme de fidélité à
-                    tout moment.
-                  </p>
-                  <p>En cas de désactivation :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      les récompenses déjà attribuées restent valables jusqu'à
-                      leur date d'expiration,
-                    </li>
-                    <li>aucune nouvelle unité de fidélité n'est attribuée.</li>
-                  </ul>
-                  <p>En cas de suppression :</p>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>
-                      les unités gagnés sont perdus. Si le prestataire crée à
-                      nouveau la carte de fidélité, les unités seront remis à
-                      zéro.
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Acceptation */}
-                <div className="space-y-4">
-                  <h3 className="text-xl font-serif font-semibold text-foreground">
-                    21.10 Acceptation
-                  </h3>
-                  <p>
-                    L'utilisation de la carte de fidélité implique l'acceptation
-                    pleine et entière des présentes Conditions Générales par le
-                    Prestataire et le Client.
-                  </p>
-                </div>
-              </div>
-            </div>
-            )}
-
-            {/* Contact */}
-            <div id="contact" className="bg-card p-6 md:p-8 rounded-2xl border border-border scroll-mt-24">
-              <h2 className="text-2xl md:text-3xl font-serif font-bold mb-6">
-                {/* Restaurer « 22. Contact » lors de la réactivation des sections 20 et 21 */}
-                20. Contact
-              </h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Pour toute question concernant les présentes CGU, vous pouvez
-                  nous contacter :
-                </p>
-                <p>
-                  <strong className="text-foreground">Email :</strong>{" "}
-                  <a
-                    href="mailto:contact@book-n-glow"
-                    className="text-primary hover:underline"
-                  >
-                    contact@book-n-glow
-                  </a>
-                </p>
-              </div>
-            </div>
+            <Section id="contact" title="24. Contact">
+              <p>
+                Pour toute question concernant les présentes CGU, vous pouvez
+                écrire à : <Mail />.
+              </p>
+              <p>
+                Book N' Glow — Tracy Z. Garcia EI, 1 allée du Furet, 77186
+                Noisiel, France.
+              </p>
+            </Section>
           </div>
         </div>
       </section>
