@@ -44,7 +44,7 @@ Toutes les briques liées aux features retirées (paiement Stripe, fidélité, a
 
 ### Sections de contenu commentées en JSX (à réactiver / supprimer selon décision)
 
-- `src/pages/CGU.tsx` : section 20 (Paiements par carte bancaire via Stripe), section 21 (Programme de carte de fidélité), paragraphes inline mentionnant l'abonnement payant. **Numérotation** : « Contact » est passé temporairement de « 22 » à « 20 ». À restaurer en « 22 » lors de la réactivation des sections 20 et 21 (drapeau `SHOW_DEPRECATED_SECTIONS` à `true` dans `CGU.tsx`).
+- `src/pages/CGU.tsx` : réécrites le 2026-11-04 pour le lancement de l'app (paiement carte Stripe Connect en mandat d'encaissement, sans abonnement ni commission). Les anciennes sections « Stripe » (abonnement) et « Carte de fidélité » ont été supprimées ; elles restent dans l'historique git (commit `3e30b0e`).
 - `src/pages/FAQ.tsx` : items obsolètes commentés dans `faqData`.
 
 ### Base de données Supabase

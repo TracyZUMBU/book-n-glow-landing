@@ -247,10 +247,10 @@ export default function PolitiqueConfidentialite() {
                 <p className="pt-4">
                   Pour exercer ces droits, contactez-nous à l'adresse suivante :{" "}
                   <a
-                    href="mailto:contact@book-n-glow"
+                    href="mailto:contact@book-n-glow.fr"
                     className="text-primary hover:underline"
                   >
-                    contact@book-n-glow
+                    contact@book-n-glow.fr
                   </a>
                 </p>
                 <p>
@@ -314,10 +314,10 @@ export default function PolitiqueConfidentialite() {
                 <p>
                   <strong className="text-foreground">Email :</strong>{" "}
                   <a
-                    href="mailto:contact@book-n-glow"
+                    href="mailto:contact@book-n-glow.fr"
                     className="text-primary hover:underline"
                   >
-                    contact@book-n-glow
+                    contact@book-n-glow.fr
                   </a>
                 </p>
               </div>

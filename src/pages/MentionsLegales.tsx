@@ -59,10 +59,10 @@ export default function MentionsLegales() {
                     Email de contact :
                   </strong>{" "}
                   <a
-                    href="mailto:contact@book-n-glow"
+                    href="mailto:contact@book-n-glow.fr"
                     className="text-primary hover:underline"
                   >
-                    contact@book-n-glow
+                    contact@book-n-glow.fr
                   </a>
                 </p>
                 <p>
@@ -154,10 +154,10 @@ export default function MentionsLegales() {
                   Pour exercer ce droit, veuillez nous contacter à l'adresse
                   suivante :{" "}
                   <a
-                    href="mailto:contact@book-n-glow"
+                    href="mailto:contact@book-n-glow.fr"
                     className="text-primary hover:underline"
                   >
-                    contact@book-n-glow
+                    contact@book-n-glow.fr
                   </a>
                 </p>
                 <p>
