@@ -1,5 +1,5 @@
-import Footer from "@/components/landing/Footer";
-import Navigation from "@/components/landing/Navigation";
+import SiteFooter from "@/components/home/SiteFooter";
+import SiteHeader from "@/components/home/SiteHeader";
 import StoreButtons from "@/components/StoreButtons";
 import { INCLUDED_FEATURES } from "@/data/includedFeatures";
 import { Check, Heart, Smartphone, Sparkles } from "lucide-react";
@@ -7,7 +7,7 @@ import { Check, Heart, Smartphone, Sparkles } from "lucide-react";
 const Download = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
+      <SiteHeader />
 
       <main className="flex-1">
         {/* Hero */}
@@ -111,7 +111,7 @@ const Download = () => {
         </section>
       </main>
 
-      <Footer />
+      <SiteFooter />
     </div>
   );
 };

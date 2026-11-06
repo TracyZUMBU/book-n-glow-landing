@@ -1,4 +1,4 @@
-import Footer from "@/components/landing/Footer";
+import SiteFooter from "@/components/home/SiteFooter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -138,7 +138,7 @@ const Contact = () => {
         </div>
       </section>
 
-      <Footer />
+      <SiteFooter />
     </>
   );
 };
