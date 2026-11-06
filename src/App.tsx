@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import GoogleAnalytics from "./components/GoogleAnalytics";
-import Navigation from "./components/landing/Navigation";
+import SiteHeader from "./components/home/SiteHeader";
 import ScrollToTop from "./components/ScrollToTop";
 import AdminBookingDetail from "./pages/admin/AdminBookingDetail";
 import AdminBookings from "./pages/admin/AdminBookings";
@@ -46,7 +46,7 @@ const App = () => (
             path="/contact"
             element={
               <div className="min-h-screen">
-                <Navigation />
+                <SiteHeader />
                 <Contact />
               </div>
             }

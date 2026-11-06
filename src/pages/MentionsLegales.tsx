@@ -1,10 +1,10 @@
-import Footer from "@/components/landing/Footer";
-import Navigation from "@/components/landing/Navigation";
+import SiteFooter from "@/components/home/SiteFooter";
+import SiteHeader from "@/components/home/SiteHeader";
 
 export default function MentionsLegales() {
   return (
     <>
-      <Navigation />
+      <SiteHeader />
       {/* Hero Section */}
       <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 text-center">
         <div className="container-mobile max-w-4xl animate-fade-in">
@@ -191,7 +191,7 @@ export default function MentionsLegales() {
         </div>
       </section>
 
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

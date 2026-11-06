@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import Footer from "@/components/landing/Footer";
-import Navigation from "@/components/landing/Navigation";
+import SiteFooter from "@/components/home/SiteFooter";
+import SiteHeader from "@/components/home/SiteHeader";
 
 // Date de la version en vigueur. À changer à chaque modification du texte
 // (et prévenir les Prestataires 15 jours avant, cf. section 22).
@@ -240,7 +240,7 @@ function Mail() {
 export default function CGU() {
   return (
     <>
-      <Navigation />
+      <SiteHeader />
       <TableOfContents />
       {/* Hero Section */}
       <section className="pt-10 pb-8 md:pt-20 md:pb-16 px-4 text-center">
@@ -1281,7 +1281,7 @@ export default function CGU() {
         </div>
       </section>
 
-      <Footer />
+      <SiteFooter />
     </>
   );
 }
