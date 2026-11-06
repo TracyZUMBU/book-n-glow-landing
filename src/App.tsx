@@ -2,7 +2,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import Navigation from "./components/landing/Navigation";
 import ScrollToTop from "./components/ScrollToTop";
@@ -16,7 +16,6 @@ import Booking from "./pages/Booking";
 import CGU from "./pages/CGU";
 import Contact from "./pages/Contact";
 import FAQ from "./pages/FAQ";
-import Features from "./pages/Features";
 import Index from "./pages/Index";
 import MentionsLegales from "./pages/MentionsLegales";
 import ModalPreview from "./pages/ModalPreview";
@@ -24,7 +23,6 @@ import NotFound from "./pages/NotFound";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Login from "./pages/Login";
 import Download from "./pages/Download";
-import Pricing from "./pages/Pricing";
 import ProviderProfile from "./pages/ProviderProfile";
 import ReviewSubmit from "./pages/ReviewSubmit";
 
@@ -40,33 +38,10 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route
-            path="/tarifs"
-            element={
-              <div className="min-h-screen">
-                <Navigation />
-                <Pricing />
-              </div>
-            }
-          />
-          <Route
-            path="/faq"
-            element={
-              <div className="min-h-screen">
-                <Navigation />
-                <FAQ />
-              </div>
-            }
-          />
-          <Route
-            path="/fonctionnalites"
-            element={
-              <div className="min-h-screen">
-                <Navigation />
-                <Features />
-              </div>
-            }
-          />
+          {/* Anciennes pages, leur contenu est maintenant sur l'accueil */}
+          <Route path="/tarifs" element={<Navigate to="/" replace />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/fonctionnalites" element={<Navigate to="/#fonctionnalites" replace />} />
           <Route
             path="/contact"
             element={
