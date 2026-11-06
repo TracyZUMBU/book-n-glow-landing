@@ -21,18 +21,10 @@ const Footer = () => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
-                  to="/fonctionnalites"
+                  to="/#fonctionnalites"
                   className="hover:text-primary transition-colors"
                 >
                   Fonctionnalités
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/tarifs"
-                  className="hover:text-primary transition-colors"
-                >
-                  Tarifs
                 </Link>
               </li>
               <li>

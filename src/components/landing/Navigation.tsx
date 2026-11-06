@@ -16,8 +16,7 @@ export default function Navigation() {
 
   const navItems = [
     { path: "/", label: "Accueil" },
-    { path: "/fonctionnalites", label: "Fonctionnalités" },
-    { path: "/tarifs", label: "Tarifs" },
+    { path: "/#fonctionnalites", label: "Fonctionnalités" },
     { path: "/faq", label: "FAQ" },
   ];
 
