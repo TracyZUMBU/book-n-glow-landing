@@ -28,8 +28,6 @@ export const CUSTOMER_SIGN_IN_URL =
 export const SUPPORT_WHATSAPP_NUMBER = "33743952857";
 
 /**
- * Lien WhatsApp vers le support, avec un message pré-rempli modifiable dans WhatsApp.
+ * Lien WhatsApp vers le support, sans message pré-rempli.
  */
-export const SUPPORT_WHATSAPP_URL = `https://wa.me/${SUPPORT_WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Bonjour, je vous contacte depuis le site Book N' Glow."
-)}`;
+export const SUPPORT_WHATSAPP_URL = `https://wa.me/${SUPPORT_WHATSAPP_NUMBER}`;
