@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Send } from "lucide-react";
+import { SUPPORT_WHATSAPP_URL } from "@/lib/constants";
+import { Mail, MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 
 const Contact = () => {
@@ -67,6 +68,30 @@ const Contact = () => {
       {/* Contact Form */}
       <section className="py-10 md:py-20 px-4">
         <div className="container-mobile max-w-2xl">
+          <div className="bg-card rounded-3xl shadow-xl border border-border p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-3 mb-3">
+              <MessageCircle className="w-6 h-6 text-primary" />
+              <h2 className="text-xl font-semibold">Écrivez-nous sur WhatsApp</h2>
+            </div>
+            <p className="text-muted-foreground mb-6">
+              Pour une réponse plus rapide, contactez le support directement
+              sur WhatsApp.
+            </p>
+            <Button asChild size="lg" className="w-full">
+              <a
+                href={SUPPORT_WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ouvrir WhatsApp
+              </a>
+            </Button>
+          </div>
+
+          <p className="text-center text-muted-foreground mb-8">
+            Ou envoyez-nous un e-mail :
+          </p>
+
           <div className="bg-card rounded-3xl shadow-xl border border-border p-6 md:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">

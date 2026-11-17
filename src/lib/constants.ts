@@ -20,3 +20,14 @@ export const PLAY_STORE_URL =
  */
 export const CUSTOMER_SIGN_IN_URL =
   "https://app.book-n-glow.fr/sign-in/customer";
+
+/**
+ * Numéro WhatsApp Business du support (le même que dans l'app pro),
+ * format international sans « + » (attendu par wa.me).
+ */
+export const SUPPORT_WHATSAPP_NUMBER = "33743952857";
+
+/**
+ * Lien WhatsApp vers le support, sans message pré-rempli.
+ */
+export const SUPPORT_WHATSAPP_URL = `https://wa.me/${SUPPORT_WHATSAPP_NUMBER}`;
